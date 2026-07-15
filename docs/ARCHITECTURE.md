@@ -244,10 +244,19 @@ External AI/storage calls không giữ DB transaction mở. Dùng prepare/finali
 
 ### 10.1. Authentication
 
-- Supabase Auth quản lý session.
-- Server Components/Actions kiểm tra session bằng server client.
-- Middleware chỉ redirect/refresh session phục vụ UX, không phải authorization boundary.
+- Supabase Auth quản lý password, session và email verification; app không tự tạo JWT/token store.
+- `@supabase/ssr` browser/server clients dùng cookie của framework; không có custom localStorage auth.
+- Next.js 16 `src/proxy.ts` gọi `getClaims()` để refresh/coarse redirect và fail closed khi cookie không xác minh được.
+- Protected dashboard layout gọi cached request helper dùng `auth.getUser()` trước khi đọc `profiles`; Proxy không phải authorization boundary duy nhất.
+- Server Actions register/login/logout/profile update validate Zod và chỉ dùng public anon key trong user session context.
+- `/auth/confirm` đổi email token hash thành session server-side rồi redirect no-store.
 - Guest-only redirect chỉ chấp nhận relative path allowlisted để chống open redirect.
+
+Luồng request authenticated:
+
+`request -> Proxy refresh/route gate -> protected server layout -> getUser() -> RLS-scoped profiles query -> render minimal account props`
+
+Không cache global current user/profile. React request cache chỉ deduplicate helper trong cùng render request.
 
 ### 10.2. Authorization
 

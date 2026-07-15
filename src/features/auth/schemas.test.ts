@@ -1,0 +1,50 @@
+import { describe, expect, it } from "vitest";
+
+import { loginSchema, profileUpdateSchema, registerSchema } from "./schemas";
+
+describe("authentication schemas", () => {
+  it("normalizes email and keeps password whitespace unchanged", () => {
+    const result = registerSchema.parse({
+      displayName: "  Nguyễn Minh Anh  ",
+      email: "  USER@EXAMPLE.COM  ",
+      password: " password1",
+      confirmPassword: " password1",
+    });
+
+    expect(result.displayName).toBe("Nguyễn Minh Anh");
+    expect(result.email).toBe("user@example.com");
+    expect(result.password).toBe(" password1");
+  });
+
+  it("rejects a mismatched password confirmation", () => {
+    const result = registerSchema.safeParse({
+      displayName: "Nguyễn Minh Anh",
+      email: "user@example.com",
+      password: "password1",
+      confirmPassword: "password2",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.flatten().fieldErrors.confirmPassword).toContain(
+        "Mật khẩu xác nhận chưa khớp.",
+      );
+    }
+  });
+
+  it("validates login and profile inputs", () => {
+    expect(
+      loginSchema.parse({
+        email: " LEARNER@EXAMPLE.COM ",
+        password: "password1",
+      }).email,
+    ).toBe("learner@example.com");
+
+    expect(profileUpdateSchema.parse({ displayName: "  Minh  " })).toEqual({
+      displayName: "Minh",
+    });
+    expect(
+      profileUpdateSchema.safeParse({ displayName: " ".repeat(101) }).success,
+    ).toBe(false);
+  });
+});

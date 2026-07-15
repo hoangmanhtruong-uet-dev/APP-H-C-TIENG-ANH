@@ -7,18 +7,21 @@ import { PageHeader } from "@/components/shared/page-header";
 import { SectionHeader } from "@/components/shared/section-header";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { Button } from "@/components/ui/button";
+import { getAccountLabel, requireCurrentAccount } from "@/server/auth/account";
 
 export const metadata: Metadata = {
   title: "Tổng quan",
   description: "Không gian tổng quan cho kế hoạch học IELTS.",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const account = await requireCurrentAccount();
+
   return (
     <div className="space-y-10">
       <PageHeader
-        title="Chào mừng đến không gian học"
-        description="Phase 1 đang thiết lập nền móng. Dữ liệu kế hoạch và tiến độ chưa được tạo."
+        title={`Xin chào, ${getAccountLabel(account)}`}
+        description="Tài khoản của bạn đã được xác thực. Kế hoạch học sẽ được tạo trong phase onboarding tiếp theo."
         action={<StatusBadge status="foundation" />}
       />
 

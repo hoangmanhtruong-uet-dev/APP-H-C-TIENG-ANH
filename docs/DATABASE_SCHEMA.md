@@ -67,17 +67,24 @@ erDiagram
 
 ### 4.1. `profiles`
 
-| Column                     | Type         | Rules                                     |
-| -------------------------- | ------------ | ----------------------------------------- |
-| `id`                       | uuid PK      | FK `auth.users(id)` ON DELETE CASCADE     |
-| `display_name`             | text         | 1-100 chars                               |
-| `timezone`                 | text         | IANA timezone, default `Asia/Ho_Chi_Minh` |
-| `locale`                   | text         | default `vi-VN`                           |
-| `current_band`             | numeric(2,1) | nullable, 0-9 step 0.5                    |
-| `target_band`              | numeric(2,1) | nullable, 0-9 step 0.5                    |
-| `exam_date`                | date         | nullable                                  |
-| `onboarding_completed_at`  | timestamptz  | nullable                                  |
-| `created_at`, `updated_at` | timestamptz  | required                                  |
+Schema đang được triển khai bởi migration Phase 2:
+
+| Column                     | Type        | Rules                                     |
+| -------------------------- | ----------- | ----------------------------------------- |
+| `id`                       | uuid PK     | FK `auth.users(id)` ON DELETE CASCADE     |
+| `display_name`             | text        | nullable; trimmed, 1-100 chars khi có     |
+| `timezone`                 | text        | required, default `Asia/Ho_Chi_Minh`      |
+| `locale`                   | text        | required, default `vi-VN`                 |
+| `created_at`, `updated_at` | timestamptz | required, database default `now()`        |
+
+`current_band`, `target_band`, `exam_date` và `onboarding_completed_at` là phần mở rộng onboarding; chưa tồn tại trong migration Phase 2 và không được giả lập ở profile.
+
+Database behavior:
+
+- `on_auth_user_created` chạy `public.handle_new_auth_user()` sau INSERT `auth.users`, đọc duy nhất metadata tên hiển thị và insert idempotent.
+- Backfill tạo profile còn thiếu nhưng không ghi đè row đã có.
+- `set_profiles_updated_at` cập nhật timestamp phía database.
+- Email vẫn thuộc Supabase Auth, không sao chép vào `profiles`.
 
 ### 4.2. `user_roles`
 
@@ -427,6 +434,8 @@ Plan: DRAFT/ACTIVE -> COMPLETED
 ### 15.1. User-owned tables
 
 - `SELECT/INSERT/UPDATE`: `user_id = auth.uid()` và transition/field restrictions qua server.
+- Riêng `profiles`: authenticated chỉ được `SELECT` row `id = auth.uid()` và `UPDATE(display_name)` row đó; không có client INSERT/DELETE policy.
+- `anon` không có grant đọc/ghi `profiles`; authenticated không có broad table UPDATE.
 - Không cho learner `DELETE` trực tiếp submission, audio metadata hoặc audit/event; dùng delete workflow.
 - Child table policy dựa trên denormalized `user_id` hoặc `EXISTS` parent ownership có index.
 
@@ -459,6 +468,8 @@ Tất cả policy phải có integration tests user A/user B và role matrix.
 ## 17. Migration và seed
 
 - Migration forward-only trong CI; production có forward-fix/rollback plan rõ.
+- Migration hiện có: `20260716015215_phase_2_auth_profiles.sql`; local và remote history cùng version `20260716015215`.
+- `supabase/tests/database/phase_2_profiles.test.sql` kiểm tra 21 case bằng pgTAP local; verifier TAP remote kiểm tra 21 case object/trigger/grant/RLS trực tiếp và rollback toàn bộ fixture.
 - Seed dev/test: 2 learner để test cross-user, 1 editor, 1 admin; goal/plan/task; published lesson; Reading set; Listening set; Writing prompt; Speaking prompt.
 - Không seed production credential hoặc nội dung không rõ licence.
 - Migration thay state/schema phải tương thích ít nhất một deploy window giữa app cũ/mới.

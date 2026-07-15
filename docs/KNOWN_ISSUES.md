@@ -21,7 +21,7 @@
 
 | ID     | Sev | Vấn đề                                                                    | Ảnh hưởng                                                | Hướng xử lý                                                              | Target    | Status          |
 | ------ | --- | ------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------ | --------- | --------------- |
-| KI-001 | P1  | Chưa chốt runtime/package versions và package manager                     | Build không reproducible, docs có thể lệch API framework | npm, Node runtime, Next/Supabase package versions và lockfile đã chốt; Supabase CLI còn theo migration workflow | Phase 0/1 | MITIGATED |
+| KI-001 | P1  | Chưa chốt runtime/package versions và package manager                     | Build không reproducible, docs có thể lệch API framework | npm, Node runtime, Next/Supabase packages/CLI, lockfile và migration workflow đã chốt | Phase 0/1 | CLOSED |
 | KI-002 | P1  | Chưa có Supabase project/environment strategy                             | Không thể validate Auth/RLS/migration                    | Tách dev/staging/prod, env validation, migration workflow                | Phase 1   | OPEN            |
 | KI-003 | P1  | Chưa chốt retention/deletion cho audio, transcript, AI raw response, logs | Privacy flow và schema cleanup chưa hoàn chỉnh           | Viết retention table + delete/export SLA trước Speaking beta             | Phase 0/6 | DECISION_NEEDED |
 | KI-004 | P2  | Taxonomy MVP chưa đóng băng                                               | Content, question renderer và analytics dễ drift         | Chốt codes Reading/Listening/Writing/Speaking/difficulty/topic           | Phase 0/3 | DECISION_NEEDED |
@@ -102,11 +102,15 @@
 
 | ID     | Sev | Vấn đề                                                   | Ảnh hưởng                                      | Hướng xử lý                                           | Target  | Status  |
 | ------ | --- | -------------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------- | ------- | ------- |
-| KI-060 | P1  | Auth screens hiện là placeholder, chưa gọi Supabase Auth | Không thể dùng register/login thật             | Triển khai trong `P1-AUTH-02` đến `P1-AUTH-08`        | Phase 1 | OPEN    |
-| KI-061 | P1  | Chưa có migration/RLS/generated types Supabase           | Chưa chứng minh ownership user A/B             | Tạo Supabase project, migrations và RLS tests         | Phase 1 | OPEN    |
-| KI-062 | P2  | Permission-based navigation chưa có role/session source  | Nav hiện là shell tĩnh                          | Gắn với session helpers và roles sau Auth             | Phase 1 | OPEN    |
+| KI-060 | P1  | Auth screens từng là placeholder | Register/login/logout/confirm/profile hiện đã gọi Supabase thật; provider E2E còn chờ test credential | Chạy authenticated E2E với inbox/test account thật | Phase 2 | MITIGATED |
+| KI-061 | P1  | Migration/RLS/types Supabase từng chưa có | Migration/history/types và 21 local + 21 remote database assertions đã được kiểm chứng | Không cần xử lý thêm trong Phase 2 | Phase 2 | CLOSED |
+| KI-062 | P2  | Permission-based navigation chưa có role source | Shell đã dùng session/profile thật nhưng chưa có role model | Triển khai role/permission ở phase được phê duyệt, không tự thêm Phase 2 | Later | OPEN |
 | KI-063 | P2  | Structured logging, feature flags, toast/network states chưa hoàn chỉnh | Vận hành private beta chưa đủ quan sát | Thêm khi có mutation/API flows đầu tiên               | Phase 1 | PLANNED |
-| KI-064 | P3  | Git metadata trong workspace không đọc được như repo hợp lệ | Không thể tạo commit/PR local từ checkout hiện tại | Khởi tạo/sửa repo Git hoặc làm từ checkout Git hợp lệ | Ops     | OPEN    |
+| KI-064 | P3  | Git metadata trong workspace từng không đọc được như repo hợp lệ | Repo hiện đọc được branch/status/origin bình thường | Không cần xử lý thêm | Ops | CLOSED |
+| KI-065 | P1  | Supabase CLI từng chưa login/link project thật | CLI đã link đúng project; dry-run/push/history/lint remote đã pass | Không cần xử lý thêm | Phase 2 | CLOSED |
+| KI-066 | P1  | Chưa có `E2E_AUTH_EMAIL`/`E2E_AUTH_PASSWORD` | Provider invalid-login và authenticated login/profile/logout test đang skip | Cấp test account qua shell/CI secret sau remote migration | Phase 2 | BLOCKED |
+| KI-067 | P1  | Chưa kiểm tra email xác minh bằng inbox thật | Chưa chứng minh delivery/template/expired-link trên project remote | Verify Dashboard template rồi đăng ký bằng inbox thử | Phase 2 | BLOCKED |
+| KI-068 | P3  | Experimental pg-delta không cache được catalog sau push vì thiếu CA temp file | Không ảnh hưởng apply/history/schema; tạo warning tooling sau push | Theo dõi Supabase CLI update hoặc tắt experimental pg-delta nếu tái diễn | Tooling | ACCEPTED |
 
 ## 10. Decision backlog
 

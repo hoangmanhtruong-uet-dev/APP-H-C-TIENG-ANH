@@ -4,6 +4,8 @@
 > Style: Next.js Server Actions cho mutation UI; Route Handlers cho HTTP/upload/job/ops  
 > Base path cho Route Handlers: `/api/v1`
 
+> Trạng thái: phần Auth bên dưới mô tả implementation hiện có; các catalog business từ onboarding trở đi là target contract cho phase sau, chưa phải endpoint đang chạy.
+
 ## 1. Quy ước contract
 
 ### 1.1. Authentication
@@ -93,6 +95,10 @@ Các tên sau là contract use-case; implementation có thể đặt trong featu
 
 | Action                       | Input chính                             | Output                 | Quyền/ghi chú                |
 | ---------------------------- | --------------------------------------- | ---------------------- | ---------------------------- |
+| `registerAction`             | displayName, email, password, confirm   | typed form state       | Public; Zod; generic success |
+| `loginAction`                | email, password, next?                  | redirect/typed error   | Public; safe allowlist       |
+| `logoutAction`               | none                                    | redirect `/login`      | Auth; local session sign-out |
+| `updateProfileAction`        | displayName                             | typed form state       | Auth; actor ID từ server     |
 | `completeOnboarding`         | goal, availability, consent             | goal + plan preview    | Auth; transaction            |
 | `updateLearningGoal`         | goalId, fields                          | new goal state         | Owner; validate exam date    |
 | `generateStudyPlan`          | goalId, reason                          | plan version           | Owner; idempotent            |
@@ -117,25 +123,53 @@ Các tên sau là contract use-case; implementation có thể đặt trong featu
 
 ## 3. Auth và actor
 
-Auth UI dùng Supabase flow; app cung cấp endpoint kiểm tra session tối thiểu.
+Phase 2 không tạo REST API `/api/v1/me`; Server Components đọc actor/profile trực tiếp qua typed Supabase server client.
 
-### `GET /api/v1/me`
+### `registerAction`
 
-Trả profile, roles/permissions cần cho UI và onboarding state. Không trả token/claims thô.
+- Input: `displayName` 1-100 ký tự, normalized email, password 8-72 ký tự, confirmation phải khớp.
+- Gọi `supabase.auth.signUp` với metadata `display_name`.
+- Không trả trạng thái “email đã tồn tại”; success hướng user kiểm tra inbox.
+- Password không đi vào query string, log hoặc public database.
 
-```json
-{
-  "data": {
-    "id": "uuid",
-    "displayName": "Trường",
-    "timezone": "Asia/Ho_Chi_Minh",
-    "locale": "vi-VN",
-    "onboardingComplete": true,
-    "roles": ["LEARNER"],
-    "permissions": ["learn.use", "own_data.read", "own_data.write"]
-  }
-}
+### `loginAction`
+
+- Input: normalized email, password, optional `next`.
+- Gọi `signInWithPassword`; lỗi provider được map sang message tiếng Việt an toàn.
+- `next` chỉ chấp nhận protected internal path allowlisted; mặc định `/dashboard`.
+
+### `GET /auth/confirm`
+
+Query: `token_hash`, `type=email|signup`, optional safe `next`.
+
+- Verify bằng `auth.verifyOtp` trên server.
+- Thành công tạo session cookie và redirect protected path.
+- Token sai/hết hạn redirect `/login?authError=confirmation_invalid`.
+- Response redirect có `Cache-Control: private, no-cache, no-store`.
+
+### `logoutAction`
+
+Gọi `signOut({ scope: "local" })`, sau đó redirect `/login`.
+
+### `updateProfileAction`
+
+- Input: `displayName` 1-100 ký tự.
+- Actor lấy từ server session; client không gửi/chọn profile id.
+- Update `public.profiles.display_name` với filter actor và RLS ownership.
+- Thành công revalidate `/profile` và `/dashboard`; lỗi trả typed form state + request ID.
+
+### Auth form error contract
+
+```ts
+type ActionState<Field extends string> = {
+  status: "idle" | "success" | "error";
+  message?: string;
+  fieldErrors?: Partial<Record<Field, string[]>>;
+  requestId?: string;
+};
 ```
+
+Không trả raw Supabase/SQL error, stack, token hoặc cookie.
 
 ## 4. Goals, onboarding và plan
 

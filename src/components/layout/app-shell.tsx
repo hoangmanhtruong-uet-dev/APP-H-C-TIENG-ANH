@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { AppLogo } from "@/components/shared/app-logo";
+import { LogoutButton } from "@/components/auth/logout-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -58,7 +59,13 @@ function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({
+  children,
+  account,
+}: {
+  children: React.ReactNode;
+  account: { label: string; email: string };
+}) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -89,12 +96,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <NavigationLinks />
         </div>
         <div className="rounded-xl border border-[var(--border)] bg-[var(--background)] p-4">
-          <p className="text-sm font-semibold text-[var(--foreground)]">
-            Chưa kết nối tài khoản
+          <p className="truncate text-sm font-semibold text-[var(--foreground)]">
+            {account.label}
           </p>
-          <p className="mt-1 text-xs leading-5 text-[var(--muted-foreground)]">
-            Xác thực Supabase sẽ được nối ở track Auth của Phase 1.
+          <p className="mt-1 truncate text-xs text-[var(--muted-foreground)]">
+            {account.email}
           </p>
+          <LogoutButton className="mt-3" />
         </div>
       </aside>
 
@@ -105,10 +113,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="hidden min-w-0 lg:block">
             <p className="truncate text-sm font-semibold text-[var(--foreground)]">
-              Không gian học tập
+              Xin chào, {account.label}
             </p>
             <p className="truncate text-xs text-[var(--muted-foreground)]">
-              Nền tảng Phase 1
+              Không gian học tập cá nhân
             </p>
           </div>
           <Button
@@ -162,6 +170,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
             <div className="mt-8">
               <NavigationLinks onNavigate={() => setMobileOpen(false)} />
+            </div>
+            <div className="mt-auto border-t border-[var(--border)] pt-5">
+              <p className="truncate text-sm font-semibold text-[var(--foreground)]">
+                {account.label}
+              </p>
+              <p className="mt-1 truncate text-xs text-[var(--muted-foreground)]">
+                {account.email}
+              </p>
+              <LogoutButton className="mt-3" />
             </div>
           </aside>
         </div>

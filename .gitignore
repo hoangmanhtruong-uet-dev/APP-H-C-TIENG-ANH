@@ -1,6 +1,7 @@
 # dependencies
 /node_modules
 /.npm-cache
+/.supabase-cli-home
 
 # next
 /.next

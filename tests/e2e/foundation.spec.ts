@@ -1,15 +1,18 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page, type TestInfo } from "@playwright/test";
 
-const routes = [
+const publicRoutes = [
   ["/", "Biết rõ hôm nay cần học gì."],
   ["/login", "Đăng nhập"],
   ["/register", "Tạo tài khoản"],
-  ["/dashboard", "Chào mừng đến không gian học"],
-  ["/learn", "Học hôm nay"],
-  ["/roadmap", "Lộ trình"],
-  ["/progress", "Tiến độ"],
-  ["/profile", "Hồ sơ"],
-  ["/settings", "Cài đặt"],
+] as const;
+
+const protectedRoutes = [
+  "/dashboard",
+  "/learn",
+  "/roadmap",
+  "/progress",
+  "/profile",
+  "/settings",
 ] as const;
 
 const requiredViewports = [
@@ -19,9 +22,11 @@ const requiredViewports = [
   { name: "desktop-1440", width: 1440, height: 900 },
 ] as const;
 
-async function expectNoHorizontalOverflow(
-  page: import("@playwright/test").Page,
-) {
+const authEmail = process.env.E2E_AUTH_EMAIL;
+const authPassword = process.env.E2E_AUTH_PASSWORD;
+const hasAuthAccount = Boolean(authEmail && authPassword);
+
+async function expectNoHorizontalOverflow(page: Page) {
   const hasOverflow = await page.evaluate(
     () =>
       document.documentElement.scrollWidth >
@@ -31,7 +36,26 @@ async function expectNoHorizontalOverflow(
   expect(hasOverflow).toBe(false);
 }
 
-for (const [route, heading] of routes) {
+async function loginWithTestAccount(page: Page) {
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(authEmail!);
+  await page.getByLabel("Mật khẩu", { exact: true }).fill(authPassword!);
+  await page.getByRole("button", { name: "Đăng nhập" }).click();
+  await expect(page).toHaveURL(/\/dashboard$/);
+}
+
+function skipWithoutDesktopTestAccount(testInfo: TestInfo) {
+  test.skip(
+    testInfo.project.name !== "chromium-desktop",
+    "Authenticated E2E runs once in the desktop project.",
+  );
+  test.skip(
+    !hasAuthAccount,
+    "E2E_AUTH_EMAIL and E2E_AUTH_PASSWORD were not provided.",
+  );
+}
+
+for (const [route, heading] of publicRoutes) {
   test(`${route} renders without horizontal overflow`, async ({ page }) => {
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
@@ -42,65 +66,135 @@ for (const [route, heading] of routes) {
     await expect(
       page.getByRole("heading", { name: heading, exact: true }).first(),
     ).toBeVisible();
-
     await expectNoHorizontalOverflow(page);
     expect(consoleErrors).toEqual([]);
   });
 }
 
+for (const route of protectedRoutes) {
+  test(`${route} redirects an anonymous visitor to login`, async ({ page }) => {
+    await page.goto(route);
+    await expect(page).toHaveURL(/\/login\?/);
+    const currentUrl = new URL(page.url());
+    expect(currentUrl.searchParams.get("next")).toBe(route);
+    await expect(
+      page.getByRole("heading", { name: "Đăng nhập", exact: true }),
+    ).toBeVisible();
+  });
+}
+
+test("register returns field-level validation errors", async ({ page }) => {
+  await page.goto("/register");
+  await page.getByLabel("Email").fill("email-khong-hop-le");
+  await page.getByLabel("Mật khẩu", { exact: true }).fill("12345678");
+  await page.getByLabel("Xác nhận mật khẩu").fill("khong-trung-khop");
+  await page.getByRole("button", { name: "Tạo tài khoản" }).click();
+
+  await expect(page.getByText("Hãy nhập họ và tên.")).toBeVisible();
+  await expect(
+    page.getByText("Hãy nhập một địa chỉ email hợp lệ."),
+  ).toBeVisible();
+  await expect(page.getByText("Mật khẩu xác nhận chưa khớp.")).toBeVisible();
+  await expect(page.getByLabel("Họ và tên")).toBeFocused();
+});
+
+test("login returns field-level validation errors", async ({ page }) => {
+  await page.goto("/login");
+  await page.getByLabel("Email").fill("khong-phai-email");
+  await page.getByRole("button", { name: "Đăng nhập" }).click();
+
+  await expect(
+    page.getByText("Hãy nhập một địa chỉ email hợp lệ."),
+  ).toBeVisible();
+  await expect(page.getByText("Hãy nhập mật khẩu.")).toBeVisible();
+  await expect(page.getByLabel("Email")).toBeFocused();
+});
+
+test("password visibility and keyboard navigation work", async ({ page }) => {
+  await page.goto("/login");
+  const email = page.getByLabel("Email");
+  const password = page.getByLabel("Mật khẩu", { exact: true });
+  const visibility = page.getByRole("button", { name: "Hiện mật khẩu" });
+
+  await email.focus();
+  await page.keyboard.press("Tab");
+  await expect(password).toBeFocused();
+  await password.fill("mat-khau-thu-nghiem");
+  await visibility.click();
+  await expect(password).toHaveAttribute("type", "text");
+  await expect(
+    page.getByRole("button", { name: "Ẩn mật khẩu" }),
+  ).toHaveAttribute("aria-pressed", "true");
+});
+
+test("confirmation route returns a safe generic error", async ({ page }) => {
+  await page.goto("/auth/confirm");
+  await expect(page).toHaveURL(/\/login\?authError=confirmation_invalid$/);
+  await expect(page.getByText(/liên kết xác minh không hợp lệ/i)).toBeVisible();
+});
+
 for (const viewport of requiredViewports) {
-  test(`dashboard shell is responsive at ${viewport.width}px`, async ({
-    page,
-  }) => {
+  test(`auth UI is responsive at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize({
       width: viewport.width,
       height: viewport.height,
     });
-
-    await page.goto("/dashboard");
+    await page.goto("/register");
     await expect(
-      page.getByRole("heading", {
-        name: "Chào mừng đến không gian học",
-        exact: true,
-      }),
+      page.getByRole("heading", { name: "Tạo tài khoản", exact: true }),
     ).toBeVisible();
     await expectNoHorizontalOverflow(page);
-
-    if (viewport.width < 1024) {
-      await expect(
-        page.getByRole("button", { name: "Mở điều hướng" }),
-      ).toBeVisible();
-    } else {
-      await expect(
-        page.getByRole("navigation", { name: "Điều hướng học tập" }),
-      ).toBeVisible();
-    }
-
     await page.screenshot({
-      path: `test-results/foundation-${viewport.name}.png`,
+      path: `test-results/auth-${viewport.name}.png`,
       fullPage: true,
     });
   });
 }
 
-test("mobile navigation opens and follows a route", async ({
+test("provider returns safe invalid-login feedback", async ({
   page,
-  isMobile,
-}) => {
-  test.skip(
-    !isMobile,
-    "Mobile navigation behavior only applies to the mobile project.",
+}, testInfo) => {
+  skipWithoutDesktopTestAccount(testInfo);
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(authEmail!);
+  await page
+    .getByLabel("Mật khẩu", { exact: true })
+    .fill(`${authPassword!}-invalid`);
+  await page.getByRole("button", { name: "Đăng nhập" }).click();
+  await expect(page.getByRole("alert")).toContainText(
+    "Email hoặc mật khẩu chưa đúng.",
+  );
+});
+
+test("real login, profile update, logout, and route guard", async ({
+  page,
+}, testInfo) => {
+  skipWithoutDesktopTestAccount(testInfo);
+  await loginWithTestAccount(page);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "Xin chào",
   );
 
+  await page.goto("/profile");
+  const displayName = page.getByLabel("Họ và tên");
+  const originalName = await displayName.inputValue();
+  const temporaryName = `${originalName || "Người học"} E2E`;
+  await displayName.fill(temporaryName);
+  await page.getByRole("button", { name: "Lưu hồ sơ" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Hồ sơ đã được cập nhật.",
+  );
+
+  await displayName.fill(originalName || "Người học");
+  await page.getByRole("button", { name: "Lưu hồ sơ" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Hồ sơ đã được cập nhật.",
+  );
+
+  await page.getByRole("button", { name: "Đăng xuất" }).first().click();
+  await expect(page).toHaveURL(/\/login$/);
   await page.goto("/dashboard");
-  const openNavigation = page.getByRole("button", { name: "Mở điều hướng" });
-  await expect(openNavigation).toBeVisible();
-  await expect(openNavigation).toBeEnabled();
-  await openNavigation.click();
-  const dialog = page.getByRole("dialog", { name: "Điều hướng học tập" });
-  await expect(dialog).toBeVisible();
-  await dialog.getByRole("link", { name: "Lộ trình", exact: true }).click();
-  await expect(page).toHaveURL(/\/roadmap$/);
+  await expect(page).toHaveURL(/\/login\?/);
 });
 
 test("not-found state gives a safe path home", async ({ page }) => {
@@ -118,27 +212,19 @@ test("health endpoints return normalized envelopes", async ({ request }) => {
   await expect(live).toBeOK();
   expect(live.headers()["cache-control"]).toContain("no-store");
   await expect(await live.json()).toMatchObject({
-    data: {
-      status: "ok",
-    },
+    data: { status: "ok" },
   });
 
   const ready = await request.get("/api/health/ready");
   expect(ready.headers()["cache-control"]).toContain("no-store");
-
   const body = await ready.json();
+
   if (ready.status() === 200) {
-    expect(body).toMatchObject({
-      data: {
-        status: "ready",
-      },
-    });
+    expect(body).toMatchObject({ data: { status: "ready" } });
   } else {
     expect(ready.status()).toBe(503);
     expect(body).toMatchObject({
-      error: {
-        code: "CONFIGURATION_ERROR",
-      },
+      error: { code: "CONFIGURATION_ERROR" },
     });
   }
 });

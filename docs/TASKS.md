@@ -33,7 +33,7 @@ Mục tiêu: tài liệu thống nhất trước business implementation.
 - [x] `P0-DOC-03` Tạo [DATABASE_SCHEMA.md](./DATABASE_SCHEMA.md).
 - [x] `P0-DOC-04` Tạo [API_SPEC.md](./API_SPEC.md).
 - [x] `P0-DOC-05` Tạo [TASKS.md](./TASKS.md), [SECURITY_CHECKLIST.md](./SECURITY_CHECKLIST.md), [KNOWN_ISSUES.md](./KNOWN_ISSUES.md).
-- [-] `P0-DEC-01` Chốt package manager, Node/Next/Supabase CLI versions; commit lockfile. Đã chốt npm, Node runtime, Next/Supabase client packages và lockfile; Supabase CLI còn chờ migration workflow.
+- [x] `P0-DEC-01` Chốt package manager, Node/Next/Supabase CLI versions; commit lockfile. npm/Node/Next/Supabase CLI và lockfile đã có; migration workflow local đã kiểm chứng.
 - [ ] `P0-DEC-02` Chốt timezone mặc định, locale, min/max time budget và content taxonomy MVP.
 - [ ] `P0-DEC-03` Chốt retention audio, AI raw response, logs và account deletion.
 - [ ] `P0-UX-01` Wireframe responsive cho landing, onboarding, Today, practice, feedback và admin publish.
@@ -60,7 +60,7 @@ Exit criteria:
 ### 4.2. App shell và cross-cutting
 
 - [-] `P1-APP-01` Route groups public/auth/onboarding/app/admin. Đã có public/auth/dashboard shell; onboarding/admin chờ phase tương ứng.
-- [-] `P1-APP-02` App shell responsive 375/768/1440, nav theo permission. Responsive shell đã có; permission nav chờ Auth/roles.
+- [-] `P1-APP-02` App shell responsive 375/768/1440, nav theo permission. Shell dùng user thật và đã test 375/768/1024/1440; permission nav chờ roles ở phase sau.
 - [-] `P1-APP-03` Shared loading, empty, error, not-found, toast và network state. Đã có loading/empty/error/not-found; toast/network state còn chờ mutation flows.
 - [-] `P1-APP-04` Typed domain errors và normalized API error envelope. Đã có API envelope nền tảng; domain taxonomy đầy đủ chờ API business.
 - [ ] `P1-APP-05` Structured logging với trace/request ID và PII redaction.
@@ -69,14 +69,14 @@ Exit criteria:
 
 ### 4.3. Auth và profile
 
-- [ ] `P1-AUTH-01` Tạo Supabase dev project, migration workflow và generated types.
-- [ ] `P1-AUTH-02` Register/login/logout/forgot/reset/email verify flows.
-- [ ] `P1-AUTH-03` Server-side session helpers; middleware chỉ hỗ trợ UX.
-- [ ] `P1-AUTH-04` `profiles`, settings, consents, roles migrations.
-- [ ] `P1-AUTH-05` RLS profiles/settings/consents; owner-scoped repository.
-- [ ] `P1-AUTH-06` Safe relative redirect allowlist; chống open redirect.
-- [ ] `P1-AUTH-07` Cross-user tests user A/B; role escalation negative tests.
-- [ ] `P1-AUTH-08` E2E register -> login -> profile -> logout -> reset.
+- [x] `P1-AUTH-01` Tạo Supabase dev project, migration workflow và generated types. Local/remote history đồng bộ; types generate từ schema applied.
+- [-] `P1-AUTH-02` Register/login/logout/forgot/reset/email verify flows. Register/login/logout/confirm đã có; forgot/reset nằm ngoài Phase 2 hiện tại.
+- [x] `P1-AUTH-03` Server-side session helpers; Next.js 16 Proxy chỉ refresh/coarse redirect, protected layout xác minh lại bằng `getUser()`.
+- [-] `P1-AUTH-04` `profiles`, settings, consents, roles migrations. `profiles` đã xong; settings/consents/roles để phase tương ứng.
+- [-] `P1-AUTH-05` RLS profiles/settings/consents; owner-scoped repository. Profiles đã có least-privilege RLS và server-owned actor; các bảng còn lại chưa tạo.
+- [x] `P1-AUTH-06` Safe relative redirect allowlist; chống open redirect và encoded/control-character variants.
+- [-] `P1-AUTH-07` Cross-user tests user A/B; role escalation negative tests. Local pgTAP và 21 TAP remote pass với hai auth users, `authenticated`/`anon` roles và rollback; JWT client E2E vẫn chờ test credentials.
+- [-] `P1-AUTH-08` E2E register -> login -> profile -> logout -> reset. Anonymous/auth UI pass; authenticated provider flow skip khi thiếu `E2E_AUTH_*`; reset ngoài scope.
 
 Exit criteria:
 

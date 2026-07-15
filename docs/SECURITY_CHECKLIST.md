@@ -19,69 +19,69 @@ Không phát hành private beta nếu còn một trong các điều sau:
 
 ## 2. Authentication và session
 
-- [ ] Supabase Auth session chỉ được xác minh bằng server client ở protected operations.
-- [ ] Middleware chỉ redirect/refresh phục vụ UX, không làm authorization boundary duy nhất.
-- [ ] Register/login/reset không tiết lộ account tồn tại quá mức cần thiết.
+- [x] Supabase Auth session chỉ được xác minh bằng server client ở protected operations hiện có.
+- [x] Next.js Proxy chỉ redirect/refresh phục vụ UX; protected server layout xác minh lại bằng `getUser()`.
+- [-] Register/login dùng generic feedback; reset chưa triển khai trong scope hiện tại.
 - [ ] Reset token single-use, expiry hợp lý, không xuất hiện trong log/referrer.
-- [ ] Email verification policy được chốt theo environment.
-- [ ] Logout/revocation xử lý trên thiết bị hiện tại; có chiến lược logout-all khi cần.
+- [-] Email confirmation bật trong local config; remote Dashboard/template/inbox thật chưa verify.
+- [x] Logout/revocation xử lý session thiết bị hiện tại bằng local scope; logout-all để phase cần thiết.
 - [ ] Session expiry giữa autosave/submit có UX recovery, không mất draft.
-- [ ] Redirect sau login chỉ nhận relative path allowlisted; test `//evil.com`, encoded URL và nested redirect.
-- [ ] Auth endpoints có abuse/rate protection.
+- [x] Redirect sau login chỉ nhận protected relative path allowlisted; đã test absolute, `//`, backslash, encoded và control character.
+- [-] Supabase Auth chịu rate limit; remote rate configuration chưa verify.
 - [ ] Admin/Super Admin bật MFA trước public beta.
 
 ## 3. Authorization, ownership và IDOR
 
-- [ ] Không nhận `user_id` từ client làm nguồn owner.
+- [x] Profile mutation không nhận `user_id`/profile id từ client; actor lấy từ verified server session.
 - [ ] Owner query scope theo actor ở repository; không query ID đơn độc.
 - [ ] Resource không thuộc actor trả 404 hoặc 403 theo policy nhất quán, không leak existence.
-- [ ] Server Action/Route Handler kiểm permission cho mọi mutation.
+- [x] Mọi Server Action Phase 2 kiểm public/auth context phù hợp; profile mutation require actor phía server.
 - [ ] Role được map sang permission; không dùng một boolean `is_admin` cho mọi quyền.
 - [ ] Content editor không mặc định có quyền publish/user sensitive view.
 - [ ] Support chỉ xem trường tối thiểu cần thiết.
 - [ ] Role grant/revoke chỉ qua protected use case, có audit.
-- [ ] User A/B integration tests cho mọi user-owned table/endpoint.
+- [-] `profiles` có pgTAP A/B/anon local; authenticated client E2E với hai JWT thật chưa chạy.
 - [ ] Negative tests cho guessed UUID, nested child ID, source reference và signed URL.
 
 ## 4. Supabase RLS và database
 
-- [ ] RLS bật trên mọi table public chứa user/admin data.
-- [ ] Policy `SELECT`, `INSERT`, `UPDATE`, `DELETE` được review riêng.
+- [x] RLS bật trên `public.profiles`, public table chứa user data duy nhất hiện tại.
+- [x] Profiles có SELECT-own/UPDATE-own; không cấp client INSERT/DELETE.
 - [ ] Child table policy dựa trên `user_id` denormalized hoặc indexed parent ownership.
 - [ ] Learner không trực tiếp update immutable submission/result/audit/event.
 - [ ] Published content read policy không mở draft/answer key.
-- [ ] Service-role chỉ tồn tại server/worker; không dùng để bỏ qua invariant tùy tiện.
-- [ ] Database function `SECURITY DEFINER` có fixed `search_path`, permission tối thiểu và input validation.
+- [x] Ứng dụng không có service-role client/key; migration/RLS test không dùng service role.
+- [x] `handle_new_auth_user` SECURITY DEFINER có empty `search_path`, schema-qualified objects và revoked execute grants.
 - [ ] Constraints enforce active goal/plan, uniqueness, band range và state invariants quan trọng.
-- [ ] RLS tests chạy bằng hai real authenticated test users, không phải service role.
-- [ ] Migration user/role được least privilege; production không dùng owner credential trong app runtime.
+- [-] 21 pgTAP test chạy bằng PostgreSQL `authenticated`/`anon` với hai auth user và JWT claim giả lập, không dùng service role; hai session JWT thật còn chờ test account.
+- [x] Grants least privilege đã kiểm chứng trực tiếp trên local và remote; remote lint không có schema error.
 
 ## 5. Input validation và output encoding
 
-- [ ] Mọi mutation có Zod/server schema; client validation chỉ hỗ trợ UX.
+- [x] Mọi mutation Phase 2 có Zod server schema; HTML attributes chỉ hỗ trợ UX.
 - [ ] UUID, enum, band, date, timezone, word count, array size và JSON depth có giới hạn.
 - [ ] Unknown fields bị strip/reject theo contract.
 - [ ] Text người dùng render như text; rich text được sanitize bằng allowlist.
 - [ ] Không render raw HTML từ content/user/AI.
 - [ ] URL nguồn/asset validate protocol/domain khi cần.
 - [ ] CSV/content import chống formula injection, oversized row và zip bomb nếu được bổ sung.
-- [ ] Error response không chứa stack, SQL, provider raw error, secret hoặc prompt.
+- [x] Auth/profile errors được map tập trung, không trả raw provider/SQL/stack/token; có request ID cho form error.
 
 ## 6. XSS, CSRF và browser security
 
 - [ ] CSP được cấu hình và test; tránh `unsafe-inline/eval` nếu không có lý do.
 - [ ] Security headers: HSTS ở production, `X-Content-Type-Options`, `Referrer-Policy`, frame policy và Permissions Policy.
-- [ ] Cookie auth có Secure, HttpOnly, SameSite phù hợp do provider/framework cấu hình.
+- [-] Cookie do `@supabase/ssr` quản lý và propagate đúng framework; production flags cần verify trên deployment thật.
 - [ ] State-changing request có CSRF protection theo framework/origin checks.
 - [ ] CORS chỉ allow origins cần thiết; không `*` với credentials.
 - [ ] Mic permission chỉ xin tại hành động rõ ràng; Permissions Policy giới hạn microphone.
 - [ ] External link dùng `rel="noopener noreferrer"` khi mở tab mới.
-- [ ] Sensitive response/sign URL dùng `Cache-Control: no-store`.
+- [x] Auth confirmation redirect và health responses đặt no-store; chưa có signed URL/storage trong scope.
 
 ## 7. Secrets và configuration
 
-- [ ] `.env*` thực chứa secret nằm trong `.gitignore`; chỉ commit `.env.example`.
-- [ ] Không prefix `NEXT_PUBLIC_` cho service role, OpenAI key, model policy hoặc internal endpoint secret.
+- [x] `.env*` thực nằm trong `.gitignore`; chỉ `.env.example` được commit.
+- [x] Chỉ public Supabase URL/anon key dùng `NEXT_PUBLIC_`; không có service-role/secret key.
 - [ ] Env validation fail fast và phân biệt dev/staging/prod.
 - [ ] Secret manager/provider env được dùng cho production.
 - [ ] Secret rotation runbook và owner rõ.

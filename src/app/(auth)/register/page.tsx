@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { AuthFoundationForm } from "@/components/auth/auth-foundation-form";
+import { RegisterForm } from "@/components/auth/register-form";
 
 export const metadata: Metadata = {
   title: "Đăng ký",
@@ -14,11 +14,10 @@ export default function RegisterPage() {
         Tạo tài khoản
       </h1>
       <p className="mt-3 leading-7 text-pretty text-[var(--muted-foreground)]">
-        Chưa có dữ liệu nào được gửi. Xác thực sẽ được triển khai trong track
-        Auth.
+        Tạo tài khoản bằng email. Bạn sẽ cần xác minh hộp thư trước khi bắt đầu.
       </p>
       <div className="mt-8">
-        <AuthFoundationForm mode="register" />
+        <RegisterForm />
       </div>
     </div>
   );
