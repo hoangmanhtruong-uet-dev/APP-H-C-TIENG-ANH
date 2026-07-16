@@ -118,6 +118,14 @@
 | KI-073 | P1  | Remote wrapper dùng `\ir` không resolve file include trong Supabase CLI container | Wrapper fail dù file test chính hợp lệ; có thể gây hiểu nhầm remote verifier | Xóa wrapper, không duplicate assertions; chạy trực tiếp `supabase/tests/database/phase_4_learning_content_progress.test.sql`, remote 66/66 PASS và rollback | Verification | CLOSED |
 | KI-074 | P3  | Seed Phase 4 cố ý chỉ có 2 module/4 published lesson và 1 draft lesson | Không đại diện curriculum IELTS hoàn chỉnh | Giữ nhãn foundation, bổ sung qua content workflow/versioned seed sau khi có review và licence metadata | Content | ACCEPTED |
 
+## 9.1. Phase 5 exercise foundation status
+
+| ID | Sev | Vấn đề | Ảnh hưởng | Hướng xử lý | Target | Status |
+| --- | --- | --- | --- | --- | --- | --- |
+| KI-075 | P1 | Linked remote `supabase test db` dùng temporary CLI login role không có `extensions`/Phase 5 verifier privileges | Remote transactional pgTAP cần database-owner evidence riêng | Đã chạy file remote verifier bằng password nhập ẩn: planned 24, ran 24, failed 0, PASS; không gửi/lưu credential và không nới grants | Phase 5 | CLOSED |
+| KI-076 | P2 | Phase 5 chỉ hiển thị attempt history, chưa có error notebook hay `/progress/mistakes` | Learner xem được review theo attempt nhưng chưa có aggregation lỗi/SRS | Giữ ngoài scope Phase 5; chỉ triển khai trong phase được duyệt riêng | Later | ACCEPTED |
+| KI-077 | P1 | `db push --include-seed --dry-run` báo up-to-date trong khi remote Phase 5 content bằng 0; seed rerun cũ còn bị before-insert immutability trigger | Owner verifier fail assertions 6–9, 13 và RPC `exercise not found` | Đổi protected child inserts sang `WHERE NOT EXISTS`; thêm/apply data migration `20260716153000`; verify local rerun zero writes và local/remote fingerprint `c3c7af314caa350a74994e28378a550f` | Phase 5 | CLOSED |
+
 ## 10. Decision backlog
 
 | Decision | Câu hỏi cần chốt                                         | Deadline             |

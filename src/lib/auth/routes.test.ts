@@ -10,6 +10,7 @@ describe("auth route classification", () => {
       "/learn/session",
       "/roadmap",
       "/progress",
+      "/practice/grammar-foundations",
       "/profile",
       "/settings",
     ]) {

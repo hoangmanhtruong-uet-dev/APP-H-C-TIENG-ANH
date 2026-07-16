@@ -474,3 +474,40 @@ Archived module/version biến mất khỏi catalog và không thể bắt đầ
 | ADR-008 | Poll/revalidate AI result ở MVP        | Giảm realtime complexity         | Proposed   |
 
 Các quyết định cần chốt tiếp được ghi tại [KNOWN_ISSUES.md](./KNOWN_ISSUES.md).
+
+## 20. Phase 5 exercise, vocabulary và grammar boundary (implemented)
+
+### 20.1. Versioned content và hidden answer boundary
+
+- `exercise_sets` giữ identity/slug ổn định; `exercise_set_versions` là snapshot bất biến sau khi published.
+- Attempt ghim `exercise_set_version_id`; thay đổi content phải tạo version mới, không sửa version đã có attempt.
+- Câu hỏi và option hiển thị nằm trong `public`; answer key, correct option và exact-text key nằm trong schema `private` không cấp quyền cho learner.
+- Vocabulary và grammar cũng tách stable identity khỏi immutable published version; raw HTML không được dùng.
+
+### 20.2. Attempt transaction
+
+```text
+authenticated learner
+  -> start_exercise_attempt(slug, request_key)
+  -> save_exercise_answer(attempt, question, options/text, revision)
+  -> submit_exercise_attempt(attempt)
+       -> lock attempt
+       -> read private answer keys for pinned published version
+       -> calculate deterministic score
+       -> freeze attempt and answers
+  -> get_exercise_attempt_result(attempt)
+```
+
+Client không gửi `user_id`, score, completion, status hoặc correct answer. Save dùng revision để phát hiện stale write; submit khóa row, tính điểm trong database và idempotent khi gọi lặp.
+
+### 20.3. Application path và UX
+
+- Server Components đọc catalog/detail/history qua learner JWT và RLS.
+- Server Actions validate Zod rồi chỉ gọi RPC; lỗi database thô không được render.
+- Routes: `/learn/vocabulary`, `/learn/vocabulary/[slug]`, `/learn/grammar`, `/learn/grammar/[slug]`, `/practice/[exerciseSlug]`, `/practice/[exerciseSlug]/result/[attemptId]`.
+- `/progress` hiển thị attempt history thật. Error notebook/SRS và route `/progress/mistakes` nằm ngoài Phase 5.
+- Markdown renderer giữ `skipHtml`; nội dung seed là nguyên bản và không sao chép dictionary hàng loạt.
+
+### 20.4. Verification state
+
+Schema migration và data migration foundation đã apply remote; parity 5/5, local/remote fingerprint, local/remote lint và generated types pass. Local Phase 5 pgTAP pass 64/64, verifier-on-local 24/24, full database suite 284 tests và remote database-owner verifier planned 24/ran 24/failed 0/PASS. Playwright đã pass luồng hai learner, resume, score 5/5, history, cross-user denial và matrix 375/768/1024/1440. Remote owner verifier từng fail do content bằng 0; data migration đã đóng deployment gap mà không nới grants hoặc disable RLS. Trạng thái: **PHASE 5 COMPLETE**; Phase 6 chưa bắt đầu.

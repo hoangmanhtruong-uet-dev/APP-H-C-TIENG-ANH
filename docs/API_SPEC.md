@@ -665,3 +665,37 @@ type LearningProgressActionState = {
 - Thêm optional field là non-breaking; đổi enum/state cần compatibility window.
 - Client không được suy luận unknown state là success.
 - API spec, Zod schema và database migration phải cập nhật cùng task.
+
+## 18. Phase 5 exercise contracts (implemented)
+
+Phase 5 không tạo public REST endpoint. Pages dùng server-only read layer; mutation đi qua Server Actions và PostgreSQL RPC dưới learner JWT.
+
+| Contract | Input đáng tin | Server/database-derived |
+| --- | --- | --- |
+| `startPracticeAction` / `start_exercise_attempt` | exercise slug, opaque request key | actor, published version snapshot, initial status |
+| `savePracticeAnswerAction` / `save_exercise_answer` | attempt UUID, question UUID, selected option UUIDs hoặc text, expected revision | owner, question type/membership, next revision, timestamps |
+| `submitPracticeAction` / `submit_exercise_attempt` | attempt UUID | answer keys, correctness, awarded/possible points, score, submitted timestamp |
+| `get_exercise_attempt_result` | attempt UUID | ownership, submitted-state gate, answer review/explanation theo content policy |
+
+### 18.1. Start và resume
+
+- `start_exercise_attempt(text, text)` chỉ execute cho `authenticated`, lấy actor từ `auth.uid()` và chọn published version accessible.
+- Cùng owner + request key trả lại cùng attempt; request key không phải user ID.
+- Read layer trả câu hỏi/option hiển thị và answer draft của owner, không trả private key.
+
+### 18.2. Save answer
+
+- Zod allowlist phân biệt text và option payload; database kiểm tra question/option thuộc pinned version.
+- Revision mismatch trả conflict an toàn; duplicate option và invalid option/question bị reject.
+- Submitted attempt bị reject mutation bất kể client gửi trạng thái gì.
+
+### 18.3. Submit và result
+
+- `submit_exercise_attempt(uuid)` lock attempt, chấm deterministic trong cùng transaction và idempotent khi replay.
+- Client không gửi score, correct answer, completion hoặc owner.
+- Result chỉ đọc được sau submit và chỉ bởi owner; cross-user UUID trả unauthorized/not-found boundary, không lộ resource.
+- Server Actions revalidate exact practice/result và `/progress`; UI không suy luận success từ client state.
+
+### 18.4. Contract verification
+
+Local Phase 5 pgTAP pass 64/64; verifier contract chạy trên local và remote đều pass 24/24. Remote owner run xác nhận stable slug lookup, publication visibility, hidden-answer boundary, ownership, scoring và submit idempotency sau khi foundation data migration được apply. Không contract nào nhận actor, score hoặc correct answer từ client.

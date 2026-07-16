@@ -232,7 +232,24 @@ Không phát hành private beta nếu còn một trong các điều sau:
 - [x] Wrapper `\ir` lỗi đã xóa; command remote dùng trực tiếp file chính, không duplicate assertions hoặc test logic.
 - [-] 8 authenticated Playwright cases vẫn skip rõ vì chưa có dedicated credentials/project ref (`KI-072`); không ghi thành PASS.
 
-## 18. Sign-off
+## 18. Phase 5 exercise, vocabulary và grammar
+
+- [x] Published exercise/vocabulary/grammar chỉ đọc qua RLS; draft/in-review/archived không lộ qua learner Data API.
+- [x] Answer keys/correct options/exact-text keys nằm trong schema `private`; `authenticated`/`anon` không có SELECT hoặc schema usage để đọc key.
+- [x] Learner không có direct INSERT/UPDATE/DELETE trên attempt/answer/content tables.
+- [x] RPC lấy actor từ `auth.uid()`, không nhận `user_id`, owner, score, status, completion hoặc correct answer từ client.
+- [x] Attempt/answer ownership, question-version membership và option-question membership được kiểm tra trong database.
+- [x] Submit lock row, tính score từ private key của pinned published version, idempotent và freeze submitted attempt.
+- [x] Save dùng expected revision; stale update và invalid/duplicate option bị reject.
+- [x] Result/solution chỉ available sau submit và chỉ cho owner; Playwright hai user đã xác nhận cross-user denial.
+- [x] Published content/key immutable; thay đổi nội dung phải tạo version mới.
+- [x] Server Actions validate Zod, không render raw database errors và không dùng service-role key.
+- [x] Grammar Markdown giữ raw HTML disabled; seed nguyên bản, nhỏ và có chất lượng.
+- [x] Local Phase 5 pgTAP 64/64 và full database suite 284 tests pass; remote migration/history/lint/types pass.
+- [x] Remote Phase 5 content counts/stable IDs/status và fingerprint khớp local sau data migration; không reset, delete user/attempt hay nới grants.
+- [x] Remote transactional Phase 5 pgTAP đã chạy bằng database-owner session sau seed fix: planned 24, ran 24, failed 0, PASS; password nhập ẩn, không gửi/lưu (`KI-075` closed).
+
+## 19. Sign-off
 
 | Role             | Người duyệt | Ngày | Kết quả/Ghi chú |
 | ---------------- | ----------- | ---- | --------------- |

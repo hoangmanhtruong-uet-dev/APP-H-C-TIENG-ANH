@@ -569,3 +569,45 @@ RLS bật trên cả sáu bảng. `anon` không có table privilege. `authentica
 - Analytics event hết retention được aggregate/anonymize trước khi xóa.
 
 Các thời hạn cụ thể đang là quyết định mở trong [KNOWN_ISSUES.md](./KNOWN_ISSUES.md).
+
+## 20. Phase 5 exercise, vocabulary và grammar schema (implemented)
+
+Schema migration nguồn sự thật: `20260716143000_phase_5_exercise_vocabulary_grammar.sql`. Foundation content deterministic được deploy bằng data migration mới `20260716153000_phase_5_foundation_content.sql`; migration cũ không bị sửa. Các model target cũ ở mục 6–8 không đồng nghĩa đã implementation; phần này mô tả schema thật của Phase 5.
+
+### 20.1. Exercise content
+
+| Table | Vai trò và integrity chính |
+| --- | --- |
+| `exercise_sets` | Stable slug, domain `vocabulary`/`grammar`, display order và timestamps. |
+| `exercise_set_versions` | Version, title/instructions, difficulty, lifecycle, review-policy và publication timestamps; mỗi set chỉ có một published version. |
+| `exercise_questions` | Thuộc version; ordered; type `single_choice`, `multiple_choice`, `true_false`, `short_text`; points và prompt. |
+| `exercise_options` | Ordered option thuộc question; composite FK chặn option/question mismatch. |
+| `private.exercise_answer_keys` | Cấu hình scoring theo question, không cấp Data API SELECT cho learner. |
+| `private.exercise_correct_options` | Correct option set cho choice/true-false. |
+| `private.exercise_correct_text_answers` | Exact accepted text cho short-text, normalize trim/collapse whitespace/case. |
+
+Published version, question, option và key là immutable. Publish validation bắt buộc có câu hỏi, option/key hợp lệ và canonical ordering.
+
+### 20.2. Attempts và answers
+
+| Table | Vai trò và integrity chính |
+| --- | --- |
+| `learner_attempts` | Owner từ `auth.uid()`, pinned version, idempotency key, `in_progress`/`submitted`, server-derived score và timestamps. |
+| `learner_answers` | Mỗi attempt/question một row, text answer hoặc choice mode phù hợp type, revision cho optimistic concurrency; bất biến sau submit. |
+| `learner_answer_options` | Join answer/option với composite constraints để option phải thuộc đúng question. |
+
+Attempt/answer chỉ owner SELECT qua RLS, không direct write. RPC lock và validate owner, version, question, option, revision; submitted attempt không thể sửa. Multiple-choice chấm all-or-nothing; short-text exact-match sau normalization; score từ published snapshot thật.
+
+### 20.3. Vocabulary và grammar
+
+- `vocabulary_entries` + `vocabulary_entry_versions`: stable slug; term, part of speech, Vietnamese definition, original example, topic/tags, difficulty, lifecycle/version.
+- `grammar_topics` + `grammar_topic_versions`: stable slug; title, explanation Markdown, examples JSON, common mistakes JSON, related exercise set, difficulty, lifecycle/version.
+- Learner đã hoàn thành onboarding chỉ SELECT published version; draft/in-review/archived không lộ qua catalog. Phase 5 coi Vocabulary/Grammar foundation là nội dung dùng chung cho hai test type.
+- Phase 5 không tạo SRS, error notebook, admin CMS, AI scoring hoặc Reading/Listening engine.
+
+### 20.4. Applied history and content parity
+
+- Local/remote migration history đồng bộ 5/5 và có `20260716153000_phase_5_foundation_content.sql`.
+- Local/remote content fingerprint cùng là `c3c7af314caa350a74994e28378a550f`.
+- Seed rerun cuối ghi zero rows và không đổi fingerprint; remote không bị reset hoặc xóa dữ liệu.
+- Database-owner verifier chạy đủ 24/24 assertions, failed 0, PASS.

@@ -1,6 +1,6 @@
 # IELTS Flow
 
-Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 2 Auth/Profile, Phase 3 IELTS Learner Onboarding và migration/data layer Phase 4 Learning Content & Study Progress đã được triển khai trên project remote. `/learn`, lesson reader, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; completion được tính trong RPC từ các section bắt buộc.
+Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 2 Auth/Profile, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress và migration Phase 5 Exercise/Vocabulary/Grammar đã được triển khai trên project remote. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; lesson completion và exercise scoring đều được tính trong hardened RPC.
 
 ## Stack
 
@@ -38,7 +38,9 @@ npx.cmd supabase test db
 npx.cmd supabase db lint --level warning
 ```
 
-Migration Phase 2 nằm tại `supabase/migrations/20260716015215_phase_2_auth_profiles.sql`, Phase 3 tại `supabase/migrations/20260716040212_phase_3_learner_onboarding.sql`, và Phase 4 tại `supabase/migrations/20260716100110_phase_4_learning_content_progress.sql`. Cả ba đã apply lên đúng project remote. Local database suite hiện có 5 file/196 assertion; riêng Phase 4 có 66 assertion. Remote Phase 4 chạy trực tiếp cùng file test chính và pass 66/66 trong transaction đã rollback. Schema/history/lint/types remote đều đã verify. Không dùng service role và không reset remote.
+Schema Phase 5 nằm tại `20260716143000_phase_5_exercise_vocabulary_grammar.sql`; foundation content bắt buộc được deploy bằng data migration `20260716153000_phase_5_foundation_content.sql`. Năm migration local/remote đang đồng bộ. Local database suite pass 284 assertions; riêng Phase 5 pgTAP pass 64/64. Remote content khớp local theo deterministic fingerprint, lint và generated types đã verify; remote transactional TAP database-owner pass đủ 24/24 sau seed fix. Không dùng service role và không reset remote.
+
+Bằng chứng chi tiết: [PHASE_5_COMPLETION_REPORT.md](./docs/PHASE_5_COMPLETION_REPORT.md).
 
 Remote pgTAP Phase 4 phải chạy trực tiếp file test chính; không dùng wrapper `\ir` vì Supabase CLI test container không mount file include ngoài path được chỉ định:
 
@@ -62,14 +64,15 @@ npx.cmd supabase db push --linked --include-seed --dry-run
 3. Email xác minh đi qua `/auth/confirm`, route này verify OTP rồi tạo session.
 4. Next.js `proxy.ts` refresh/đồng bộ cookie và coarse redirect.
 5. Protected layout gọi server helper dùng `auth.getUser()` trước khi đọc profile.
-6. User chưa hoàn tất onboarding được server guard đưa từ `/dashboard`, `/learn`, `/roadmap`, `/progress` sang `/onboarding`.
+6. User chưa hoàn tất onboarding được server guard đưa từ `/dashboard`, `/learn`, `/practice`, `/roadmap`, `/progress` sang `/onboarding`.
 7. Mỗi bước onboarding upsert allowlist field với actor từ session; completion RPC tự xác định `auth.uid()` và tự ghi timestamp.
 8. `/profile` cho xem/sửa display name và learning preferences; PostgreSQL RLS kiểm tra ownership.
 9. `/learn` chỉ đọc module/version đã publish phù hợp test type; draft không qua được RLS.
 10. `open_lesson_section` và `complete_lesson_section` lấy actor từ `auth.uid()`, lưu resume và tự tính completion.
-11. Logout xóa session local rồi redirect `/login`.
+11. `start_exercise_attempt`, `save_exercise_answer` và `submit_exercise_attempt` lấy actor từ session; answer key nằm trong `private`, submit lock và score đúng version trong database.
+12. Logout xóa session local rồi redirect `/login`.
 
-Protected routes: `/onboarding`, `/dashboard`, `/learn`, `/roadmap`, `/progress`, `/profile`, `/settings`.
+Protected routes: `/onboarding`, `/dashboard`, `/learn`, `/practice`, `/roadmap`, `/progress`, `/profile`, `/settings`.
 
 ## Kiểm thử
 
@@ -110,6 +113,8 @@ npm.cmd run build
 npm.cmd run test:e2e
 ```
 
+Phase 5 local authenticated E2E có thể provision hai account bằng public signup, Mailpit confirmation và user-session RLS, không dùng service role. Các biến tương ứng là `E2E_PRACTICE_USER_A_*`, `E2E_PRACTICE_USER_B_*` và expected project ref.
+
 Không commit các giá trị này. Runner dùng production build trên cổng 3100 riêng và từ chối tái sử dụng process không được xác nhận. Khi thiếu credentials, Playwright vẫn kiểm tra public UI, validation, protected redirects lồng nhau và responsive 375/768/1024/1440; các test authenticated được skip có thông báo rõ.
 
 Manual end-to-end verification ngày 2026-07-16 đã pass với Gmail SMTP và tài khoản email thật: register, nhận email, confirmation link, login, profile auto-create/update, logout và protected-route denial sau logout.
@@ -130,10 +135,13 @@ Manual end-to-end verification ngày 2026-07-16 đã pass với Gmail SMTP và t
 - `learning_modules`, `lessons`, immutable `lesson_versions`, `lesson_sections` và hai bảng progress owner-scoped
 - Dashboard next/continue lesson và `/progress` dùng aggregate thật, không dùng stats giả
 - Hai module foundation, bốn lesson publish và một draft lesson để kiểm chứng isolation
-- Unit/component/E2E, 196 database assertions local, 42 assertion Phase 3 remote và 66 assertion Phase 4 remote
+- Exercise engine versioned với 4 question types, RPC-only draft save, idempotent submit và deterministic database scoring
+- `/learn/vocabulary`, `/learn/grammar`, detail pages, `/practice/[exerciseSlug]`, persisted result và attempt history
+- 8 vocabulary entries, 3 grammar topics, 2 published exercise sets và 1 draft isolation fixture, toàn bộ nội dung seed nguyên bản
+- Unit/component/E2E, 284 database assertions local, 64 Phase 5 pgTAP assertions và authenticated two-user Playwright local
 - Health endpoints `/api/health/live` và `/api/health/ready`
 
-Chưa triển khai: placement test, study roadmap/plan generator, daily tasks, exercise/practice engine, scoring, AI, content admin/CMS, roles, consent, forgot/reset password và avatar/storage. Phase 5 không được triển khai. **PHASE 4 COMPLETE** ngày 2026-07-16; 8 authenticated Playwright cases vẫn SKIPPED công khai do chưa có dedicated credentials/project-ref confirmation và không được ghi thành PASS.
+Chưa triển khai: placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, AI, content admin/CMS, roles, consent, forgot/reset password và avatar/storage. **PHASE 5 COMPLETE** ngày 2026-07-16: remote seed gap đã được sửa bằng data migration, parity/fingerprint/lint pass và remote transactional TAP database-owner pass 24/24. Phase 6 chưa được bắt đầu.
 
 ## Cấu trúc chính
 

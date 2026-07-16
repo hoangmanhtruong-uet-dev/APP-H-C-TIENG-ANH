@@ -12,8 +12,463 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
   };
+  graphql_public: {
+    Tables: {
+      [_ in never]: never;
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json;
+          operationName?: string;
+          query?: string;
+          variables?: Json;
+        };
+        Returns: Json;
+      };
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
+  };
   public: {
     Tables: {
+      exercise_options: {
+        Row: {
+          created_at: string;
+          id: string;
+          label: string;
+          position: number;
+          question_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          label: string;
+          position: number;
+          question_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          label?: string;
+          position?: number;
+          question_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "exercise_options_question_id_fkey";
+            columns: ["question_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_questions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      exercise_questions: {
+        Row: {
+          created_at: string;
+          exercise_set_version_id: string;
+          id: string;
+          points: number;
+          position: number;
+          prompt_markdown: string;
+          question_type: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          exercise_set_version_id: string;
+          id?: string;
+          points?: number;
+          position: number;
+          prompt_markdown: string;
+          question_type: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          exercise_set_version_id?: string;
+          id?: string;
+          points?: number;
+          position?: number;
+          prompt_markdown?: string;
+          question_type?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "exercise_questions_exercise_set_version_id_fkey";
+            columns: ["exercise_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_set_versions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      exercise_set_versions: {
+        Row: {
+          allow_review: boolean;
+          archived_at: string | null;
+          created_at: string;
+          difficulty: string;
+          exercise_set_id: string;
+          id: string;
+          instructions_markdown: string;
+          published_at: string | null;
+          status: string;
+          summary: string;
+          title: string;
+          updated_at: string;
+          version: number;
+        };
+        Insert: {
+          allow_review?: boolean;
+          archived_at?: string | null;
+          created_at?: string;
+          difficulty: string;
+          exercise_set_id: string;
+          id?: string;
+          instructions_markdown: string;
+          published_at?: string | null;
+          status?: string;
+          summary: string;
+          title: string;
+          updated_at?: string;
+          version: number;
+        };
+        Update: {
+          allow_review?: boolean;
+          archived_at?: string | null;
+          created_at?: string;
+          difficulty?: string;
+          exercise_set_id?: string;
+          id?: string;
+          instructions_markdown?: string;
+          published_at?: string | null;
+          status?: string;
+          summary?: string;
+          title?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "exercise_set_versions_exercise_set_id_fkey";
+            columns: ["exercise_set_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_sets";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      exercise_sets: {
+        Row: {
+          created_at: string;
+          display_order: number;
+          domain: string;
+          id: string;
+          slug: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          display_order: number;
+          domain: string;
+          id?: string;
+          slug: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          display_order?: number;
+          domain?: string;
+          id?: string;
+          slug?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      grammar_topic_versions: {
+        Row: {
+          archived_at: string | null;
+          common_mistakes: Json;
+          created_at: string;
+          difficulty: string;
+          examples: Json;
+          explanation_markdown: string;
+          grammar_topic_id: string;
+          id: string;
+          licence: string;
+          published_at: string | null;
+          related_exercise_set_id: string | null;
+          source_name: string;
+          status: string;
+          title: string;
+          updated_at: string;
+          version: number;
+        };
+        Insert: {
+          archived_at?: string | null;
+          common_mistakes: Json;
+          created_at?: string;
+          difficulty: string;
+          examples: Json;
+          explanation_markdown: string;
+          grammar_topic_id: string;
+          id?: string;
+          licence?: string;
+          published_at?: string | null;
+          related_exercise_set_id?: string | null;
+          source_name?: string;
+          status?: string;
+          title: string;
+          updated_at?: string;
+          version: number;
+        };
+        Update: {
+          archived_at?: string | null;
+          common_mistakes?: Json;
+          created_at?: string;
+          difficulty?: string;
+          examples?: Json;
+          explanation_markdown?: string;
+          grammar_topic_id?: string;
+          id?: string;
+          licence?: string;
+          published_at?: string | null;
+          related_exercise_set_id?: string | null;
+          source_name?: string;
+          status?: string;
+          title?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "grammar_topic_versions_grammar_topic_id_fkey";
+            columns: ["grammar_topic_id"];
+            isOneToOne: false;
+            referencedRelation: "grammar_topics";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "grammar_topic_versions_related_exercise_set_id_fkey";
+            columns: ["related_exercise_set_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_sets";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      grammar_topics: {
+        Row: {
+          created_at: string;
+          display_order: number;
+          id: string;
+          slug: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          display_order: number;
+          id?: string;
+          slug: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          slug?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      learner_answer_options: {
+        Row: {
+          answer_id: string;
+          attempt_id: string;
+          created_at: string;
+          option_id: string;
+          question_id: string;
+        };
+        Insert: {
+          answer_id: string;
+          attempt_id: string;
+          created_at?: string;
+          option_id: string;
+          question_id: string;
+        };
+        Update: {
+          answer_id?: string;
+          attempt_id?: string;
+          created_at?: string;
+          option_id?: string;
+          question_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "learner_answer_options_answer_fkey";
+            columns: ["attempt_id", "question_id", "answer_id"];
+            isOneToOne: false;
+            referencedRelation: "learner_answers";
+            referencedColumns: ["attempt_id", "question_id", "id"];
+          },
+          {
+            foreignKeyName: "learner_answer_options_option_fkey";
+            columns: ["question_id", "option_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_options";
+            referencedColumns: ["question_id", "id"];
+          },
+        ];
+      };
+      learner_answers: {
+        Row: {
+          answer_text: string | null;
+          attempt_id: string;
+          awarded_points: number | null;
+          client_revision: number;
+          created_at: string;
+          exercise_set_version_id: string;
+          finalized_at: string | null;
+          id: string;
+          is_correct: boolean | null;
+          question_id: string;
+          saved_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          answer_text?: string | null;
+          attempt_id: string;
+          awarded_points?: number | null;
+          client_revision: number;
+          created_at?: string;
+          exercise_set_version_id: string;
+          finalized_at?: string | null;
+          id?: string;
+          is_correct?: boolean | null;
+          question_id: string;
+          saved_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          answer_text?: string | null;
+          attempt_id?: string;
+          awarded_points?: number | null;
+          client_revision?: number;
+          created_at?: string;
+          exercise_set_version_id?: string;
+          finalized_at?: string | null;
+          id?: string;
+          is_correct?: boolean | null;
+          question_id?: string;
+          saved_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "learner_answers_attempt_version_fkey";
+            columns: ["attempt_id", "exercise_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "learner_attempts";
+            referencedColumns: ["id", "exercise_set_version_id"];
+          },
+          {
+            foreignKeyName: "learner_answers_question_version_fkey";
+            columns: ["exercise_set_version_id", "question_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_questions";
+            referencedColumns: ["exercise_set_version_id", "id"];
+          },
+        ];
+      };
+      learner_attempts: {
+        Row: {
+          created_at: string;
+          current_question_position: number;
+          exercise_set_id: string;
+          exercise_set_version_id: string;
+          id: string;
+          last_saved_at: string;
+          max_score: number | null;
+          score: number | null;
+          scored_at: string | null;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          current_question_position?: number;
+          exercise_set_id: string;
+          exercise_set_version_id: string;
+          id?: string;
+          last_saved_at?: string;
+          max_score?: number | null;
+          score?: number | null;
+          scored_at?: string | null;
+          start_idempotency_key: string;
+          started_at?: string;
+          status?: string;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          current_question_position?: number;
+          exercise_set_id?: string;
+          exercise_set_version_id?: string;
+          id?: string;
+          last_saved_at?: string;
+          max_score?: number | null;
+          score?: number | null;
+          scored_at?: string | null;
+          start_idempotency_key?: string;
+          started_at?: string;
+          status?: string;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "learner_attempts_exercise_set_id_fkey";
+            columns: ["exercise_set_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_sets";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "learner_attempts_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "learner_attempts_version_fkey";
+            columns: ["exercise_set_id", "exercise_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_set_versions";
+            referencedColumns: ["exercise_set_id", "id"];
+          },
+        ];
+      };
       learner_lesson_progress: {
         Row: {
           completed_at: string | null;
@@ -403,6 +858,114 @@ export type Database = {
         };
         Relationships: [];
       };
+      vocabulary_entries: {
+        Row: {
+          created_at: string;
+          display_order: number;
+          id: string;
+          normalized_term: string;
+          part_of_speech: string;
+          sense_key: string;
+          slug: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          display_order: number;
+          id?: string;
+          normalized_term: string;
+          part_of_speech: string;
+          sense_key?: string;
+          slug: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          normalized_term?: string;
+          part_of_speech?: string;
+          sense_key?: string;
+          slug?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      vocabulary_entry_versions: {
+        Row: {
+          archived_at: string | null;
+          created_at: string;
+          definition_vi: string;
+          difficulty: string;
+          example_sentence: string;
+          id: string;
+          licence: string;
+          published_at: string | null;
+          related_exercise_set_id: string | null;
+          source_name: string;
+          status: string;
+          tags: string[];
+          term: string;
+          topic: string;
+          updated_at: string;
+          version: number;
+          vocabulary_entry_id: string;
+        };
+        Insert: {
+          archived_at?: string | null;
+          created_at?: string;
+          definition_vi: string;
+          difficulty: string;
+          example_sentence: string;
+          id?: string;
+          licence?: string;
+          published_at?: string | null;
+          related_exercise_set_id?: string | null;
+          source_name?: string;
+          status?: string;
+          tags?: string[];
+          term: string;
+          topic: string;
+          updated_at?: string;
+          version: number;
+          vocabulary_entry_id: string;
+        };
+        Update: {
+          archived_at?: string | null;
+          created_at?: string;
+          definition_vi?: string;
+          difficulty?: string;
+          example_sentence?: string;
+          id?: string;
+          licence?: string;
+          published_at?: string | null;
+          related_exercise_set_id?: string | null;
+          source_name?: string;
+          status?: string;
+          tags?: string[];
+          term?: string;
+          topic?: string;
+          updated_at?: string;
+          version?: number;
+          vocabulary_entry_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "vocabulary_entry_versions_related_exercise_set_id_fkey";
+            columns: ["related_exercise_set_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_sets";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "vocabulary_entry_versions_vocabulary_entry_id_fkey";
+            columns: ["vocabulary_entry_id"];
+            isOneToOne: false;
+            referencedRelation: "vocabulary_entries";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -454,6 +1017,10 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      get_exercise_attempt_result: {
+        Args: { p_attempt_id: string };
+        Returns: Json;
+      };
       open_lesson_section: {
         Args: { p_lesson_id: string; p_section_id?: string };
         Returns: {
@@ -472,6 +1039,87 @@ export type Database = {
         SetofOptions: {
           from: "*";
           to: "learner_lesson_progress";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      save_exercise_answer: {
+        Args: {
+          p_answer_text: string;
+          p_attempt_id: string;
+          p_client_revision: number;
+          p_question_id: string;
+          p_selected_option_ids: string[];
+        };
+        Returns: {
+          answer_text: string | null;
+          attempt_id: string;
+          awarded_points: number | null;
+          client_revision: number;
+          created_at: string;
+          exercise_set_version_id: string;
+          finalized_at: string | null;
+          id: string;
+          is_correct: boolean | null;
+          question_id: string;
+          saved_at: string;
+          updated_at: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "learner_answers";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      start_exercise_attempt: {
+        Args: { p_exercise_slug: string; p_idempotency_key: string };
+        Returns: {
+          created_at: string;
+          current_question_position: number;
+          exercise_set_id: string;
+          exercise_set_version_id: string;
+          id: string;
+          last_saved_at: string;
+          max_score: number | null;
+          score: number | null;
+          scored_at: string | null;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "learner_attempts";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      submit_exercise_attempt: {
+        Args: { p_attempt_id: string };
+        Returns: {
+          created_at: string;
+          current_question_position: number;
+          exercise_set_id: string;
+          exercise_set_version_id: string;
+          id: string;
+          last_saved_at: string;
+          max_score: number | null;
+          score: number | null;
+          scored_at: string | null;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "learner_attempts";
           isOneToOne: true;
           isSetofReturn: false;
         };
@@ -604,6 +1252,9 @@ export type CompositeTypes<
     : never;
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {},
   },

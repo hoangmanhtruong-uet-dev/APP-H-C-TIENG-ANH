@@ -204,7 +204,27 @@ Exit criteria:
 - Score reproducible; answer key/transcript không lộ sớm.
 - Reading/Listening sử dụng được trên mobile và keyboard.
 
-## 8. Phase 5 - Writing AI (tuần 8-9)
+## 8. Phase 5 - Exercise engine, Vocabulary và Grammar foundation (approved execution slice)
+
+Kế hoạch cũ gán nhãn Phase 5 cho Writing AI đã được thay bằng phạm vi người dùng phê duyệt: exercise engine dùng chung, Vocabulary và Grammar foundation. Writing/Speaking/AI, Reading/Listening engine, mock test, CMS và SRS không được triển khai trong slice này.
+
+- [x] `P5-EX-DB-01` Migration mới cho versioned exercise/questions/options, private answer keys, attempts/answers và constraints.
+- [x] `P5-EX-DB-02` RLS/grants deny-by-default; published-only content; owner-only attempt/result; RPC không tin actor/score/status từ client.
+- [x] `P5-EX-DOM-01` Start/resume, optimistic answer revision, deterministic scoring và idempotent submit.
+- [x] `P5-EX-DOM-02` Published snapshot/key immutability và review-after-submit policy.
+- [x] `P5-VOC-01` Versioned vocabulary catalog/detail với 8 seed entries nguyên bản.
+- [x] `P5-GRA-01` Versioned grammar catalog/detail với 3 seed topics và related exercises.
+- [x] `P5-UI-01` Routes vocabulary, grammar, practice runner, result và attempt history trên `/progress`.
+- [x] `P5-TST-01` Schema/scoring/navigation/component tests; 21 files, 82 unit/component tests pass.
+- [x] `P5-TST-02` Local Phase 5 pgTAP 64/64; full local database suite 284 tests.
+- [x] `P5-E2E-01` Hai learner: published/draft visibility, save/refresh/resume, submit 5/5, history và cross-user denial.
+- [x] `P5-E2E-02` Responsive/accessibility matrix 375/768/1024/1440, keyboard focus, headings và horizontal overflow.
+- [x] `P5-REM-01` Schema + foundation data migration remote applied; local/remote history 5/5; remote content fingerprint, lint và generated types pass.
+- [x] `P5-REM-02` Remote transactional Phase 5 pgTAP bằng database-owner session sau seed fix: planned 24, ran 24, failed 0, PASS; credential nhập ẩn và không lưu (`KI-075` closed).
+
+Current status: **PHASE 5 COMPLETE**. Remote seed gap đã sửa bằng data migration idempotent; parity 5/5, local/remote fingerprint, lint và owner verifier 24/24 đều pass. Không mở rộng grant, không disable RLS và không triển khai Phase 6.
+
+### 8.1. Deferred legacy Writing AI plan (not implemented)
 
 - [ ] `P5-DB-01` Writing draft/submission/revision, prompt/rubric, AI job/run schema.
 - [ ] `P5-DOM-01` Draft autosave optimistic concurrency + local recovery protocol.
