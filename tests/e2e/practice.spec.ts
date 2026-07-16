@@ -147,3 +147,118 @@ test("Phase 5 routes remain responsive and keyboard reachable", async ({
     page.getByRole("heading", { name: "Academic Vocabulary Foundations" }),
   ).toBeVisible();
 });
+
+test("Reading autosave, resume, submit, review and owner isolation", async ({
+  browser,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  requirePracticeEnvironment(testInfo);
+  const contextA = await browser.newContext();
+  const pageA = await contextA.newPage();
+  await login(pageA, userAEmail!, userAPassword!);
+
+  await pageA.goto("/practice/reading");
+  await expect(
+    pageA.getByRole("heading", { name: "Reading practice" }),
+  ).toBeVisible();
+  await expect(
+    pageA.getByRole("heading", { name: "Cool roofs neighbourhood pilot" }),
+  ).toBeVisible();
+  await pageA.goto(
+    "/practice/reading/draft-academic-reading-river-restoration",
+  );
+  await expect(pageA.getByRole("region")).toBeVisible();
+  await expect(pageA.getByText("Draft river restoration notes")).toHaveCount(0);
+
+  await pageA.goto("/practice/reading/academic-reading-cool-roofs");
+  const start = pageA.getByRole("button", { name: "Bắt đầu làm bài" });
+  const firstQuestion = pageA.locator("fieldset").filter({
+    hasText: "What is the main purpose of paragraph B?",
+  });
+  await expect(start.or(firstQuestion)).toBeVisible();
+  if (await start.isVisible()) await start.click();
+
+  await firstQuestion
+    .getByRole("checkbox", {
+      name: "To describe how the neighbourhood comparison was organised",
+    })
+    .check();
+  await expect(pageA.getByRole("status")).toContainText("PostgreSQL");
+  await pageA.reload();
+  await expect(
+    firstQuestion.getByRole("checkbox", {
+      name: "To describe how the neighbourhood comparison was organised",
+    }),
+  ).toBeChecked();
+  await expect(pageA.getByLabel(/Thời gian còn lại/)).toBeVisible();
+
+  await pageA.getByRole("button", { name: "Nộp và xem kết quả" }).click();
+  await expect(pageA).toHaveURL(
+    /\/practice\/reading\/academic-reading-cool-roofs\/result\//,
+  );
+  await expect(
+    pageA.getByRole("heading", { name: "Review từng câu" }),
+  ).toBeVisible();
+  await expect(
+    pageA.getByText(/Điểm và trạng thái thời gian do PostgreSQL/),
+  ).toBeVisible();
+  const resultPath = new URL(pageA.url()).pathname;
+  await pageA.goto("/progress");
+  await expect(
+    pageA.getByText("Reading", { exact: true }).first(),
+  ).toBeVisible();
+
+  const contextB = await browser.newContext();
+  const pageB = await contextB.newPage();
+  await login(pageB, userBEmail!, userBPassword!);
+  await pageB.goto(resultPath);
+  await expect(pageB.getByRole("region")).toBeVisible();
+  await expect(
+    pageB.getByRole("heading", { name: "Review từng câu" }),
+  ).toHaveCount(0);
+  await contextB.close();
+  await contextA.close();
+});
+
+test("Reading layout has no horizontal overflow at target viewports", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(60_000);
+  requirePracticeEnvironment(testInfo);
+  await login(page, userAEmail!, userAPassword!);
+  await page.goto("/practice/reading/academic-reading-cool-roofs");
+  const start = page.locator("#main-content form button[type=submit]").first();
+  const runner = page.locator("main[aria-label]");
+  await expect(start.or(runner)).toBeVisible();
+  if (await start.isVisible()) await start.click();
+  await expect(runner).toBeVisible();
+
+  for (const width of [375, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of [
+      "/practice/reading",
+      "/practice/reading/academic-reading-cool-roofs",
+    ]) {
+      await page.goto(path);
+      await expect(page.locator("#main-content")).toBeVisible();
+      expect(
+        await page.evaluate(
+          () =>
+            document.documentElement.scrollWidth >
+            document.documentElement.clientWidth,
+        ),
+        `${path} at ${width}px`,
+      ).toBe(false);
+    }
+  }
+
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto("/practice/reading/academic-reading-cool-roofs");
+  const questions = page.locator("button[aria-pressed]").nth(1);
+  await expect(questions).toBeVisible();
+  await questions.focus();
+  await expect(questions).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(questions).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("main[aria-label]")).toBeVisible();
+});

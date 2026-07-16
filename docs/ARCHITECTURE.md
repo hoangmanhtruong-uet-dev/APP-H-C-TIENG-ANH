@@ -511,3 +511,13 @@ Client không gửi `user_id`, score, completion, status hoặc correct answer. 
 ### 20.4. Verification state
 
 Schema migration và data migration foundation đã apply remote; parity 5/5, local/remote fingerprint, local/remote lint và generated types pass. Local Phase 5 pgTAP pass 64/64, verifier-on-local 24/24, full database suite 284 tests và remote database-owner verifier planned 24/ran 24/failed 0/PASS. Playwright đã pass luồng hai learner, resume, score 5/5, history, cross-user denial và matrix 375/768/1024/1440. Remote owner verifier từng fail do content bằng 0; data migration đã đóng deployment gap mà không nới grants hoặc disable RLS. Trạng thái: **PHASE 5 COMPLETE**; Phase 6 chưa bắt đầu.
+
+## 21. Phase 6 Reading practice architecture
+
+- `reading_passages` giữ stable slug/test type; immutable `reading_passage_versions` và ordered Markdown sections giữ snapshot passage nguyên bản.
+- `reading_practice_versions` pin một published exercise version vào passage version và server-owned time limit. `reading_question_groups` bổ sung instructions, section link và authored word limit; question/option/attempt engine Phase 5 được tái sử dụng.
+- Client chỉ nhận passage, prompt, options và draft của owner. Answer key vẫn ở schema `private`; review RPC chỉ trả key/explanation sau khi attempt đã `scored` và đúng owner.
+- Start tạo `started_at`/`expires_at` trong PostgreSQL. UI dùng `server_now` để hiển thị countdown; submit dùng timestamp database và ghi `submittedAfterTimeLimit`, không tin timer client.
+- Autosave gửi monotonic `client_revision`. RPC lock attempt, reject stale/different payload với `40001`, chấp nhận replay cùng revision/cùng payload; submitted answers immutable.
+- Submit lock attempt, deterministic-score toàn snapshot trong một transaction và trả lại result cũ khi replay.
+- Desktop dùng split passage/questions; mobile dùng hai tab button có `aria-pressed`, keyboard activation, no horizontal overflow và content scroll độc lập.

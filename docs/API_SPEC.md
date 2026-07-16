@@ -699,3 +699,15 @@ Phase 5 không tạo public REST endpoint. Pages dùng server-only read layer; m
 ### 18.4. Contract verification
 
 Local Phase 5 pgTAP pass 64/64; verifier contract chạy trên local và remote đều pass 24/24. Remote owner run xác nhận stable slug lookup, publication visibility, hidden-answer boundary, ownership, scoring và submit idempotency sau khi foundation data migration được apply. Không contract nào nhận actor, score hoặc correct answer từ client.
+
+## 19. Phase 6 Reading contracts
+
+| Contract | Trusted input | Database-derived output/invariant |
+| --- | --- | --- |
+| `startReadingPracticeAction` → `start_exercise_attempt` | published slug, opaque idempotency key | actor, pinned snapshots, start/expiry timestamps |
+| `saveReadingAnswerAction` → `save_exercise_answer` | attempt/question UUID, choices or text, next revision | ownership, membership/type/word-limit validation, saved revision/time |
+| `get_reading_attempt_clock` | attempt UUID | owner-only `started_at`, `expires_at`, `server_now` |
+| `submitReadingPracticeAction` → `submit_exercise_attempt` | attempt UUID only | atomic score, submitted/scored timestamps, late state |
+| `get_exercise_attempt_result` | submitted attempt UUID | owner/status gate and conditional review disclosure |
+
+Routes are `/practice/reading`, `/practice/reading/[exerciseSlug]` and `/practice/reading/[exerciseSlug]/result/[attemptId]`. Actions authenticate and Zod-validate but never accept `user_id`, score, correctness, completion or timer state. Conflict responses preserve the browser draft and require reconcile/retry.

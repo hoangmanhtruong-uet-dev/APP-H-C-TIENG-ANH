@@ -26,8 +26,18 @@ select case when (
     'public.learner_answers'::regclass
   )
 ) then 'ok 5 - RLS enabled' else 'not ok 5 - RLS disabled' end;
-select case when (select count(*) from public.exercise_set_versions where status = 'published') = 2 then 'ok 6 - published seed exists' else 'not ok 6 - published seed mismatch' end;
-select case when (select count(*) from public.exercise_set_versions where status = 'draft') = 1 then 'ok 7 - draft fixture exists' else 'not ok 7 - draft fixture mismatch' end;
+select case when (
+  select count(*)
+  from public.exercise_set_versions as versions
+  join public.exercise_sets as sets on sets.id = versions.exercise_set_id
+  where versions.status = 'published' and sets.domain in ('vocabulary', 'grammar')
+) = 2 then 'ok 6 - published seed exists' else 'not ok 6 - published seed mismatch' end;
+select case when (
+  select count(*)
+  from public.exercise_set_versions as versions
+  join public.exercise_sets as sets on sets.id = versions.exercise_set_id
+  where versions.status = 'draft' and sets.domain in ('vocabulary', 'grammar')
+) = 1 then 'ok 7 - draft fixture exists' else 'not ok 7 - draft fixture mismatch' end;
 select case when (select count(*) from public.vocabulary_entry_versions where status = 'published') = 8 then 'ok 8 - vocabulary seed exists' else 'not ok 8 - vocabulary seed mismatch' end;
 select case when (select count(*) from public.grammar_topic_versions where status = 'published') = 3 then 'ok 9 - grammar seed exists' else 'not ok 9 - grammar seed mismatch' end;
 select case when not has_table_privilege('authenticated', 'private.exercise_answer_keys', 'select') then 'ok 10 - answer keys hidden' else 'not ok 10 - answer keys exposed' end;
@@ -51,7 +61,7 @@ insert into public.learner_profiles (
 
 set local role authenticated;
 set local request.jwt.claim.sub = '71111111-1111-4111-8111-111111111111';
-select case when (select count(*) from public.exercise_sets) = 2 then 'ok 13 - published sets visible' else 'not ok 13 - published set visibility mismatch' end;
+select case when (select count(*) from public.exercise_sets where domain in ('vocabulary', 'grammar')) = 2 then 'ok 13 - published sets visible' else 'not ok 13 - published set visibility mismatch' end;
 select case when (select count(*) from public.exercise_set_versions where status = 'draft') = 0 then 'ok 14 - draft hidden' else 'not ok 14 - draft leaked' end;
 select case when pg_temp.throws_state('select count(*) from private.exercise_answer_keys', '42501') then 'ok 15 - direct answer-key read denied' else 'not ok 15 - direct answer-key read allowed' end;
 select public.start_exercise_attempt('academic-vocabulary-foundations', 'phase5-remote-a-1');

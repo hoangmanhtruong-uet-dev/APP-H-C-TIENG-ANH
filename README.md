@@ -1,6 +1,6 @@
 # IELTS Flow
 
-Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 2 Auth/Profile, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress và migration Phase 5 Exercise/Vocabulary/Grammar đã được triển khai trên project remote. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; lesson completion và exercise scoring đều được tính trong hardened RPC.
+Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 2 Auth/Profile, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress, Phase 5 Exercise/Vocabulary/Grammar và Phase 6 Reading Practice đã được triển khai trên project remote. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; lesson completion và exercise scoring đều được tính trong hardened RPC.
 
 ## Stack
 
@@ -141,7 +141,7 @@ Manual end-to-end verification ngày 2026-07-16 đã pass với Gmail SMTP và t
 - Unit/component/E2E, 284 database assertions local, 64 Phase 5 pgTAP assertions và authenticated two-user Playwright local
 - Health endpoints `/api/health/live` và `/api/health/ready`
 
-Chưa triển khai: placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, AI, content admin/CMS, roles, consent, forgot/reset password và avatar/storage. **PHASE 5 COMPLETE** ngày 2026-07-16: remote seed gap đã được sửa bằng data migration, parity/fingerprint/lint pass và remote transactional TAP database-owner pass 24/24. Phase 6 chưa được bắt đầu.
+Chưa triển khai: placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, AI, content admin/CMS, roles, consent, forgot/reset password và avatar/storage. **PHASE 6 COMPLETE** ngày 2026-07-17: migration parity 7/7, local/remote lint sạch và remote transactional TAP database-owner pass 34/34 với rollback theo thiết kế. Phase 7 chưa bắt đầu.
 
 ## Cấu trúc chính
 
@@ -157,3 +157,12 @@ supabase/tests          pgTAP local và TAP remote database/RLS tests
 tests/e2e               Playwright auth, nested route guard, learning và responsive tests
 docs                    Product, architecture, schema, API, security docs
 ```
+
+## Phase 6 Reading practice
+
+- Routes: `/practice/reading`, `/practice/reading/[exerciseSlug]`, `/practice/reading/[exerciseSlug]/result/[attemptId]`.
+- One original Academic passage, ten questions and four implemented types; desktop split view and mobile passage/question tabs.
+- PostgreSQL owns the published snapshot, draft revision, timer, atomic submit, deterministic score and post-submit review.
+- Phase 6 migrations are applied remote with local/remote history 7/7 and lint clean. Local full pgTAP passes 384 assertions; Phase 6 passes 66/66 and owner verifier passes 34/34 against local.
+- The direct remote database-owner verifier connected successfully and reported planned 34, ran 34, failed 0, no `not ok`, no `ERROR`, PASS; its transaction rolled back as designed and the password was neither sent nor stored in chat.
+- Current status: **PHASE 6 COMPLETE**. Phase 7 has not started and was not implemented in this completion action.

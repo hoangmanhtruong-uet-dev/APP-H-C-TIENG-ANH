@@ -59,7 +59,7 @@ export type AttemptHistoryItem = {
   id: string;
   exerciseSlug: string;
   title: string;
-  domain: "vocabulary" | "grammar";
+  domain: "vocabulary" | "grammar" | "reading";
   score: number;
   maxScore: number;
   submittedAt: string;
@@ -317,7 +317,12 @@ export async function getRecentAttemptHistory(
       !attempt.submitted_at
     )
       return [];
-    if (set.domain !== "vocabulary" && set.domain !== "grammar") return [];
+    if (
+      set.domain !== "vocabulary" &&
+      set.domain !== "grammar" &&
+      set.domain !== "reading"
+    )
+      return [];
     return [
       {
         id: attempt.id,

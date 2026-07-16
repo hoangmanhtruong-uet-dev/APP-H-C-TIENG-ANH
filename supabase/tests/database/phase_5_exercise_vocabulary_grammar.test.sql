@@ -91,17 +91,27 @@ select extensions.ok(
 );
 
 select extensions.results_eq(
-  $$select count(*)::integer from public.exercise_set_versions where status = 'published'$$,
+  $$select count(*)::integer
+    from public.exercise_set_versions as versions
+    join public.exercise_sets as sets on sets.id = versions.exercise_set_id
+    where versions.status = 'published' and sets.domain in ('vocabulary', 'grammar')$$,
   array[2],
   'seed has two published exercise sets'
 );
 select extensions.results_eq(
-  $$select count(*)::integer from public.exercise_set_versions where status = 'draft'$$,
+  $$select count(*)::integer
+    from public.exercise_set_versions as versions
+    join public.exercise_sets as sets on sets.id = versions.exercise_set_id
+    where versions.status = 'draft' and sets.domain in ('vocabulary', 'grammar')$$,
   array[1],
   'seed has one draft exercise fixture'
 );
 select extensions.results_eq(
-  $$select count(*)::integer from public.exercise_questions$$,
+  $$select count(*)::integer
+    from public.exercise_questions as questions
+    join public.exercise_set_versions as versions on versions.id = questions.exercise_set_version_id
+    join public.exercise_sets as sets on sets.id = versions.exercise_set_id
+    where sets.domain in ('vocabulary', 'grammar')$$,
   array[8],
   'seed has eight original exercise questions'
 );
@@ -159,7 +169,7 @@ set local role authenticated;
 set local request.jwt.claim.sub = '61111111-1111-4111-8111-111111111111';
 
 select extensions.results_eq(
-  $$select count(*)::integer from public.exercise_sets$$,
+  $$select count(*)::integer from public.exercise_sets where domain in ('vocabulary', 'grammar')$$,
   array[2],
   'learner sees only published exercise identities'
 );

@@ -12,31 +12,6 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
   };
-  graphql_public: {
-    Tables: {
-      [_ in never]: never;
-    };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json;
-          operationName?: string;
-          query?: string;
-          variables?: Json;
-        };
-        Returns: Json;
-      };
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
   public: {
     Tables: {
       exercise_options: {
@@ -83,6 +58,7 @@ export type Database = {
           position: number;
           prompt_markdown: string;
           question_type: string;
+          reading_question_group_id: string | null;
           updated_at: string;
         };
         Insert: {
@@ -93,6 +69,7 @@ export type Database = {
           position: number;
           prompt_markdown: string;
           question_type: string;
+          reading_question_group_id?: string | null;
           updated_at?: string;
         };
         Update: {
@@ -103,6 +80,7 @@ export type Database = {
           position?: number;
           prompt_markdown?: string;
           question_type?: string;
+          reading_question_group_id?: string | null;
           updated_at?: string;
         };
         Relationships: [
@@ -112,6 +90,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "exercise_set_versions";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "exercise_questions_reading_group_fkey";
+            columns: ["exercise_set_version_id", "reading_question_group_id"];
+            isOneToOne: false;
+            referencedRelation: "reading_question_groups";
+            referencedColumns: ["exercise_set_version_id", "id"];
           },
         ];
       };
@@ -399,9 +384,11 @@ export type Database = {
           current_question_position: number;
           exercise_set_id: string;
           exercise_set_version_id: string;
+          expires_at: string | null;
           id: string;
           last_saved_at: string;
           max_score: number | null;
+          reading_time_limit_seconds: number | null;
           score: number | null;
           scored_at: string | null;
           start_idempotency_key: string;
@@ -416,9 +403,11 @@ export type Database = {
           current_question_position?: number;
           exercise_set_id: string;
           exercise_set_version_id: string;
+          expires_at?: string | null;
           id?: string;
           last_saved_at?: string;
           max_score?: number | null;
+          reading_time_limit_seconds?: number | null;
           score?: number | null;
           scored_at?: string | null;
           start_idempotency_key: string;
@@ -433,9 +422,11 @@ export type Database = {
           current_question_position?: number;
           exercise_set_id?: string;
           exercise_set_version_id?: string;
+          expires_at?: string | null;
           id?: string;
           last_saved_at?: string;
           max_score?: number | null;
+          reading_time_limit_seconds?: number | null;
           score?: number | null;
           scored_at?: string | null;
           start_idempotency_key?: string;
@@ -858,6 +849,229 @@ export type Database = {
         };
         Relationships: [];
       };
+      reading_passage_sections: {
+        Row: {
+          body_markdown: string;
+          created_at: string;
+          heading: string | null;
+          id: string;
+          position: number;
+          reading_passage_version_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          body_markdown: string;
+          created_at?: string;
+          heading?: string | null;
+          id?: string;
+          position: number;
+          reading_passage_version_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          body_markdown?: string;
+          created_at?: string;
+          heading?: string | null;
+          id?: string;
+          position?: number;
+          reading_passage_version_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "reading_passage_sections_reading_passage_version_id_fkey";
+            columns: ["reading_passage_version_id"];
+            isOneToOne: false;
+            referencedRelation: "reading_passage_versions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      reading_passage_versions: {
+        Row: {
+          archived_at: string | null;
+          created_at: string;
+          difficulty: string;
+          id: string;
+          licence: string;
+          published_at: string | null;
+          reading_passage_id: string;
+          source_name: string;
+          source_url: string | null;
+          status: string;
+          summary: string;
+          title: string;
+          updated_at: string;
+          version: number;
+        };
+        Insert: {
+          archived_at?: string | null;
+          created_at?: string;
+          difficulty: string;
+          id?: string;
+          licence: string;
+          published_at?: string | null;
+          reading_passage_id: string;
+          source_name: string;
+          source_url?: string | null;
+          status?: string;
+          summary: string;
+          title: string;
+          updated_at?: string;
+          version: number;
+        };
+        Update: {
+          archived_at?: string | null;
+          created_at?: string;
+          difficulty?: string;
+          id?: string;
+          licence?: string;
+          published_at?: string | null;
+          reading_passage_id?: string;
+          source_name?: string;
+          source_url?: string | null;
+          status?: string;
+          summary?: string;
+          title?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "reading_passage_versions_reading_passage_id_fkey";
+            columns: ["reading_passage_id"];
+            isOneToOne: false;
+            referencedRelation: "reading_passages";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      reading_passages: {
+        Row: {
+          created_at: string;
+          display_order: number;
+          id: string;
+          slug: string;
+          test_type: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          display_order: number;
+          id?: string;
+          slug: string;
+          test_type: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          slug?: string;
+          test_type?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      reading_practice_versions: {
+        Row: {
+          created_at: string;
+          exercise_set_version_id: string;
+          reading_passage_version_id: string;
+          time_limit_seconds: number;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          exercise_set_version_id: string;
+          reading_passage_version_id: string;
+          time_limit_seconds: number;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          exercise_set_version_id?: string;
+          reading_passage_version_id?: string;
+          time_limit_seconds?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "reading_practice_versions_exercise_set_version_id_fkey";
+            columns: ["exercise_set_version_id"];
+            isOneToOne: true;
+            referencedRelation: "exercise_set_versions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "reading_practice_versions_reading_passage_version_id_fkey";
+            columns: ["reading_passage_version_id"];
+            isOneToOne: true;
+            referencedRelation: "reading_passage_versions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      reading_question_groups: {
+        Row: {
+          created_at: string;
+          exercise_set_version_id: string;
+          group_type: string;
+          id: string;
+          instructions_markdown: string;
+          max_answer_words: number | null;
+          passage_section_id: string | null;
+          position: number;
+          reading_passage_version_id: string;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          exercise_set_version_id: string;
+          group_type: string;
+          id?: string;
+          instructions_markdown: string;
+          max_answer_words?: number | null;
+          passage_section_id?: string | null;
+          position: number;
+          reading_passage_version_id: string;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          exercise_set_version_id?: string;
+          group_type?: string;
+          id?: string;
+          instructions_markdown?: string;
+          max_answer_words?: number | null;
+          passage_section_id?: string | null;
+          position?: number;
+          reading_passage_version_id?: string;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "reading_question_groups_practice_fkey";
+            columns: ["exercise_set_version_id", "reading_passage_version_id"];
+            isOneToOne: false;
+            referencedRelation: "reading_practice_versions";
+            referencedColumns: [
+              "exercise_set_version_id",
+              "reading_passage_version_id",
+            ];
+          },
+          {
+            foreignKeyName: "reading_question_groups_section_fkey";
+            columns: ["reading_passage_version_id", "passage_section_id"];
+            isOneToOne: false;
+            referencedRelation: "reading_passage_sections";
+            referencedColumns: ["reading_passage_version_id", "id"];
+          },
+        ];
+      };
       vocabulary_entries: {
         Row: {
           created_at: string;
@@ -1021,6 +1235,15 @@ export type Database = {
         Args: { p_attempt_id: string };
         Returns: Json;
       };
+      get_reading_attempt_clock: {
+        Args: { p_attempt_id: string };
+        Returns: {
+          attempt_id: string;
+          expires_at: string;
+          server_now: string;
+          started_at: string;
+        }[];
+      };
       open_lesson_section: {
         Args: { p_lesson_id: string; p_section_id?: string };
         Returns: {
@@ -1079,9 +1302,11 @@ export type Database = {
           current_question_position: number;
           exercise_set_id: string;
           exercise_set_version_id: string;
+          expires_at: string | null;
           id: string;
           last_saved_at: string;
           max_score: number | null;
+          reading_time_limit_seconds: number | null;
           score: number | null;
           scored_at: string | null;
           start_idempotency_key: string;
@@ -1105,9 +1330,11 @@ export type Database = {
           current_question_position: number;
           exercise_set_id: string;
           exercise_set_version_id: string;
+          expires_at: string | null;
           id: string;
           last_saved_at: string;
           max_score: number | null;
+          reading_time_limit_seconds: number | null;
           score: number | null;
           scored_at: string | null;
           start_idempotency_key: string;
@@ -1252,9 +1479,6 @@ export type CompositeTypes<
     : never;
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {},
   },

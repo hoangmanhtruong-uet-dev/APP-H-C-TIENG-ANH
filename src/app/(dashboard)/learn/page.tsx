@@ -31,7 +31,7 @@ export default async function LearnPage() {
         <h2 id="foundation-title" className="text-2xl font-bold">
           Vocabulary và Grammar
         </h2>
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
+        <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <Link
             href="/learn/vocabulary"
             className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none"
@@ -49,6 +49,16 @@ export default async function LearnPage() {
             <h3 className="text-lg font-bold">Grammar nền tảng</h3>
             <p className="mt-2 leading-7 text-[var(--muted-foreground)]">
               Quy tắc, ví dụ đúng, lỗi thường gặp và bài luyện deterministic.
+            </p>
+          </Link>
+          <Link
+            href="/practice/reading"
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none"
+          >
+            <h3 className="text-lg font-bold">Reading practice</h3>
+            <p className="mt-2 leading-7 text-[var(--muted-foreground)]">
+              Passage nguyên bản, autosave, đồng hồ phía máy chủ và review sau
+              khi nộp.
             </p>
           </Link>
         </div>

@@ -5,6 +5,9 @@ export const questionTypes = [
   "multiple_choice",
   "true_false",
   "short_text",
+  "true_false_not_given",
+  "matching_headings",
+  "summary_completion",
 ] as const;
 
 export type QuestionType = (typeof questionTypes)[number];
@@ -37,6 +40,14 @@ export const practiceResultSchema = z.object({
 });
 
 export type PracticeResult = z.infer<typeof practiceResultSchema>;
+
+export const readingPracticeResultSchema = practiceResultSchema.extend({
+  startedAt: z.string(),
+  expiresAt: z.string(),
+  submittedAfterTimeLimit: z.boolean(),
+});
+
+export type ReadingPracticeResult = z.infer<typeof readingPracticeResultSchema>;
 
 export function isQuestionType(value: string): value is QuestionType {
   return questionTypes.includes(value as QuestionType);

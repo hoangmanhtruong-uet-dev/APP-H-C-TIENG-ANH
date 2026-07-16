@@ -249,6 +249,19 @@ Không phát hành private beta nếu còn một trong các điều sau:
 - [x] Remote Phase 5 content counts/stable IDs/status và fingerprint khớp local sau data migration; không reset, delete user/attempt hay nới grants.
 - [x] Remote transactional Phase 5 pgTAP đã chạy bằng database-owner session sau seed fix: planned 24, ran 24, failed 0, PASS; password nhập ẩn, không gửi/lưu (`KI-075` closed).
 
+## 20. Phase 6 Reading security
+
+- [x] Compatible completed learners read only published Reading content; draft and incompatible test-type content are hidden by actor RLS.
+- [x] `anon` has no Reading table access; authenticated learners have SELECT-only content grants and no direct mutation grants.
+- [x] Private answer keys have no learner SELECT/usage path; pre-submit result is rejected.
+- [x] Start/save/submit/clock/result RPCs derive `auth.uid()`, use empty `search_path`, qualified names and restricted execute grants.
+- [x] Timer, score, correctness and submission timestamps are database-derived; client countdown is display-only.
+- [x] Save locks the owner attempt, validates pinned membership and revision; stale writes cannot overwrite newer data.
+- [x] Submit is atomic/idempotent and scores private keys of the pinned immutable version.
+- [x] Actor-real local pgTAP and two-user Playwright verify draft isolation, anon denial and cross-user denial without service-role application access.
+- [x] Seed is original, source/licence-tagged content; no official test import or raw HTML.
+- [x] Direct remote database-owner verifier connected and reported planned 34, ran 34, failed 0, no `not ok`, no `ERROR`, PASS; fixture transaction rolled back and the hidden password was neither sent nor stored in chat (`KI-076` closed).
+
 ## 19. Sign-off
 
 | Role             | Người duyệt | Ngày | Kết quả/Ghi chú |

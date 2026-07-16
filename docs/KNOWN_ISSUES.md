@@ -1,7 +1,7 @@
 # KNOWN ISSUES - Web tự học IELTS
 
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1 foundation, Phase 2 Auth/Profile/RLS, Phase 3 Learner Onboarding và Phase 4 Learning Content/Progress COMPLETE; 8 authenticated Playwright cases vẫn skip công khai do thiếu dedicated credentials
+> Trạng thái repo hiện tại: Phase 1 foundation, Phase 2 Auth/Profile/RLS, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress, Phase 5 Exercise/Vocabulary/Grammar và Phase 6 Reading Practice COMPLETE; 8 authenticated Playwright cases vẫn skip công khai do thiếu dedicated credentials
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước
@@ -123,7 +123,7 @@
 | ID | Sev | Vấn đề | Ảnh hưởng | Hướng xử lý | Target | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | KI-075 | P1 | Linked remote `supabase test db` dùng temporary CLI login role không có `extensions`/Phase 5 verifier privileges | Remote transactional pgTAP cần database-owner evidence riêng | Đã chạy file remote verifier bằng password nhập ẩn: planned 24, ran 24, failed 0, PASS; không gửi/lưu credential và không nới grants | Phase 5 | CLOSED |
-| KI-076 | P2 | Phase 5 chỉ hiển thị attempt history, chưa có error notebook hay `/progress/mistakes` | Learner xem được review theo attempt nhưng chưa có aggregation lỗi/SRS | Giữ ngoài scope Phase 5; chỉ triển khai trong phase được duyệt riêng | Later | ACCEPTED |
+| KI-078 | P2 | Phase 5 chỉ hiển thị attempt history, chưa có error notebook hay `/progress/mistakes` | Learner xem được review theo attempt nhưng chưa có aggregation lỗi/SRS | Giữ ngoài scope Phase 5; chỉ triển khai trong phase được duyệt riêng | Later | ACCEPTED |
 | KI-077 | P1 | `db push --include-seed --dry-run` báo up-to-date trong khi remote Phase 5 content bằng 0; seed rerun cũ còn bị before-insert immutability trigger | Owner verifier fail assertions 6–9, 13 và RPC `exercise not found` | Đổi protected child inserts sang `WHERE NOT EXISTS`; thêm/apply data migration `20260716153000`; verify local rerun zero writes và local/remote fingerprint `c3c7af314caa350a74994e28378a550f` | Phase 5 | CLOSED |
 
 ## 10. Decision backlog
@@ -149,3 +149,11 @@ Khi thêm issue:
 3. Nếu `ACCEPTED`, ghi rõ ai chấp nhận, lý do và điều kiện xem lại.
 4. Chỉ `CLOSED` khi có bằng chứng test/deploy; không xóa lịch sử issue.
 5. P0/P1 mở phải xuất hiện trong release review và chặn release nếu chưa có waiver rõ.
+
+## Phase 6 verification follow-up
+
+| ID | Sev | Issue | Impact | Resolution | Status |
+| --- | --- | --- | --- | --- | --- |
+| KI-076 | P1 | Phase 6 database-owner remote verifier had not run after the 7/7 push | Blocked the Phase 6 completion decision | Closed 2026-07-17: connected successfully; planned 34, ran 34, failed 0, no `not ok`, no `ERROR`, PASS; transaction rolled back and password was neither sent nor stored in chat | CLOSED |
+
+Accepted MVP limits: four Reading task types only; no Listening/Writing/Speaking/AI/mock test, persisted flag-for-review, adaptive difficulty or General Training Reading seed. The timer records authoritative database timestamps but does not force auto-submit at expiry.

@@ -301,3 +301,7 @@ MVP/private beta chỉ được phát hành khi:
 - [TASKS.md](./TASKS.md)
 - [SECURITY_CHECKLIST.md](./SECURITY_CHECKLIST.md)
 - [KNOWN_ISSUES.md](./KNOWN_ISSUES.md)
+
+## 16. Phase 6 Reading practice slice
+
+Phase 6 delivers one database-backed Academic Reading vertical slice: published catalog, original passage, four task types, autosave/resume, database-derived timer, atomic deterministic submit, post-submit review and owner history. Correct answers and draft content are not learner-readable. Desktop uses split passage/questions; mobile uses accessible switching. General Training content, Listening, Writing, Speaking, AI and full mock tests remain outside this slice.

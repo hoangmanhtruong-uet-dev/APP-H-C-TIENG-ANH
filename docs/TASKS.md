@@ -356,3 +356,17 @@ Exit criteria:
 - Cuối tuần 9: Writing -> feedback -> revision.
 - Cuối tuần 10: Speaking -> transcript -> feedback/retry/delete.
 - Cuối tuần 12: user mới hoàn thành một tuần học mô phỏng không cần can thiệp DB.
+
+## Phase 6 execution slice — Reading Practice Engine
+
+- [x] `P6-DB-01` Add versioned passage/section/group schema through new Phase 6 migrations only.
+- [x] `P6-DB-02` Reuse shared attempts/answers; add database timer, four types, conflict-safe save and atomic submit.
+- [x] `P6-RLS-01` Verify publication/test-type visibility, draft isolation, hidden keys, owner attempts and anon denial.
+- [x] `P6-SEED-01` Add one original published Academic passage and one draft fixture with deterministic IDs; rerun writes zero rows.
+- [x] `P6-APP-01` Implement catalog, split/mobile runner, autosave/resume, clock, result and history integration.
+- [x] `P6-TST-01` Local full pgTAP 384/384, Phase 6 66/66, verifier-on-local 34/34, lint and 7/7 parity pass.
+- [x] `P6-UX-01` Unit/component and Playwright cover persistence, isolation, 375/768/1024/1440 overflow and keyboard tab activation.
+- [x] `P6-REMOTE-01` Remote migrations/history/lint pass; direct database-owner verifier connected and reported planned 34, ran 34, failed 0, PASS, with transaction rollback and no credential stored or sent in chat (`KI-076` closed).
+- [x] `P6-DOD-01` Final parity remains 7/7, local/remote lint is clean, remote owner verifier is 34/34 PASS and all Phase 6 completion gates remain green.
+
+Current status: **PHASE 6 COMPLETE** ngày 2026-07-17. Phase 7 chưa bắt đầu và không được triển khai trong completion action này.

@@ -115,13 +115,21 @@ export default async function ProgressPage() {
               >
                 <div>
                   <Link
-                    href={`/practice/${attempt.exerciseSlug}/result/${attempt.id}`}
+                    href={
+                      attempt.domain === "reading"
+                        ? `/practice/reading/${attempt.exerciseSlug}/result/${attempt.id}`
+                        : `/practice/${attempt.exerciseSlug}/result/${attempt.id}`
+                    }
                     className="font-bold hover:text-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none"
                   >
                     {attempt.title}
                   </Link>
                   <p className="mt-1 text-sm text-[var(--muted-foreground)]">
-                    {attempt.domain === "vocabulary" ? "Vocabulary" : "Grammar"}
+                    {attempt.domain === "vocabulary"
+                      ? "Vocabulary"
+                      : attempt.domain === "grammar"
+                        ? "Grammar"
+                        : "Reading"}
                   </p>
                 </div>
                 <div className="text-left sm:text-right">

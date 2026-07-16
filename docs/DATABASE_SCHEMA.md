@@ -611,3 +611,17 @@ Attempt/answer chỉ owner SELECT qua RLS, không direct write. RPC lock và val
 - Local/remote content fingerprint cùng là `c3c7af314caa350a74994e28378a550f`.
 - Seed rerun cuối ghi zero rows và không đổi fingerprint; remote không bị reset hoặc xóa dữ liệu.
 - Database-owner verifier chạy đủ 24/24 assertions, failed 0, PASS.
+
+## 21. Phase 6 Reading schema
+
+| Table/column | Integrity purpose |
+| --- | --- |
+| `reading_passages` | Stable slug, `academic`/`general_training`/`both`, display order. |
+| `reading_passage_versions` | Versioned metadata/source/licence/status; one published version; published rows immutable. |
+| `reading_passage_sections` | Ordered Markdown-only sections pinned to one passage version. |
+| `reading_practice_versions` | One-to-one exercise-version/passage-version mapping and `time_limit_seconds`. |
+| `reading_question_groups` | Ordered groups, implemented type, optional section link and summary word limit. |
+| `exercise_questions.reading_question_group_id` | Reuses shared questions while enforcing group/version membership. |
+| `learner_attempts.reading_time_limit_seconds`, `expires_at` | Server-derived timer snapshot. |
+
+Implemented types are `multiple_choice`, `true_false_not_given`, `matching_headings` and `summary_completion`. Publication validation requires the published passage snapshot, valid groups/questions/options/private keys and contiguous ordering. Reading tables use RLS; learners get read-only compatible published content. Attempt tables remain owner-only and RPC-mutated. Migrations `20260716180000` and `20260716181500` are synchronized local/remote at 7/7.
