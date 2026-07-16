@@ -735,3 +735,18 @@ Application routes are `/practice/listening`, `/practice/listening/[exerciseSlug
 Routes are `/practice/writing`, `/practice/writing/[taskSlug]` and `/practice/writing/[taskSlug]/submission/[submissionId]`. Review lookup requires an owner submission with database status `submitted`; the browser cannot open feedback on a draft by changing a URL or status field.
 
 The optional provider path uses the official OpenAI Responses API server-side with `store: false`, Structured Outputs, moderation, no SDK retry and a 25-second timeout. `OPENAI_API_KEY`, model and signing secret are server-only. Missing configuration returns a safe unavailable state while the submitted essay remains readable. Provider errors never create synthetic feedback and only an allowlisted error code is persisted. Validated output is explicitly labelled a practice estimate, not an official IELTS score.
+
+## 23. Phase 9 Speaking contracts
+
+Phase 9 adds no custom public REST endpoint. Server Components read through the learner JWT and RLS; Server Actions validate Zod input and use the same actor session.
+
+| Contract | Client input | Server/database authority |
+| --- | --- | --- |
+| `startSpeakingAction` → `start_speaking_attempt` | published set slug | actor, compatible version, active attempt, status and timestamps |
+| `createSpeakingUploadIntentAction` → `create_speaking_upload_intent` | attempt/prompt IDs and claimed file envelope | owner/membership/editable state, exact private path and expiry |
+| browser Storage upload | issued bucket/path and Blob | bucket limits plus actor/intent Storage policy; no service role |
+| `verifySpeakingUploadAction` → `finalize_speaking_upload` | intent ID | server media signature/MIME/bytes/duration/checksum verification and HMAC/Vault finalization |
+| `submitSpeakingAction` → `submit_speaking_attempt` | attempt ID and opaque key | required ready responses, submitted state/time and immutability |
+| `requestSpeakingAiReviewAction` | submitted attempt ID and explicit consent | real provider transcript, transcript checksum and optional structured practice feedback |
+
+Provider absence or failure returns a safe unavailable/error state without synthetic transcript or feedback. Full object URLs, signed URLs, transcripts and prompts are not logged. Owner signed URLs expire after 10 minutes.

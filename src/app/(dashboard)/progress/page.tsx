@@ -10,6 +10,7 @@ import {
   getLearningCatalog,
 } from "@/server/learning/content";
 import { getRecentAttemptHistory } from "@/server/practice/content";
+import { getRecentSpeakingAttempts } from "@/server/speaking/content";
 import { getRecentWritingSubmissions } from "@/server/writing/content";
 
 export const metadata: Metadata = {
@@ -24,11 +25,13 @@ const activityDateFormatter = new Intl.DateTimeFormat("vi-VN", {
 });
 
 export default async function ProgressPage() {
-  const [modules, attempts, writingSubmissions] = await Promise.all([
-    getLearningCatalog(),
-    getRecentAttemptHistory(),
-    getRecentWritingSubmissions(),
-  ]);
+  const [modules, attempts, writingSubmissions, speakingAttempts] =
+    await Promise.all([
+      getLearningCatalog(),
+      getRecentAttemptHistory(),
+      getRecentWritingSubmissions(),
+      getRecentSpeakingAttempts(),
+    ]);
   const overview = buildLearningOverview(modules);
 
   return (
@@ -202,6 +205,52 @@ export default async function ProgressPage() {
           <p className="mt-5 rounded-xl border border-dashed border-[var(--border-strong)] p-8 text-center text-[var(--muted-foreground)]">
             Bài Writing đã nộp sẽ xuất hiện tại đây; hệ thống không tạo điểm hay
             lịch sử giả.
+          </p>
+        )}
+      </section>
+
+      <section aria-labelledby="speaking-history-title">
+        <h2 id="speaking-history-title" className="text-2xl font-bold">
+          Lịch sử Speaking
+        </h2>
+        {speakingAttempts.length > 0 ? (
+          <ol className="mt-5 space-y-3">
+            {speakingAttempts.map((attempt) => (
+              <li
+                key={attempt.id}
+                className="flex flex-col gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <Link
+                    href={`/practice/speaking/${attempt.setSlug}/attempt/${attempt.id}`}
+                    className="font-bold hover:text-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none"
+                  >
+                    {attempt.title}
+                  </Link>
+                  <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+                    Speaking · attempt và audio metadata đã nộp bất biến
+                  </p>
+                </div>
+                <div className="text-left sm:text-right">
+                  <p className="font-bold tabular-nums">
+                    {attempt.responseCount} câu
+                  </p>
+                  <time
+                    dateTime={attempt.submittedAt}
+                    className="text-sm text-[var(--muted-foreground)]"
+                  >
+                    {activityDateFormatter.format(
+                      new Date(attempt.submittedAt),
+                    )}
+                  </time>
+                </div>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="mt-5 rounded-xl border border-dashed border-[var(--border-strong)] p-8 text-center text-[var(--muted-foreground)]">
+            Attempt Speaking đã nộp sẽ xuất hiện tại đây; hệ thống không tạo
+            transcript, feedback hay điểm giả.
           </p>
         )}
       </section>

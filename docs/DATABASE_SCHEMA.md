@@ -650,3 +650,17 @@ All five public tables have RLS enabled. Authenticated learners receive SELECT-o
 AI feedback begins only for a submitted owner essay with `writing-ai-v1` consent. Quota is 5 requests per rolling 7 days, 2 per minute, and 2 attempts per submission. `finalize_writing_feedback` accepts only an HMAC-signed server payload backed by Vault secret `writing_feedback_signing_secret`; it validates structured fields, half-band ranges and exact essay substrings before storing feedback atomically. `fail_writing_feedback_run` stores only an allowlisted error code. Provider/Vault absence is a supported fail-closed state.
 
 Phase 8 schema history is `20260717130000`, `20260717131500` and `20260717132000`; local and remote parity is 12/12. Seed contains one original published Academic Task 2 and one draft-only visibility fixture.
+
+# Phase 9 Speaking extension (2026-07-17)
+
+| Table | Purpose and integrity |
+| --- | --- |
+| `speaking_sets`, `speaking_set_versions`, `speaking_prompts` | Stable identity plus versioned, ordered, provenance-tagged content. RLS exposes compatible published content or an owner-pinned snapshot; draft content stays hidden. |
+| `speaking_attempts`, `speaking_responses` | Owner-scoped attempt and prompt responses. Start/submit are idempotent; submitted rows and database timestamps are immutable. |
+| `speaking_upload_intents`, `speaking_audio_assets` | Short-lived exact private path followed by immutable server-verified bucket/path, MIME, bytes, duration and checksum. |
+| `speaking_transcript_runs`, `speaking_transcripts` | Optional consented provider lifecycle and immutable non-empty provider transcript. Failure leaves transcript absent. |
+| `speaking_feedback_runs`, `speaking_feedback` | Optional consent/version/model lifecycle and immutable HMAC-finalized practice guidance with nullable estimates and a non-official disclaimer. |
+
+`speaking-recordings` is private with a 15 MB limit and MIME allowlist. Authenticated users have SELECT-only grants on all Phase 9 public tables; mutation uses `SECURITY DEFINER` RPCs with empty `search_path`. Phase 9 migrations are `20260717160000`, `20260717160500` and `20260717161000`; seed has one original published 4-prompt set and one draft fixture.
+
+Final Phase 9 database evidence: local/remote migration parity 15/15; local and remote lint report no schema errors; direct remote database-owner verifier ran as `current_user postgres` through `ok 24` with failed 0, no `not ok` and no `ERROR`, and rolled back its fixture transaction. `KI-081` is closed.

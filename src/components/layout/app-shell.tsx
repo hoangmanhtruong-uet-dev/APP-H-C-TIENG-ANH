@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Map,
   Menu,
+  Mic2,
   Settings,
   UserRound,
   X,
@@ -22,6 +23,7 @@ import { cn } from "@/lib/utils";
 const navigation = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
   { href: "/learn", label: "Thư viện học", icon: BookOpenText },
+  { href: "/practice/speaking", label: "Luyện Speaking", icon: Mic2 },
   { href: "/roadmap", label: "Lộ trình", icon: Map },
   { href: "/progress", label: "Tiến độ", icon: ChartNoAxesCombined },
   { href: "/profile", label: "Hồ sơ", icon: UserRound },
@@ -34,7 +36,10 @@ function NavigationLinks({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <nav aria-label="Điều hướng học tập" className="space-y-1">
       {navigation.map((item) => {
-        const isActive = pathname === item.href;
+        const isActive =
+          pathname === item.href ||
+          (item.href === "/practice/speaking" &&
+            pathname.startsWith(`${item.href}/`));
         const Icon = item.icon;
 
         return (

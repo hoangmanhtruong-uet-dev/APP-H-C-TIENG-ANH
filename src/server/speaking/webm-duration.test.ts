@@ -1,0 +1,21 @@
+import { describe, expect, it } from "vitest";
+
+import { parseWebmDurationSeconds } from "@/server/speaking/webm-duration";
+
+describe("WebM MediaRecorder duration parser", () => {
+  it("uses the latest timestamp across unknown-length clusters", () => {
+    const bytes = new Uint8Array([
+      0x2a, 0xd7, 0xb1, 0x83, 0x0f, 0x42, 0x40, 0x1f, 0x43, 0xb6, 0x75, 0xff,
+      0xe7, 0x81, 0x00, 0xa3, 0x84, 0x81, 0x00, 0x64, 0x00, 0x1f, 0x43, 0xb6,
+      0x75, 0xff, 0xe7, 0x82, 0x03, 0xe8, 0xa3, 0x84, 0x81, 0x00, 0x64, 0x00,
+    ]);
+
+    expect(parseWebmDurationSeconds(bytes)).toBeCloseTo(1.12, 5);
+  });
+
+  it("returns undefined when no audio block timestamp exists", () => {
+    expect(
+      parseWebmDurationSeconds(new Uint8Array([0x1a, 0x45, 0xdf, 0xa3])),
+    ).toBeUndefined();
+  });
+});

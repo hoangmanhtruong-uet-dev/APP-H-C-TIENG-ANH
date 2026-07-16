@@ -1,7 +1,7 @@
 # KNOWN ISSUES - Web tự học IELTS
 
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1–8 COMPLETE. Phase 8 Writing đã đạt implementation, local gates, remote apply, parity 12/12, local/remote lint và direct remote database-owner verifier 40/40 (`KI-080` closed). Các authenticated suites ngoài practice vẫn skip có điều kiện khi thiếu dedicated credentials.
+> Trạng thái repo hiện tại: Phase 1–9 COMPLETE. Phase 9 Speaking đã đạt implementation, local gates, remote apply, fresh parity 15/15, local/remote lint và direct remote database-owner verifier 24/24 (`KI-081` closed). Các authenticated suites ngoài practice vẫn skip có điều kiện khi thiếu dedicated credentials.
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước
@@ -173,3 +173,11 @@ Decision `D-004` đã được chốt cho execution slice: Listening dùng 2 par
 | KI-080 | P1 | Direct Phase 8 database-owner remote verifier chưa chạy sau parity 12/12 | Từng chặn quyết định Phase 8 COMPLETE | Closed 2026-07-17: direct owner run tới `ok 40`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat. Final parity 12/12 và local/remote lint vẫn sạch | CLOSED |
 
 Accepted Phase 8 limits: chỉ Academic Writing Task 2; AI feedback optional, không phải điểm IELTS chính thức, không có queue/background job và fallback an toàn khi provider/Vault chưa cấu hình. Không có Speaking, recording, STT, mock test hoặc Phase 9.
+
+## Phase 9 Speaking verification follow-up
+
+| ID | Sev | Issue | Impact | Resolution | Status |
+| --- | --- | --- | --- | --- | --- |
+| KI-081 | P1 | Direct Phase 9 database-owner remote verifier chưa chạy sau parity 15/15 | Từng chặn quyết định Phase 9 COMPLETE | Closed 2026-07-17: direct owner connection dùng `current_user postgres`, chạy tới `ok 24`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat. Fresh parity 15/15 và local/remote lint vẫn sạch | CLOSED |
+
+Accepted Phase 9 limits: Speaking practice only; STT/AI optional và server-only, feedback chỉ là practice guidance. Không có full mock test tổng hợp hoặc Phase 10.

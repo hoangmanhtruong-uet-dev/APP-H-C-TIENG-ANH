@@ -306,3 +306,18 @@ Không phát hành private beta nếu còn một trong các điều sau:
 | Product          |             |      |                 |
 | Security/Privacy |             |      |                 |
 | Release owner    |             |      |                 |
+
+## 20. Phase 9 Speaking security checklist
+
+- [x] Forward-only Phase 9 migrations; no Phase 1–8 migration edited and no RLS disabled.
+- [x] `speaking-recordings` is private with 15 MB/MIME constraints and exact issued-path policies.
+- [x] Browser uses public Supabase values plus learner JWT only; no service-role, OpenAI or HMAC key is exposed through `NEXT_PUBLIC_*`.
+- [x] Learner cannot read draft Speaking content or another learner's attempt, object metadata, transcript, run or feedback.
+- [x] Client cannot author actor, verified metadata, transcript, feedback, estimates, status or submitted timestamp through table grants.
+- [x] Server independently verifies media container, MIME, bytes, duration and SHA-256 before HMAC/Vault finalization.
+- [x] Submitted attempt/responses and transcript/feedback results are immutable.
+- [x] STT/AI requires explicit consent and fails closed without provider/signing configuration; no fake transcript or feedback.
+- [x] Transcript-only feedback leaves pronunciation unscored and explicitly states it is not an official IELTS score.
+- [x] Seed is small, original and provenance-tagged; draft fixture has actor RLS coverage.
+- [x] Direct remote database-owner verifier ran as `current_user postgres` through `ok 24`, failed 0, with no `not ok` and no `ERROR`; fixtures rolled back and the password was neither sent nor stored in chat (`KI-081` closed).
+- [x] Record final remote verifier, E2E Storage flow, responsive and accessibility evidence in the Phase 9 completion report.

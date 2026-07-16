@@ -546,3 +546,20 @@ The browser never sends an actor, status, word count, band, feedback, submitted 
 The provider call is synchronous for this MVP and bounded by database lease, 25-second SDK timeout, quota and 2-attempt limit. Absence of provider key or Vault/signing configuration is a normal fail-closed mode. Provider failure stores no essay, prompt or raw response in run metadata and cannot produce fake feedback. A future queue is intentionally deferred; Phase 9/Speaking is outside this slice.
 
 Published task versions and submitted essays remain immutable so provider/model/rubric output can be audited against the exact pinned input. Feedback finalization is separated from provider generation by an HMAC boundary: a learner can invoke the owner RPC but cannot forge accepted output without the server/Vault shared secret.
+
+## 23. Phase 9 Speaking practice architecture
+
+```text
+learner -> start attempt -> PostgreSQL issues exact private object path
+        -> browser uploads with learner JWT -> server downloads and verifies media
+        -> HMAC/Vault finalizes verified metadata -> immutable submit
+        -> owner review -> optional consented STT -> optional practice feedback
+```
+
+PostgreSQL and private Storage are authoritative. The browser never supplies actor, response status, submitted timestamp, verified media metadata, transcript, feedback or estimates. The application uses the learner JWT only; no service-role key exists in browser or server application code, and RLS remains enabled.
+
+The private `speaking-recordings` bucket is limited to 15 MB and `audio/webm`, `audio/mp4` or `audio/mpeg`. Object keys are database-issued as `{user_id}/{attempt_id}/{response_id}/{random}.{ext}` and expire after 15 minutes. Storage policies allow an actor to upload only an issued path, read only owned intent/assets, and delete only while the owning attempt is in progress. Submitted audio has no learner delete path in this phase.
+
+STT/AI is optional, synchronous and explicitly consented. Missing provider or signing configuration fails closed: no transcript or feedback is fabricated. Feedback receives transcripts rather than audio, so pronunciation is deliberately left unscored and all output is practice guidance, never an official IELTS score. Queue processing, aggregate mock tests and Phase 10 are outside this slice.
+
+Phase 9 verification is closed: the direct remote verifier ran as `current_user postgres` through all 24 checks with zero failures, no `not ok` and no `ERROR`, then rolled back its transaction. Fresh local/remote migration parity is 15/15 and both database lint runs are clean. `KI-081` is closed; Phase 10 remains outside the implemented architecture.

@@ -8,6 +8,13 @@ export default defineConfig({
   use: {
     baseURL: process.env.E2E_BASE_URL ?? "http://localhost:3100",
     trace: "retain-on-failure",
+    permissions: ["microphone"],
+    launchOptions: {
+      args: [
+        "--use-fake-device-for-media-stream",
+        "--use-fake-ui-for-media-stream",
+      ],
+    },
   },
   projects: [
     { name: "chromium-desktop", use: { ...devices["Desktop Chrome"] } },

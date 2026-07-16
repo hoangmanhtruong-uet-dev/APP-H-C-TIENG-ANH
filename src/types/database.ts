@@ -1233,6 +1233,647 @@ export type Database = {
           },
         ];
       };
+      speaking_attempts: {
+        Row: {
+          created_at: string;
+          id: string;
+          speaking_set_id: string;
+          speaking_set_version_id: string;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          speaking_set_id: string;
+          speaking_set_version_id: string;
+          start_idempotency_key: string;
+          started_at?: string;
+          status?: string;
+          submit_idempotency_key?: string | null;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          speaking_set_id?: string;
+          speaking_set_version_id?: string;
+          start_idempotency_key?: string;
+          started_at?: string;
+          status?: string;
+          submit_idempotency_key?: string | null;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_attempts_set_version_fkey";
+            columns: ["speaking_set_id", "speaking_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_set_versions";
+            referencedColumns: ["speaking_set_id", "id"];
+          },
+          {
+            foreignKeyName: "speaking_attempts_speaking_set_id_fkey";
+            columns: ["speaking_set_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_sets";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "speaking_attempts_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      speaking_audio_assets: {
+        Row: {
+          attempt_id: string;
+          bucket_id: string;
+          created_at: string;
+          duration_seconds: number;
+          id: string;
+          mime_type: string;
+          response_id: string;
+          retention_until: string | null;
+          sha256_checksum: string;
+          size_bytes: number;
+          status: string;
+          storage_path: string;
+          updated_at: string;
+          upload_intent_id: string;
+          user_id: string;
+        };
+        Insert: {
+          attempt_id: string;
+          bucket_id?: string;
+          created_at?: string;
+          duration_seconds: number;
+          id?: string;
+          mime_type: string;
+          response_id: string;
+          retention_until?: string | null;
+          sha256_checksum: string;
+          size_bytes: number;
+          status?: string;
+          storage_path: string;
+          updated_at?: string;
+          upload_intent_id: string;
+          user_id: string;
+        };
+        Update: {
+          attempt_id?: string;
+          bucket_id?: string;
+          created_at?: string;
+          duration_seconds?: number;
+          id?: string;
+          mime_type?: string;
+          response_id?: string;
+          retention_until?: string | null;
+          sha256_checksum?: string;
+          size_bytes?: number;
+          status?: string;
+          storage_path?: string;
+          updated_at?: string;
+          upload_intent_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_audio_assets_response_scope_fkey";
+            columns: ["response_id", "attempt_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_responses";
+            referencedColumns: ["id", "attempt_id", "user_id"];
+          },
+          {
+            foreignKeyName: "speaking_audio_assets_upload_intent_id_fkey";
+            columns: ["upload_intent_id"];
+            isOneToOne: true;
+            referencedRelation: "speaking_upload_intents";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      speaking_feedback: {
+        Row: {
+          attempt_id: string;
+          confidence: string;
+          created_at: string;
+          criteria: Json;
+          disclaimer: string;
+          estimated_fluency_band: number | null;
+          estimated_grammar_band: number | null;
+          estimated_lexical_band: number | null;
+          estimated_overall_band: number | null;
+          estimated_pronunciation_band: number | null;
+          id: string;
+          pronunciation_scope: string;
+          run_id: string;
+          strengths: Json;
+          suggestions: Json;
+          summary: string;
+          user_id: string;
+        };
+        Insert: {
+          attempt_id: string;
+          confidence: string;
+          created_at?: string;
+          criteria: Json;
+          disclaimer: string;
+          estimated_fluency_band?: number | null;
+          estimated_grammar_band?: number | null;
+          estimated_lexical_band?: number | null;
+          estimated_overall_band?: number | null;
+          estimated_pronunciation_band?: number | null;
+          id?: string;
+          pronunciation_scope: string;
+          run_id: string;
+          strengths: Json;
+          suggestions: Json;
+          summary: string;
+          user_id: string;
+        };
+        Update: {
+          attempt_id?: string;
+          confidence?: string;
+          created_at?: string;
+          criteria?: Json;
+          disclaimer?: string;
+          estimated_fluency_band?: number | null;
+          estimated_grammar_band?: number | null;
+          estimated_lexical_band?: number | null;
+          estimated_overall_band?: number | null;
+          estimated_pronunciation_band?: number | null;
+          id?: string;
+          pronunciation_scope?: string;
+          run_id?: string;
+          strengths?: Json;
+          suggestions?: Json;
+          summary?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_feedback_run_scope_fkey";
+            columns: ["run_id", "attempt_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_feedback_runs";
+            referencedColumns: ["id", "attempt_id", "user_id"];
+          },
+        ];
+      };
+      speaking_feedback_runs: {
+        Row: {
+          attempt_id: string;
+          attempt_number: number;
+          completed_at: string | null;
+          consent_version: string;
+          created_at: string;
+          error_code: string | null;
+          id: string;
+          lease_expires_at: string;
+          model: string;
+          prompt_version: string;
+          provider: string;
+          request_idempotency_key: string;
+          requested_at: string;
+          rubric_version: string;
+          status: string;
+          transcript_bundle_checksum: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          attempt_id: string;
+          attempt_number?: number;
+          completed_at?: string | null;
+          consent_version: string;
+          created_at?: string;
+          error_code?: string | null;
+          id?: string;
+          lease_expires_at: string;
+          model: string;
+          prompt_version: string;
+          provider: string;
+          request_idempotency_key: string;
+          requested_at?: string;
+          rubric_version: string;
+          status?: string;
+          transcript_bundle_checksum: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          attempt_id?: string;
+          attempt_number?: number;
+          completed_at?: string | null;
+          consent_version?: string;
+          created_at?: string;
+          error_code?: string | null;
+          id?: string;
+          lease_expires_at?: string;
+          model?: string;
+          prompt_version?: string;
+          provider?: string;
+          request_idempotency_key?: string;
+          requested_at?: string;
+          rubric_version?: string;
+          status?: string;
+          transcript_bundle_checksum?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_feedback_runs_attempt_owner_fkey";
+            columns: ["attempt_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_attempts";
+            referencedColumns: ["id", "user_id"];
+          },
+        ];
+      };
+      speaking_prompts: {
+        Row: {
+          created_at: string;
+          display_order: number;
+          id: string;
+          instructions: string;
+          is_required: boolean;
+          maximum_answer_seconds: number;
+          minimum_answer_seconds: number;
+          part: string;
+          preparation_seconds: number;
+          prompt_text: string;
+          speaking_set_version_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          display_order: number;
+          id?: string;
+          instructions: string;
+          is_required?: boolean;
+          maximum_answer_seconds: number;
+          minimum_answer_seconds: number;
+          part: string;
+          preparation_seconds?: number;
+          prompt_text: string;
+          speaking_set_version_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          instructions?: string;
+          is_required?: boolean;
+          maximum_answer_seconds?: number;
+          minimum_answer_seconds?: number;
+          part?: string;
+          preparation_seconds?: number;
+          prompt_text?: string;
+          speaking_set_version_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_prompts_speaking_set_version_id_fkey";
+            columns: ["speaking_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_set_versions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      speaking_responses: {
+        Row: {
+          attempt_id: string;
+          audio_asset_id: string | null;
+          created_at: string;
+          id: string;
+          prompt_id: string;
+          speaking_set_version_id: string;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          attempt_id: string;
+          audio_asset_id?: string | null;
+          created_at?: string;
+          id?: string;
+          prompt_id: string;
+          speaking_set_version_id: string;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          attempt_id?: string;
+          audio_asset_id?: string | null;
+          created_at?: string;
+          id?: string;
+          prompt_id?: string;
+          speaking_set_version_id?: string;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_responses_attempt_owner_fkey";
+            columns: ["attempt_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_attempts";
+            referencedColumns: ["id", "user_id"];
+          },
+          {
+            foreignKeyName: "speaking_responses_attempt_version_fkey";
+            columns: ["attempt_id", "speaking_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_attempts";
+            referencedColumns: ["id", "speaking_set_version_id"];
+          },
+          {
+            foreignKeyName: "speaking_responses_audio_asset_fkey";
+            columns: ["audio_asset_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_audio_assets";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "speaking_responses_prompt_version_fkey";
+            columns: ["speaking_set_version_id", "prompt_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_prompts";
+            referencedColumns: ["speaking_set_version_id", "id"];
+          },
+        ];
+      };
+      speaking_set_versions: {
+        Row: {
+          content_checksum: string;
+          created_at: string;
+          description: string;
+          difficulty: string;
+          estimated_minutes: number;
+          id: string;
+          instructions: string;
+          licence: string;
+          published_at: string | null;
+          source_name: string;
+          speaking_set_id: string;
+          status: string;
+          test_type: string;
+          title: string;
+          updated_at: string;
+          version: number;
+        };
+        Insert: {
+          content_checksum: string;
+          created_at?: string;
+          description: string;
+          difficulty: string;
+          estimated_minutes: number;
+          id?: string;
+          instructions: string;
+          licence: string;
+          published_at?: string | null;
+          source_name: string;
+          speaking_set_id: string;
+          status?: string;
+          test_type: string;
+          title: string;
+          updated_at?: string;
+          version: number;
+        };
+        Update: {
+          content_checksum?: string;
+          created_at?: string;
+          description?: string;
+          difficulty?: string;
+          estimated_minutes?: number;
+          id?: string;
+          instructions?: string;
+          licence?: string;
+          published_at?: string | null;
+          source_name?: string;
+          speaking_set_id?: string;
+          status?: string;
+          test_type?: string;
+          title?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_set_versions_speaking_set_id_fkey";
+            columns: ["speaking_set_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_sets";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      speaking_sets: {
+        Row: {
+          created_at: string;
+          display_order: number;
+          id: string;
+          slug: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          slug: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          slug?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      speaking_transcript_runs: {
+        Row: {
+          attempt_number: number;
+          audio_checksum: string;
+          completed_at: string | null;
+          consent_version: string;
+          created_at: string;
+          error_code: string | null;
+          id: string;
+          lease_expires_at: string;
+          model: string;
+          provider: string;
+          request_idempotency_key: string;
+          requested_at: string;
+          response_id: string;
+          status: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          attempt_number?: number;
+          audio_checksum: string;
+          completed_at?: string | null;
+          consent_version: string;
+          created_at?: string;
+          error_code?: string | null;
+          id?: string;
+          lease_expires_at: string;
+          model: string;
+          provider: string;
+          request_idempotency_key: string;
+          requested_at?: string;
+          response_id: string;
+          status?: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          attempt_number?: number;
+          audio_checksum?: string;
+          completed_at?: string | null;
+          consent_version?: string;
+          created_at?: string;
+          error_code?: string | null;
+          id?: string;
+          lease_expires_at?: string;
+          model?: string;
+          provider?: string;
+          request_idempotency_key?: string;
+          requested_at?: string;
+          response_id?: string;
+          status?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_transcript_runs_response_owner_fkey";
+            columns: ["response_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_responses";
+            referencedColumns: ["id", "user_id"];
+          },
+        ];
+      };
+      speaking_transcripts: {
+        Row: {
+          created_at: string;
+          id: string;
+          language_code: string | null;
+          response_id: string;
+          run_id: string;
+          transcript_text: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          language_code?: string | null;
+          response_id: string;
+          run_id: string;
+          transcript_text: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          language_code?: string | null;
+          response_id?: string;
+          run_id?: string;
+          transcript_text?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_transcripts_run_scope_fkey";
+            columns: ["run_id", "response_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_transcript_runs";
+            referencedColumns: ["id", "response_id", "user_id"];
+          },
+        ];
+      };
+      speaking_upload_intents: {
+        Row: {
+          attempt_id: string;
+          created_at: string;
+          expected_duration_seconds: number;
+          expected_mime_type: string;
+          expected_size_bytes: number;
+          expires_at: string;
+          finalized_at: string | null;
+          id: string;
+          idempotency_key: string;
+          response_id: string;
+          status: string;
+          storage_path: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          attempt_id: string;
+          created_at?: string;
+          expected_duration_seconds: number;
+          expected_mime_type: string;
+          expected_size_bytes: number;
+          expires_at: string;
+          finalized_at?: string | null;
+          id?: string;
+          idempotency_key: string;
+          response_id: string;
+          status?: string;
+          storage_path: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          attempt_id?: string;
+          created_at?: string;
+          expected_duration_seconds?: number;
+          expected_mime_type?: string;
+          expected_size_bytes?: number;
+          expires_at?: string;
+          finalized_at?: string | null;
+          id?: string;
+          idempotency_key?: string;
+          response_id?: string;
+          status?: string;
+          storage_path?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "speaking_upload_intents_response_scope_fkey";
+            columns: ["response_id", "attempt_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_responses";
+            referencedColumns: ["id", "attempt_id", "user_id"];
+          },
+        ];
+      };
       vocabulary_entries: {
         Row: {
           created_at: string;
@@ -1754,6 +2395,35 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      create_speaking_upload_intent: {
+        Args: {
+          p_attempt_id: string;
+          p_duration_seconds: number;
+          p_idempotency_key: string;
+          p_mime_type: string;
+          p_prompt_id: string;
+          p_size_bytes: number;
+        };
+        Returns: Json;
+      };
+      fail_speaking_feedback_run: {
+        Args: {
+          p_error_code: string;
+          p_run_id: string;
+          p_signature: string;
+          p_signature_expires_at: string;
+        };
+        Returns: undefined;
+      };
+      fail_speaking_transcript_run: {
+        Args: {
+          p_error_code: string;
+          p_run_id: string;
+          p_signature: string;
+          p_signature_expires_at: string;
+        };
+        Returns: undefined;
+      };
       fail_writing_feedback_run: {
         Args: {
           p_error_code: string;
@@ -1762,6 +2432,97 @@ export type Database = {
           p_signature: string;
         };
         Returns: Json;
+      };
+      finalize_speaking_feedback: {
+        Args: {
+          p_payload: string;
+          p_run_id: string;
+          p_signature: string;
+          p_signature_expires_at: string;
+        };
+        Returns: {
+          attempt_id: string;
+          confidence: string;
+          created_at: string;
+          criteria: Json;
+          disclaimer: string;
+          estimated_fluency_band: number | null;
+          estimated_grammar_band: number | null;
+          estimated_lexical_band: number | null;
+          estimated_overall_band: number | null;
+          estimated_pronunciation_band: number | null;
+          id: string;
+          pronunciation_scope: string;
+          run_id: string;
+          strengths: Json;
+          suggestions: Json;
+          summary: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "speaking_feedback";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      finalize_speaking_transcript: {
+        Args: {
+          p_language_code: string;
+          p_run_id: string;
+          p_signature: string;
+          p_signature_expires_at: string;
+          p_transcript_text: string;
+        };
+        Returns: {
+          created_at: string;
+          id: string;
+          language_code: string | null;
+          response_id: string;
+          run_id: string;
+          transcript_text: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "speaking_transcripts";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      finalize_speaking_upload: {
+        Args: {
+          p_intent_id: string;
+          p_sha256_checksum: string;
+          p_signature: string;
+          p_signature_expires_at: string;
+          p_verified_duration_seconds: number;
+          p_verified_mime_type: string;
+          p_verified_size_bytes: number;
+        };
+        Returns: {
+          attempt_id: string;
+          bucket_id: string;
+          created_at: string;
+          duration_seconds: number;
+          id: string;
+          mime_type: string;
+          response_id: string;
+          retention_until: string | null;
+          sha256_checksum: string;
+          size_bytes: number;
+          status: string;
+          storage_path: string;
+          updated_at: string;
+          upload_intent_id: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "speaking_audio_assets";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
       };
       finalize_writing_feedback: {
         Args: {
@@ -1797,6 +2558,10 @@ export type Database = {
           server_now: string;
           started_at: string;
         }[];
+      };
+      get_speaking_pipeline_configuration_state: {
+        Args: never;
+        Returns: boolean;
       };
       get_writing_ai_configuration_state: { Args: never; Returns: boolean };
       get_writing_submission_clock: {
@@ -1923,6 +2688,74 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      start_speaking_attempt: {
+        Args: { p_idempotency_key: string; p_set_slug: string };
+        Returns: {
+          created_at: string;
+          id: string;
+          speaking_set_id: string;
+          speaking_set_version_id: string;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "speaking_attempts";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      start_speaking_feedback_request: {
+        Args: {
+          p_attempt_id: string;
+          p_consent_version: string;
+          p_idempotency_key: string;
+          p_model: string;
+          p_provider: string;
+          p_transcript_bundle_checksum: string;
+        };
+        Returns: {
+          attempt_id: string;
+          attempt_number: number;
+          completed_at: string | null;
+          consent_version: string;
+          created_at: string;
+          error_code: string | null;
+          id: string;
+          lease_expires_at: string;
+          model: string;
+          prompt_version: string;
+          provider: string;
+          request_idempotency_key: string;
+          requested_at: string;
+          rubric_version: string;
+          status: string;
+          transcript_bundle_checksum: string;
+          updated_at: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "speaking_feedback_runs";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      start_speaking_transcript_request: {
+        Args: {
+          p_consent_version: string;
+          p_idempotency_key: string;
+          p_model: string;
+          p_provider: string;
+          p_response_id: string;
+        };
+        Returns: Json;
+      };
       start_writing_feedback_request: {
         Args: {
           p_consent_version: string;
@@ -1987,6 +2820,28 @@ export type Database = {
         SetofOptions: {
           from: "*";
           to: "learner_attempts";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      submit_speaking_attempt: {
+        Args: { p_attempt_id: string; p_idempotency_key: string };
+        Returns: {
+          created_at: string;
+          id: string;
+          speaking_set_id: string;
+          speaking_set_version_id: string;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "speaking_attempts";
           isOneToOne: true;
           isSetofReturn: false;
         };

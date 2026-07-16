@@ -405,3 +405,21 @@ Phạm vi execution này chỉ gồm Academic Writing Task 2 và optional AI fee
 - [x] `P8-DOD-01` Final parity 12/12, local/remote lint sạch, remote owner verifier 40/40 PASS và toàn bộ Phase 8 completion gates đều green.
 
 Current status: **PHASE 8 COMPLETE** ngày 2026-07-17. Không còn blocker Phase 8; Phase 9 không được triển khai.
+
+## Phase 9 execution slice — Speaking Practice Engine
+
+Phạm vi execution này chỉ gồm Speaking recording, private Storage, immutable submission, optional STT và optional AI practice feedback. Không triển khai Phase 10 hoặc full mock test tổng hợp.
+
+- [x] `P9-DB-01` Tạo 3 migration Phase 9 forward-only cho Speaking content, attempt/response, private audio metadata, optional transcript và feedback; không sửa migration Phase 1–8.
+- [x] `P9-RLS-01` Actor tests xác minh draft isolation, owner-only attempt/audio/transcript/feedback, exact private Storage path và anonymous/cross-user denial; không disable RLS.
+- [x] `P9-DOM-01` PostgreSQL/Storage giữ source of truth; server xác minh media và client không thể đặt actor, transcript, feedback, score, status hoặc submitted timestamp; submitted attempt immutable.
+- [x] `P9-AI-01` STT/AI optional, consented và server-only; thiếu provider dùng safe fallback, không tạo transcript/feedback giả và không gọi feedback là điểm IELTS chính thức.
+- [x] `P9-SEED-01` Seed một set Academic 4 prompt nguyên bản đã publish và một draft visibility fixture nhỏ.
+- [x] `P9-APP-01` Catalog, recorder, private upload, server verification, immutable submit, owner review và Speaking history trong `/progress`.
+- [x] `P9-TST-01` Phase 9 actor pgTAP 33/33, full local database 380/380, generated types, 111 unit/component tests và production build pass.
+- [x] `P9-UX-01` Dedicated Speaking Playwright 2/2; full suite 54 pass/18 declared skips; responsive 375/768/1024/1440, keyboard và axe pass.
+- [x] `P9-REMOTE-01` 3 migration applied linked remote bằng forward migration; không reset/xóa dữ liệu; fresh parity 15/15 và local/remote lint sạch.
+- [x] `P9-REMOTE-02` Direct remote database-owner verifier chạy bằng `current_user postgres` tới `ok 24`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat (`KI-081` closed).
+- [x] `P9-DOD-01` Toàn bộ Phase 9 Definition of Done green; không còn blocker và không triển khai Phase 10/full mock test.
+
+Current status: **PHASE 9 COMPLETE** ngày 2026-07-17. Không còn blocker Phase 9; Phase 10 không được triển khai.
