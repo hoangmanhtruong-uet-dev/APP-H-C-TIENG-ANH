@@ -49,6 +49,16 @@ export const readingPracticeResultSchema = practiceResultSchema.extend({
 
 export type ReadingPracticeResult = z.infer<typeof readingPracticeResultSchema>;
 
+export const listeningPracticeResultSchema = readingPracticeResultSchema.extend(
+  {
+    transcriptMarkdown: z.string(),
+  },
+);
+
+export type ListeningPracticeResult = z.infer<
+  typeof listeningPracticeResultSchema
+>;
+
 export function isQuestionType(value: string): value is QuestionType {
   return questionTypes.includes(value as QuestionType);
 }

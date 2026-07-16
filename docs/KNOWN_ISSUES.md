@@ -1,7 +1,7 @@
 # KNOWN ISSUES - Web tự học IELTS
 
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1 foundation, Phase 2 Auth/Profile/RLS, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress, Phase 5 Exercise/Vocabulary/Grammar và Phase 6 Reading Practice COMPLETE; 8 authenticated Playwright cases vẫn skip công khai do thiếu dedicated credentials
+> Trạng thái repo hiện tại: Phase 1 foundation, Phase 2 Auth/Profile/RLS, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress, Phase 5 Exercise/Vocabulary/Grammar, Phase 6 Reading và Phase 7 Listening Practice COMPLETE; các authenticated suites ngoài practice vẫn skip có điều kiện khi thiếu dedicated credentials
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước
@@ -22,7 +22,7 @@
 | ID     | Sev | Vấn đề                                                                    | Ảnh hưởng                                                | Hướng xử lý                                                              | Target    | Status          |
 | ------ | --- | ------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------ | --------- | --------------- |
 | KI-001 | P1  | Chưa chốt runtime/package versions và package manager                     | Build không reproducible, docs có thể lệch API framework | npm, Node runtime, Next/Supabase packages/CLI, lockfile và migration workflow đã chốt | Phase 0/1 | CLOSED |
-| KI-002 | P1  | Chưa có Supabase project/environment strategy                             | Không thể validate Auth/RLS/migration                    | Tách dev/staging/prod, env validation, migration workflow                | Phase 1   | OPEN            |
+| KI-002 | P1  | Chưa có Supabase project/environment strategy                             | Không thể validate Auth/RLS/migration                    | Local stack và linked remote đã tách bằng public env validation, migration parity, dry-run/push và fail-closed E2E project ref | Phase 1 | CLOSED |
 | KI-003 | P1  | Chưa chốt retention/deletion cho audio, transcript, AI raw response, logs | Privacy flow và schema cleanup chưa hoàn chỉnh           | Viết retention table + delete/export SLA trước Speaking beta             | Phase 0/6 | DECISION_NEEDED |
 | KI-004 | P2  | Taxonomy MVP chưa đóng băng                                               | Content, question renderer và analytics dễ drift         | Chốt codes Reading/Listening/Writing/Speaking/difficulty/topic           | Phase 0/3 | DECISION_NEEDED |
 | KI-005 | P2  | Chưa chốt ngưỡng AI evaluation để bật feature                             | Không có release gate định lượng                         | Định nghĩa schema/evidence pass rate, ordering tolerance, helpful sample | Phase 5   | DECISION_NEEDED |
@@ -157,3 +157,11 @@ Khi thêm issue:
 | KI-076 | P1 | Phase 6 database-owner remote verifier had not run after the 7/7 push | Blocked the Phase 6 completion decision | Closed 2026-07-17: connected successfully; planned 34, ran 34, failed 0, no `not ok`, no `ERROR`, PASS; transaction rolled back and password was neither sent nor stored in chat | CLOSED |
 
 Accepted MVP limits: four Reading task types only; no Listening/Writing/Speaking/AI/mock test, persisted flag-for-review, adaptive difficulty or General Training Reading seed. The timer records authoritative database timestamps but does not force auto-submit at expiry.
+
+## Phase 7 Listening verification follow-up
+
+| ID | Sev | Issue | Impact | Resolution | Status |
+| --- | --- | --- | --- | --- | --- |
+| KI-079 | P1 | Direct Phase 7 database-owner remote verifier chưa chạy sau parity 9/9 | Từng chặn quyết định Phase 7 COMPLETE | Closed 2026-07-17: chạy tới `ok 34`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat | CLOSED |
+
+Decision `D-004` đã được chốt cho execution slice: Listening dùng 2 part và 3 type `single_choice`, `multiple_choice`, `short_text`; Reading giữ 4 type Phase 6. Đây là giới hạn MVP, không mở Writing/Speaking/AI/mock test.

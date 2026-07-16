@@ -262,6 +262,23 @@ Không phát hành private beta nếu còn một trong các điều sau:
 - [x] Seed is original, source/licence-tagged content; no official test import or raw HTML.
 - [x] Direct remote database-owner verifier connected and reported planned 34, ran 34, failed 0, no `not ok`, no `ERROR`, PASS; fixture transaction rolled back and the hidden password was neither sent nor stored in chat (`KI-076` closed).
 
+## 21. Phase 7 Listening security
+
+- [x] Compatible completed learners read only published Listening metadata/parts/questions; draft set, draft audio metadata and unpublished content are hidden by RLS.
+- [x] `anon` has no Listening table access; `authenticated` receives SELECT-only public content grants and no direct content/attempt mutation grants.
+- [x] Transcript and answer keys remain in schema `private`; authenticated/anon cannot select them directly.
+- [x] Transcript is returned only by owner-scoped `get_listening_attempt_result` after the shared result RPC confirms `status = scored`.
+- [x] Start/save/submit/clock/result derive actor from `auth.uid()`; client payload has no accepted user, score, correctness, submission time or remaining-time authority.
+- [x] Generic attempt deadline is derived from the published mapping and database start time; late status compares database `submitted_at` with `expires_at`.
+- [x] Autosave locks the attempt and enforces monotonic client revision; identical replay is safe and conflicting stale payload returns SQLSTATE `40001`.
+- [x] Submit locks the owner attempt, creates missing blank answers, scores private keys atomically, freezes finalized answers and safely replays after scoring.
+- [x] Published audio/mapping/parts/transcript are immutable; publication validates controlled audio, private transcript, contiguous parts, supported question types and audio ranges.
+- [x] Public binary exists only for the published original fixture; the draft fixture has metadata for isolation testing but no shipped public audio file.
+- [x] Local actor-real pgTAP, two-user Playwright and anonymous checks cover draft/key/transcript/cross-user isolation without service-role application access.
+- [x] Audio checksum, duration, source and licence are persisted; seed is project-authored and does not contain copyrighted IELTS test/audio material.
+- [x] Local full pgTAP 465/465, local and remote lint, remote migration parity 9/9, 98 unit/component tests and 50 Playwright tests pass.
+- [x] Direct remote database-owner verifier ran through `ok 34`, failed 0, with no `not ok` and no `ERROR`; the fixture transaction rolled back and the database password was neither sent nor stored in chat (`KI-079` closed).
+
 ## 19. Sign-off
 
 | Role             | Người duyệt | Ngày | Kết quả/Ghi chú |

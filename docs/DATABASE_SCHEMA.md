@@ -625,3 +625,10 @@ Attempt/answer chỉ owner SELECT qua RLS, không direct write. RPC lock và val
 | `learner_attempts.reading_time_limit_seconds`, `expires_at` | Server-derived timer snapshot. |
 
 Implemented types are `multiple_choice`, `true_false_not_given`, `matching_headings` and `summary_completion`. Publication validation requires the published passage snapshot, valid groups/questions/options/private keys and contiguous ordering. Reading tables use RLS; learners get read-only compatible published content. Attempt tables remain owner-only and RPC-mutated. Migrations `20260716180000` and `20260716181500` are synchronized local/remote at 7/7.
+# Phase 7 Listening extension (2026-07-17)
+
+Phase 7 adds `listening_audio_assets`, `listening_practice_versions` and `listening_parts` in `public`, plus `private.listening_transcripts`. `exercise_questions.listening_part_id` pins each supported question to one part. `learner_attempts.time_limit_seconds` is the generic database-owned timer snapshot; the Phase 6 `reading_time_limit_seconds` column remains for backward compatibility and is populated only for Reading attempts.
+
+The published snapshot is immutable. Publication requires controlled WAV metadata with checksum/provenance, a private transcript, contiguous parts within the declared duration, answer keys and only `single_choice`, `multiple_choice` or `short_text` questions. Learners receive SELECT-only metadata through test-type-aware RLS; transcripts and answer keys have no learner table grants.
+
+Listening reuses `start_exercise_attempt`, `save_exercise_answer` and `submit_exercise_attempt`. Dedicated `get_listening_attempt_clock` returns owner-scoped database timestamps, while `get_listening_attempt_result` releases transcript and answer review only after the owner attempt is scored.

@@ -262,3 +262,115 @@ test("Reading layout has no horizontal overflow at target viewports", async ({
   await expect(questions).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("main[aria-label]")).toBeVisible();
 });
+
+test("Listening audio, autosave, submit, transcript and owner isolation", async ({
+  browser,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  requirePracticeEnvironment(testInfo);
+  const contextA = await browser.newContext();
+  const pageA = await contextA.newPage();
+  await login(pageA, userAEmail!, userAPassword!);
+
+  await pageA.goto("/practice/listening");
+  await expect(
+    pageA.getByRole("heading", { name: "Listening practice" }),
+  ).toBeVisible();
+  await expect(
+    pageA.getByRole("heading", { name: "Community library visit" }),
+  ).toBeVisible();
+  await pageA.goto("/practice/listening/draft-academic-listening-campus-tour");
+  await expect(pageA.getByRole("region")).toBeVisible();
+  await expect(pageA.getByText("Draft campus tour fixture")).toHaveCount(0);
+
+  await pageA.goto("/practice/listening/academic-listening-community-library");
+  const start = pageA.getByRole("button", { name: "Bắt đầu làm bài" });
+  const firstQuestion = pageA
+    .locator("fieldset")
+    .filter({ hasText: "What time does the library open" });
+  await expect(start.or(firstQuestion)).toBeVisible();
+  if (await start.isVisible()) await start.click();
+
+  const audio = pageA.locator("audio");
+  await expect(audio).toBeVisible();
+  await expect(audio.locator("source")).toHaveAttribute(
+    "src",
+    /community-library-visit\.wav$/,
+  );
+  await firstQuestion.getByRole("radio", { name: "9:30" }).check();
+  await expect(pageA.getByRole("status")).toContainText("PostgreSQL");
+  await pageA.reload();
+  await expect(
+    firstQuestion.getByRole("radio", { name: "9:30" }),
+  ).toBeChecked();
+  await expect(pageA.getByLabel(/Thời gian còn lại/)).toBeVisible();
+  await expect(pageA.getByText("Transcript")).toHaveCount(0);
+
+  await pageA.getByRole("button", { name: "Nộp và xem kết quả" }).click();
+  await expect(pageA).toHaveURL(
+    /\/practice\/listening\/academic-listening-community-library\/result\//,
+  );
+  await expect(
+    pageA.getByRole("heading", { name: "Review từng câu" }),
+  ).toBeVisible();
+  await expect(
+    pageA.getByRole("heading", { name: "Transcript" }),
+  ).toBeVisible();
+  const resultPath = new URL(pageA.url()).pathname;
+  await pageA.goto("/progress");
+  await expect(
+    pageA.getByText("Listening", { exact: true }).first(),
+  ).toBeVisible();
+
+  const contextB = await browser.newContext();
+  const pageB = await contextB.newPage();
+  await login(pageB, userBEmail!, userBPassword!);
+  await pageB.goto(resultPath);
+  await expect(pageB.getByRole("region")).toBeVisible();
+  await expect(pageB.getByRole("heading", { name: "Transcript" })).toHaveCount(
+    0,
+  );
+  await contextB.close();
+  await contextA.close();
+});
+
+test("Listening routes are responsive and keyboard reachable", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(60_000);
+  requirePracticeEnvironment(testInfo);
+  await login(page, userAEmail!, userAPassword!);
+  await page.goto("/practice/listening/academic-listening-community-library");
+  const start = page.locator("#main-content form button[type=submit]").first();
+  const runner = page.locator("main[aria-label='Câu hỏi Listening']");
+  await expect(start.or(runner)).toBeVisible();
+  if (await start.isVisible()) await start.click();
+  await expect(runner).toBeVisible();
+
+  for (const width of [375, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of [
+      "/practice/listening",
+      "/practice/listening/academic-listening-community-library",
+    ]) {
+      await page.goto(path);
+      await expect(page.locator("#main-content")).toBeVisible();
+      expect(
+        await page.evaluate(
+          () =>
+            document.documentElement.scrollWidth >
+            document.documentElement.clientWidth,
+        ),
+        `${path} at ${width}px`,
+      ).toBe(false);
+    }
+  }
+
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto("/practice/listening/academic-listening-community-library");
+  const firstNav = page.getByRole("link", { name: /Câu 1,/ });
+  await firstNav.focus();
+  await expect(firstNav).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("fieldset").first()).toBeInViewport();
+});

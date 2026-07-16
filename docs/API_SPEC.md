@@ -711,3 +711,12 @@ Local Phase 5 pgTAP pass 64/64; verifier contract chạy trên local và remote 
 | `get_exercise_attempt_result` | submitted attempt UUID | owner/status gate and conditional review disclosure |
 
 Routes are `/practice/reading`, `/practice/reading/[exerciseSlug]` and `/practice/reading/[exerciseSlug]/result/[attemptId]`. Actions authenticate and Zod-validate but never accept `user_id`, score, correctness, completion or timer state. Conflict responses preserve the browser draft and require reconcile/retry.
+# Phase 7 Listening server/RPC contract (2026-07-17)
+
+- `start_exercise_attempt(exercise_slug, idempotency_key)` resolves the accessible published Listening version and derives `time_limit_seconds`/`expires_at` inside PostgreSQL. It does not accept an actor or timer value.
+- `save_exercise_answer(attempt_id, question_id, selected_option_ids, answer_text, client_revision)` validates owner, pinned membership, option ownership and monotonic revision. Identical revision replay is safe; a different stale payload raises `40001`.
+- `submit_exercise_attempt(attempt_id)` locks and scores the attempt atomically from private answer keys. Repeated submit returns the stored scored attempt.
+- `get_listening_attempt_clock(attempt_id)` returns `started_at`, `expires_at` and `server_now` only to the owner.
+- `get_listening_attempt_result(attempt_id)` returns score/questions/transcript only after submit and only to the owner. Direct transcript and answer-key table reads are not part of the learner API.
+
+Application routes are `/practice/listening`, `/practice/listening/[exerciseSlug]` and `/practice/listening/[exerciseSlug]/result/[attemptId]`. Server Actions accept only the slug/attempt/question/answer/revision fields required by these RPCs; client-supplied user, score, correctness, submit time or remaining timer values are ignored by schema allowlisting and never sent to PostgreSQL.

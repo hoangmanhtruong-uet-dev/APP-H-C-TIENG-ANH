@@ -1,6 +1,6 @@
 # IELTS Flow
 
-Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 2 Auth/Profile, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress, Phase 5 Exercise/Vocabulary/Grammar và Phase 6 Reading Practice đã được triển khai trên project remote. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; lesson completion và exercise scoring đều được tính trong hardened RPC.
+Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 2 Auth/Profile, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress, Phase 5 Exercise/Vocabulary/Grammar, Phase 6 Reading và implementation Phase 7 Listening đã được apply trên project remote. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; completion, timer và exercise scoring được tính trong hardened RPC.
 
 ## Stack
 
@@ -141,7 +141,7 @@ Manual end-to-end verification ngày 2026-07-16 đã pass với Gmail SMTP và t
 - Unit/component/E2E, 284 database assertions local, 64 Phase 5 pgTAP assertions và authenticated two-user Playwright local
 - Health endpoints `/api/health/live` và `/api/health/ready`
 
-Chưa triển khai: placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, AI, content admin/CMS, roles, consent, forgot/reset password và avatar/storage. **PHASE 6 COMPLETE** ngày 2026-07-17: migration parity 7/7, local/remote lint sạch và remote transactional TAP database-owner pass 34/34 với rollback theo thiết kế. Phase 7 chưa bắt đầu.
+Chưa triển khai: Phase 8, Writing, Speaking, AI, mock test, placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, content admin/CMS, roles, consent, forgot/reset password và avatar/storage. **PHASE 7 COMPLETE** ngày 2026-07-17: implementation, local gates, remote apply/parity 9/9, remote lint và direct remote database-owner verifier 34/34 đều pass (`KI-079` closed).
 
 ## Cấu trúc chính
 
@@ -165,4 +165,14 @@ docs                    Product, architecture, schema, API, security docs
 - PostgreSQL owns the published snapshot, draft revision, timer, atomic submit, deterministic score and post-submit review.
 - Phase 6 migrations are applied remote with local/remote history 7/7 and lint clean. Local full pgTAP passes 384 assertions; Phase 6 passes 66/66 and owner verifier passes 34/34 against local.
 - The direct remote database-owner verifier connected successfully and reported planned 34, ran 34, failed 0, no `not ok`, no `ERROR`, PASS; its transaction rolled back as designed and the password was neither sent nor stored in chat.
-- Current status: **PHASE 6 COMPLETE**. Phase 7 has not started and was not implemented in this completion action.
+- Phase 6 remains **COMPLETE**. Phase 7 Listening is documented in the current section below.
+
+## Phase 7 Listening practice
+
+- Routes: `/practice/listening`, `/practice/listening/[exerciseSlug]`, `/practice/listening/[exerciseSlug]/result/[attemptId]`.
+- One original Academic practice set with a reproducible 108-second WAV, 2 parts, 8 questions and 3 types: single choice, multiple choice and short text.
+- PostgreSQL owns published content/audio metadata, attempt timer, answer revisions, atomic/idempotent submit, score/correctness and review availability. Transcript is private until the owner submits.
+- New migrations `20260717100000_phase_7_listening_practice_engine.sql` and `20260717101500_phase_7_listening_foundation_content.sql` are applied local and remote without modifying Phase 1–6 or resetting remote data.
+- Fresh evidence: local full pgTAP 465/465, local/remote lint clean, parity 9/9, 98 unit/component tests, production build and Playwright 50 pass/14 declared skips. Listening browser checks cover two real actors, 375/768/1024/1440, keyboard, audio, resume, submit and transcript isolation.
+- Direct remote database-owner verifier ran through `ok 34`, failed 0, with no `not ok` and no `ERROR`; its transaction rolled back and the database password was neither sent nor stored in chat.
+- Current status: **PHASE 7 COMPLETE**. No Phase 7 blocker remains. Phase 8 was not implemented.

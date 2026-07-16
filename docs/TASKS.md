@@ -369,4 +369,21 @@ Exit criteria:
 - [x] `P6-REMOTE-01` Remote migrations/history/lint pass; direct database-owner verifier connected and reported planned 34, ran 34, failed 0, PASS, with transaction rollback and no credential stored or sent in chat (`KI-076` closed).
 - [x] `P6-DOD-01` Final parity remains 7/7, local/remote lint is clean, remote owner verifier is 34/34 PASS and all Phase 6 completion gates remain green.
 
-Current status: **PHASE 6 COMPLETE** ngày 2026-07-17. Phase 7 chưa bắt đầu và không được triển khai trong completion action này.
+Historical Phase 6 status: **PHASE 6 COMPLETE** ngày 2026-07-17. Phase 7 Listening được theo dõi trong execution slice bên dưới.
+
+## Phase 7 execution slice — Listening Practice Engine
+
+Phạm vi execution này là Listening Practice được người dùng phê duyệt, tách biệt với roadmap legacy “Phase 7 - Error notebook và adaptive plan”. Không triển khai Writing, Speaking, AI, mock test, error notebook hoặc Phase 8.
+
+- [x] `P7-DB-01` Tạo 2 migration Phase 7 mới cho audio snapshot, practice mapping, parts, private transcript, question linkage và generic server timer; không sửa migration Phase 1–6.
+- [x] `P7-RLS-01` Published/test-type access, draft isolation, transcript/key privacy, owner attempt/result và anon denial được kiểm tra bằng actor thật.
+- [x] `P7-DOM-01` Reuse revision-safe autosave, row-locked atomic/idempotent submit và database-derived score/correctness/timestamps; thêm owner-scoped Listening clock/result RPC.
+- [x] `P7-SEED-01` Một bài Academic gồm 2 part, 8 câu, 3 type và audio WAV 108 giây nguyên bản; một draft fixture không ship public binary.
+- [x] `P7-APP-01` Catalog, start, HTML audio player, runner, autosave/resume, late-submit status, result/transcript và progress history.
+- [x] `P7-TST-01` Full local pgTAP 465/465; Phase 7 actor tests, local verifier, local/remote lint và remote parity 9/9 pass.
+- [x] `P7-UX-01` 98 unit/component tests và Playwright full run 50 pass/14 declared skips; Listening flow, cross-user denial, keyboard và 375/768/1024/1440 pass.
+- [x] `P7-REMOTE-01` Hai migration Phase 7 applied remote bằng forward migration, không reset/xóa dữ liệu; parity 9/9 và remote lint sạch.
+- [x] `P7-REMOTE-02` Direct remote database-owner verifier chạy tới `ok 34`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat (`KI-079` closed).
+- [x] `P7-DOD-01` Final parity 9/9, local/remote lint sạch, remote owner verifier 34/34 PASS và toàn bộ Phase 7 completion gates đều green.
+
+Current status: **PHASE 7 COMPLETE** ngày 2026-07-17. Không còn blocker Phase 7; Phase 8 không được triển khai.

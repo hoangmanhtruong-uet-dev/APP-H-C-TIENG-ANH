@@ -7,10 +7,30 @@
   | Json[];
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.5";
+  graphql_public: {
+    Tables: {
+      [_ in never]: never;
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json;
+          operationName?: string;
+          query?: string;
+          variables?: Json;
+        };
+        Returns: Json;
+      };
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
   };
   public: {
     Tables: {
@@ -54,6 +74,7 @@ export type Database = {
           created_at: string;
           exercise_set_version_id: string;
           id: string;
+          listening_part_id: string | null;
           points: number;
           position: number;
           prompt_markdown: string;
@@ -65,6 +86,7 @@ export type Database = {
           created_at?: string;
           exercise_set_version_id: string;
           id?: string;
+          listening_part_id?: string | null;
           points?: number;
           position: number;
           prompt_markdown: string;
@@ -76,6 +98,7 @@ export type Database = {
           created_at?: string;
           exercise_set_version_id?: string;
           id?: string;
+          listening_part_id?: string | null;
           points?: number;
           position?: number;
           prompt_markdown?: string;
@@ -90,6 +113,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "exercise_set_versions";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "exercise_questions_listening_part_fkey";
+            columns: ["exercise_set_version_id", "listening_part_id"];
+            isOneToOne: false;
+            referencedRelation: "listening_parts";
+            referencedColumns: ["exercise_set_version_id", "id"];
           },
           {
             foreignKeyName: "exercise_questions_reading_group_fkey";
@@ -395,6 +425,7 @@ export type Database = {
           started_at: string;
           status: string;
           submitted_at: string | null;
+          time_limit_seconds: number | null;
           updated_at: string;
           user_id: string;
         };
@@ -414,6 +445,7 @@ export type Database = {
           started_at?: string;
           status?: string;
           submitted_at?: string | null;
+          time_limit_seconds?: number | null;
           updated_at?: string;
           user_id: string;
         };
@@ -433,6 +465,7 @@ export type Database = {
           started_at?: string;
           status?: string;
           submitted_at?: string | null;
+          time_limit_seconds?: number | null;
           updated_at?: string;
           user_id?: string;
         };
@@ -818,6 +851,134 @@ export type Database = {
             columns: ["module_id"];
             isOneToOne: false;
             referencedRelation: "learning_modules";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      listening_audio_assets: {
+        Row: {
+          asset_path: string;
+          created_at: string;
+          duration_seconds: number;
+          id: string;
+          licence: string;
+          mime_type: string;
+          sha256: string;
+          slug: string;
+          source_name: string;
+          source_url: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          asset_path: string;
+          created_at?: string;
+          duration_seconds: number;
+          id?: string;
+          licence: string;
+          mime_type: string;
+          sha256: string;
+          slug: string;
+          source_name: string;
+          source_url?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          asset_path?: string;
+          created_at?: string;
+          duration_seconds?: number;
+          id?: string;
+          licence?: string;
+          mime_type?: string;
+          sha256?: string;
+          slug?: string;
+          source_name?: string;
+          source_url?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      listening_parts: {
+        Row: {
+          audio_end_seconds: number;
+          audio_start_seconds: number;
+          created_at: string;
+          exercise_set_version_id: string;
+          id: string;
+          instructions_markdown: string;
+          position: number;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          audio_end_seconds: number;
+          audio_start_seconds: number;
+          created_at?: string;
+          exercise_set_version_id: string;
+          id?: string;
+          instructions_markdown: string;
+          position: number;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          audio_end_seconds?: number;
+          audio_start_seconds?: number;
+          created_at?: string;
+          exercise_set_version_id?: string;
+          id?: string;
+          instructions_markdown?: string;
+          position?: number;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "listening_parts_exercise_set_version_id_fkey";
+            columns: ["exercise_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "listening_practice_versions";
+            referencedColumns: ["exercise_set_version_id"];
+          },
+        ];
+      };
+      listening_practice_versions: {
+        Row: {
+          audio_asset_id: string;
+          created_at: string;
+          exercise_set_version_id: string;
+          test_type: string;
+          time_limit_seconds: number;
+          updated_at: string;
+        };
+        Insert: {
+          audio_asset_id: string;
+          created_at?: string;
+          exercise_set_version_id: string;
+          test_type: string;
+          time_limit_seconds: number;
+          updated_at?: string;
+        };
+        Update: {
+          audio_asset_id?: string;
+          created_at?: string;
+          exercise_set_version_id?: string;
+          test_type?: string;
+          time_limit_seconds?: number;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "listening_practice_versions_audio_asset_id_fkey";
+            columns: ["audio_asset_id"];
+            isOneToOne: false;
+            referencedRelation: "listening_audio_assets";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "listening_practice_versions_exercise_set_version_id_fkey";
+            columns: ["exercise_set_version_id"];
+            isOneToOne: true;
+            referencedRelation: "exercise_set_versions";
             referencedColumns: ["id"];
           },
         ];
@@ -1235,6 +1396,19 @@ export type Database = {
         Args: { p_attempt_id: string };
         Returns: Json;
       };
+      get_listening_attempt_clock: {
+        Args: { p_attempt_id: string };
+        Returns: {
+          attempt_id: string;
+          expires_at: string;
+          server_now: string;
+          started_at: string;
+        }[];
+      };
+      get_listening_attempt_result: {
+        Args: { p_attempt_id: string };
+        Returns: Json;
+      };
       get_reading_attempt_clock: {
         Args: { p_attempt_id: string };
         Returns: {
@@ -1313,6 +1487,7 @@ export type Database = {
           started_at: string;
           status: string;
           submitted_at: string | null;
+          time_limit_seconds: number | null;
           updated_at: string;
           user_id: string;
         };
@@ -1341,6 +1516,7 @@ export type Database = {
           started_at: string;
           status: string;
           submitted_at: string | null;
+          time_limit_seconds: number | null;
           updated_at: string;
           user_id: string;
         };
@@ -1479,6 +1655,9 @@ export type CompositeTypes<
     : never;
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {},
   },
