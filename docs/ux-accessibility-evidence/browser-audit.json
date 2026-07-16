@@ -1,0 +1,3072 @@
+{
+  "baseUrl": "http://127.0.0.1:3200",
+  "publicMatrix": [
+    {
+      "title": "Học IELTS có lộ trình",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Biết rõ hôm nay cần học gì."
+        },
+        {
+          "level": 2,
+          "text": "Một vòng học có đầu ra rõ ràng"
+        },
+        {
+          "level": 3,
+          "text": "Chốt mục tiêu"
+        },
+        {
+          "level": 3,
+          "text": "Học đúng việc"
+        },
+        {
+          "level": 3,
+          "text": "Hiểu từng lỗi"
+        },
+        {
+          "level": 3,
+          "text": "Điều chỉnh kế hoạch"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 1,
+        "header": 1,
+        "footer": 1,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Bỏ qua điều hướng",
+          "width": 155,
+          "height": 42
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "width": 92,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "width": 343,
+          "height": 20
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "Bỏ qua điều hướng",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Xem nền tảng",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        }
+      ],
+      "route": "/",
+      "routeName": "home",
+      "width": 375,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Xem nền tảng",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "Bỏ qua điều hướng IF IELTS Flow Bắt đầu học TỰ HỌC IELTS CÓ ĐỊNH HƯỚNG Biết rõ hôm nay cần học gì. Lộ trình vừa sức, phản hồi cụ thể và tiến bộ nhìn thấy được. Bắt đầu học Xem nền tảng Một vòng học có đầu ra rõ ràng Sản phẩm đang được xây theo từng lát cắt. Không có số liệu, lời chứng thực hay tính năng giả. Chốt mục tiêu Xác định band đích, lịch thi và thời gian học thực tế. Học đúng việc Mỗi ngày nhận nhóm bài vừa với quỹ thời gian của bạn. Hiểu từng lỗi Phản hồi gắn với câu trả lời, không chỉ đưa một con số. Điều chỉnh kế hoạch Dữ liệu luyện tập giúp tuần sau tập trung đúng điểm yếu. IELTS Flow. Nền tảng kỹ thuật Phase 1. Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bỏ qua điều hướng",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Xem nền tảng",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "Bỏ qua điều hướng IF IELTS Flow Bắt đầu học TỰ HỌC IELTS CÓ ĐỊNH HƯỚNG Biết rõ hôm nay cần học gì. Lộ trình vừa sức, phản hồi cụ thể và tiến bộ nhìn thấy được. Bắt đầu học Xem nền tảng Một vòng học có đầu ra rõ ràng Sản phẩm đang được xây theo từng lát cắt. Không có số liệu, lời chứng thực hay tính năng giả. Chốt mục tiêu Xác định band đích, lịch thi và thời gian học thực tế. Học đúng việc Mỗi ngày nhận nhóm bài vừa với quỹ thời gian của bạn. Hiểu từng lỗi Phản hồi gắn với câu trả lời, không chỉ đưa một con số. Điều chỉnh kế hoạch Dữ liệu luyện tập giúp tuần sau tập trung đúng điểm yếu. IELTS Flow. Nền tảng kỹ thuật Phase 1. Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bỏ qua điều hướng",
+          "outline": "auto",
+          "boxShadow": "none"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "route": "/login",
+      "routeName": "login",
+      "width": 375,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng ký",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "IF IELTS Flow Về trang chủ Đăng nhập Tiếp tục lộ trình học bằng tài khoản đã xác minh của bạn. Email Mật khẩu Đăng nhập Chưa có tài khoản? Đăng ký",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Đăng ký | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/register",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Tạo tài khoản"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "width": 72,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Họ và tên",
+          "id": "register-display-name"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "register-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "register-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Xác nhận mật khẩu",
+          "id": "register-confirm-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Tạo tài khoản",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        }
+      ],
+      "route": "/register",
+      "routeName": "register",
+      "width": 375,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-display-name",
+          "name": "Họ và tên",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-confirm-password",
+          "name": "Xác nhận mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Tạo tài khoản",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "IF IELTS Flow Về trang chủ Tạo tài khoản Tạo tài khoản bằng email. Bạn sẽ cần xác minh hộp thư trước khi bắt đầu. Họ và tên Email Mật khẩu Xác nhận mật khẩu Tạo tài khoản Đã có tài khoản? Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-display-name",
+          "name": "Họ và tên",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Học IELTS có lộ trình",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/",
+      "horizontalOverflow": false,
+      "documentWidth": 768,
+      "viewportWidth": 768,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Biết rõ hôm nay cần học gì."
+        },
+        {
+          "level": 2,
+          "text": "Một vòng học có đầu ra rõ ràng"
+        },
+        {
+          "level": 3,
+          "text": "Chốt mục tiêu"
+        },
+        {
+          "level": 3,
+          "text": "Học đúng việc"
+        },
+        {
+          "level": 3,
+          "text": "Hiểu từng lỗi"
+        },
+        {
+          "level": 3,
+          "text": "Điều chỉnh kế hoạch"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 1,
+        "header": 1,
+        "footer": 1,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Bỏ qua điều hướng",
+          "width": 155,
+          "height": 42
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "width": 92,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "width": 72,
+          "height": 20
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "Bỏ qua điều hướng",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Xem nền tảng",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        }
+      ],
+      "route": "/",
+      "routeName": "home",
+      "width": 768,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Xem nền tảng",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "Bỏ qua điều hướng IF IELTS Flow Đăng nhập Bắt đầu học TỰ HỌC IELTS CÓ ĐỊNH HƯỚNG Biết rõ hôm nay cần học gì. Lộ trình vừa sức, phản hồi cụ thể và tiến bộ nhìn thấy được. Bắt đầu học Xem nền tảng Một vòng học có đầu ra rõ ràng Sản phẩm đang được xây theo từng lát cắt. Không có số liệu, lời chứng thực hay tính năng giả. Chốt mục tiêu Xác định band đích, lịch thi và thời gian học thực tế. Học đúng việc Mỗi ngày nhận nhóm bài vừa với quỹ thời gian của bạn. Hiểu từng lỗi Phản hồi gắn với câu trả lời, không chỉ đưa một con số. Điều chỉnh kế hoạch Dữ liệu luyện tập giúp tuần sau tập trung đúng điểm yếu. IELTS Flow. Nền tảng kỹ thuật Phase 1. Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bỏ qua điều hướng",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Xem nền tảng",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "auto",
+          "boxShadow": "none"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login",
+      "horizontalOverflow": false,
+      "documentWidth": 768,
+      "viewportWidth": 768,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "route": "/login",
+      "routeName": "login",
+      "width": 768,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng ký",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "IF IELTS Flow Về trang chủ Đăng nhập Tiếp tục lộ trình học bằng tài khoản đã xác minh của bạn. Email Mật khẩu Đăng nhập Chưa có tài khoản? Đăng ký",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Đăng ký | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/register",
+      "horizontalOverflow": false,
+      "documentWidth": 768,
+      "viewportWidth": 768,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Tạo tài khoản"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "width": 72,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Họ và tên",
+          "id": "register-display-name"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "register-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "register-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Xác nhận mật khẩu",
+          "id": "register-confirm-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Tạo tài khoản",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        }
+      ],
+      "route": "/register",
+      "routeName": "register",
+      "width": 768,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-display-name",
+          "name": "Họ và tên",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-confirm-password",
+          "name": "Xác nhận mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Tạo tài khoản",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "IF IELTS Flow Về trang chủ Tạo tài khoản Tạo tài khoản bằng email. Bạn sẽ cần xác minh hộp thư trước khi bắt đầu. Họ và tên Email Mật khẩu Xác nhận mật khẩu Tạo tài khoản Đã có tài khoản? Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-display-name",
+          "name": "Họ và tên",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Học IELTS có lộ trình",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/",
+      "horizontalOverflow": false,
+      "documentWidth": 1024,
+      "viewportWidth": 1024,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Biết rõ hôm nay cần học gì."
+        },
+        {
+          "level": 2,
+          "text": "Một vòng học có đầu ra rõ ràng"
+        },
+        {
+          "level": 3,
+          "text": "Chốt mục tiêu"
+        },
+        {
+          "level": 3,
+          "text": "Học đúng việc"
+        },
+        {
+          "level": 3,
+          "text": "Hiểu từng lỗi"
+        },
+        {
+          "level": 3,
+          "text": "Điều chỉnh kế hoạch"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 1,
+        "header": 1,
+        "footer": 1,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Bỏ qua điều hướng",
+          "width": 155,
+          "height": 42
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "width": 92,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "width": 72,
+          "height": 20
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "Bỏ qua điều hướng",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Xem nền tảng",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        }
+      ],
+      "route": "/",
+      "routeName": "home",
+      "width": 1024,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Xem nền tảng",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "Bỏ qua điều hướng IF IELTS Flow Đăng nhập Bắt đầu học TỰ HỌC IELTS CÓ ĐỊNH HƯỚNG Biết rõ hôm nay cần học gì. Lộ trình vừa sức, phản hồi cụ thể và tiến bộ nhìn thấy được. Bắt đầu học Xem nền tảng Một vòng học có đầu ra rõ ràng Sản phẩm đang được xây theo từng lát cắt. Không có số liệu, lời chứng thực hay tính năng giả. Chốt mục tiêu Xác định band đích, lịch thi và thời gian học thực tế. Học đúng việc Mỗi ngày nhận nhóm bài vừa với quỹ thời gian của bạn. Hiểu từng lỗi Phản hồi gắn với câu trả lời, không chỉ đưa một con số. Điều chỉnh kế hoạch Dữ liệu luyện tập giúp tuần sau tập trung đúng điểm yếu. IELTS Flow. Nền tảng kỹ thuật Phase 1. Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bỏ qua điều hướng",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Xem nền tảng",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "auto",
+          "boxShadow": "none"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login",
+      "horizontalOverflow": false,
+      "documentWidth": 1024,
+      "viewportWidth": 1024,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "route": "/login",
+      "routeName": "login",
+      "width": 1024,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng ký",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "IF IELTS Flow Về trang chủ Đăng nhập Tiếp tục lộ trình học bằng tài khoản đã xác minh của bạn. Email Mật khẩu Đăng nhập Chưa có tài khoản? Đăng ký",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Đăng ký | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/register",
+      "horizontalOverflow": false,
+      "documentWidth": 1024,
+      "viewportWidth": 1024,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Tạo tài khoản"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "width": 72,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Họ và tên",
+          "id": "register-display-name"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "register-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "register-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Xác nhận mật khẩu",
+          "id": "register-confirm-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Tạo tài khoản",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        }
+      ],
+      "route": "/register",
+      "routeName": "register",
+      "width": 1024,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-display-name",
+          "name": "Họ và tên",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-confirm-password",
+          "name": "Xác nhận mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Tạo tài khoản",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "IF IELTS Flow Về trang chủ Tạo tài khoản Tạo tài khoản bằng email. Bạn sẽ cần xác minh hộp thư trước khi bắt đầu. Họ và tên Email Mật khẩu Xác nhận mật khẩu Tạo tài khoản Đã có tài khoản? Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-display-name",
+          "name": "Họ và tên",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Học IELTS có lộ trình",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/",
+      "horizontalOverflow": false,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Biết rõ hôm nay cần học gì."
+        },
+        {
+          "level": 2,
+          "text": "Một vòng học có đầu ra rõ ràng"
+        },
+        {
+          "level": 3,
+          "text": "Chốt mục tiêu"
+        },
+        {
+          "level": 3,
+          "text": "Học đúng việc"
+        },
+        {
+          "level": 3,
+          "text": "Hiểu từng lỗi"
+        },
+        {
+          "level": 3,
+          "text": "Điều chỉnh kế hoạch"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 1,
+        "header": 1,
+        "footer": 1,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Bỏ qua điều hướng",
+          "width": 155,
+          "height": 42
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "width": 92,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "width": 72,
+          "height": 20
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "Bỏ qua điều hướng",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Bắt đầu học",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Xem nền tảng",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        }
+      ],
+      "route": "/",
+      "routeName": "home",
+      "width": 1440,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Xem nền tảng",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "Bỏ qua điều hướng IF IELTS Flow Đăng nhập Bắt đầu học TỰ HỌC IELTS CÓ ĐỊNH HƯỚNG Biết rõ hôm nay cần học gì. Lộ trình vừa sức, phản hồi cụ thể và tiến bộ nhìn thấy được. Bắt đầu học Xem nền tảng Một vòng học có đầu ra rõ ràng Sản phẩm đang được xây theo từng lát cắt. Không có số liệu, lời chứng thực hay tính năng giả. Chốt mục tiêu Xác định band đích, lịch thi và thời gian học thực tế. Học đúng việc Mỗi ngày nhận nhóm bài vừa với quỹ thời gian của bạn. Hiểu từng lỗi Phản hồi gắn với câu trả lời, không chỉ đưa một con số. Điều chỉnh kế hoạch Dữ liệu luyện tập giúp tuần sau tập trung đúng điểm yếu. IELTS Flow. Nền tảng kỹ thuật Phase 1. Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bỏ qua điều hướng",
+          "outline": "auto",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Bắt đầu học",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Xem nền tảng",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "auto",
+          "boxShadow": "none"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login",
+      "horizontalOverflow": false,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "route": "/login",
+      "routeName": "login",
+      "width": 1440,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng ký",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "IF IELTS Flow Về trang chủ Đăng nhập Tiếp tục lộ trình học bằng tài khoản đã xác minh của bạn. Email Mật khẩu Đăng nhập Chưa có tài khoản? Đăng ký",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "login-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        }
+      ],
+      "axeViolations": []
+    },
+    {
+      "title": "Đăng ký | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/register",
+      "horizontalOverflow": false,
+      "documentWidth": 1440,
+      "viewportWidth": 1440,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Tạo tài khoản"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "width": 72,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Họ và tên",
+          "id": "register-display-name"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "register-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "register-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Xác nhận mật khẩu",
+          "id": "register-confirm-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Tạo tài khoản",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng nhập",
+          "id": null
+        }
+      ],
+      "route": "/register",
+      "routeName": "register",
+      "width": 1440,
+      "keyboardOrder": [
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-display-name",
+          "name": "Họ và tên",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-email",
+          "name": "Email",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-password",
+          "name": "Mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-confirm-password",
+          "name": "Xác nhận mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Hiện mật khẩu",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BUTTON",
+          "id": null,
+          "name": "Tạo tài khoản",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(31, 78, 216, 0.18) 0px 8px 24px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Đăng nhập",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "BODY",
+          "id": null,
+          "name": "IF IELTS Flow Về trang chủ Tạo tài khoản Tạo tài khoản bằng email. Bạn sẽ cần xác minh hộp thư trước khi bắt đầu. Họ và tên Email Mật khẩu Xác nhận mật khẩu Tạo tài khoản Đã có tài khoản? Đăng nhập",
+          "outline": "none",
+          "boxShadow": "none"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "IELTS Flow - Trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(255, 255, 255) 0px 0px 0px 2px, rgb(31, 78, 216) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "A",
+          "id": null,
+          "name": "Về trang chủ",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        },
+        {
+          "tag": "INPUT",
+          "id": "register-display-name",
+          "name": "Họ và tên",
+          "outline": "none",
+          "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+        }
+      ],
+      "axeViolations": []
+    }
+  ],
+  "protectedRoutes": [
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Fonboarding",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/onboarding"
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Fdashboard",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/dashboard"
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Flearn",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/learn"
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Flearn%2Fvocabulary",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/learn/vocabulary"
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Flearn%2Fgrammar",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/learn/grammar"
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Fpractice%2Facademic-vocabulary-foundations",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/practice/academic-vocabulary-foundations"
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Fpractice%2Facademic-vocabulary-foundations%2Fresult%2F00000000-0000-0000-0000-000000000000",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/practice/academic-vocabulary-foundations/result/00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Fprofile",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/profile"
+    },
+    {
+      "title": "Đăng nhập | IELTS Flow",
+      "lang": "vi",
+      "finalUrl": "http://127.0.0.1:3200/login?next=%2Fprogress",
+      "horizontalOverflow": false,
+      "documentWidth": 375,
+      "viewportWidth": 375,
+      "headings": [
+        {
+          "level": 1,
+          "text": "Đăng nhập"
+        }
+      ],
+      "landmarks": {
+        "main": 1,
+        "nav": 0,
+        "header": 1,
+        "footer": 0,
+        "aside": 0
+      },
+      "duplicateIds": [],
+      "unnamedInteractive": [],
+      "unlabeledControls": [],
+      "smallTargets44": [
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "width": 109,
+          "height": 36
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "width": 54,
+          "height": 18
+        }
+      ],
+      "focusables": [
+        {
+          "tag": "A",
+          "name": "IELTS Flow - Trang chủ",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Về trang chủ",
+          "id": null
+        },
+        {
+          "tag": "INPUT",
+          "name": "Email",
+          "id": "login-email"
+        },
+        {
+          "tag": "INPUT",
+          "name": "Mật khẩu",
+          "id": "login-password"
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Hiện mật khẩu",
+          "id": null
+        },
+        {
+          "tag": "BUTTON",
+          "name": "Đăng nhập",
+          "id": null
+        },
+        {
+          "tag": "A",
+          "name": "Đăng ký",
+          "id": null
+        }
+      ],
+      "requestedRoute": "/progress"
+    }
+  ],
+  "formErrors": {
+    "login": {
+      "activeId": "login-email",
+      "alerts": [
+        "Hãy kiểm tra lại các trường được đánh dấu.Mã yêu cầu: b585dce9-59c3-4b02-8a20-48948c937676",
+        ""
+      ],
+      "axeViolations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".mt-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.21 (foreground color: #c34c5c, background color: #fff0f2, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    "register": {
+      "activeId": "register-display-name",
+      "alerts": [
+        "Hãy kiểm tra lại các trường được đánh dấu.Mã yêu cầu: 84cd706e-2d2f-43eb-8525-5c27268f147c",
+        ""
+      ],
+      "invalidCount": 3,
+      "axeViolations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "target": [
+                ".mt-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.21 (foreground color: #c34c5c, background color: #fff0f2, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    "focusEvidence": {
+      "tag": "INPUT",
+      "id": "login-email",
+      "outline": "none",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(31, 78, 216) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+    }
+  },
+  "reducedMotion": {
+    "matchesReduce": true,
+    "htmlScrollBehavior": "auto",
+    "skipLinkTransitionDuration": "1e-05s"
+  },
+  "longContent": {
+    "clientWidth": 576,
+    "scrollWidth": 6189,
+    "overflows": true,
+    "wordBreak": "normal",
+    "overflowWrap": "normal"
+  },
+  "offline": {
+    "navigationError": "Page.reload: net::ERR_INTERNET_DISCONNECTED",
+    "url": "http://127.0.0.1:3200/",
+    "title": "",
+    "bodyText": ""
+  },
+  "consoleErrors": []
+}
