@@ -1,4 +1,5 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 test.describe.configure({ mode: "serial" });
 
@@ -373,4 +374,118 @@ test("Listening routes are responsive and keyboard reachable", async ({
   await expect(firstNav).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("fieldset").first()).toBeInViewport();
+});
+
+test("Writing autosave, immutable submit, review and owner isolation", async ({
+  browser,
+}, testInfo) => {
+  test.setTimeout(90_000);
+  requirePracticeEnvironment(testInfo);
+  const contextA = await browser.newContext();
+  const pageA = await contextA.newPage();
+  await login(pageA, userAEmail!, userAPassword!);
+
+  await pageA.goto("/practice/writing");
+  await expect(
+    pageA.getByRole("heading", { name: "Writing practice" }),
+  ).toBeVisible();
+  await expect(
+    pageA.getByRole("heading", { name: "Community green spaces" }),
+  ).toBeVisible();
+  await pageA.goto("/practice/writing/flexible-library-hours");
+  await expect(
+    pageA.getByRole("heading", { name: "Không tìm thấy trang" }),
+  ).toBeVisible();
+
+  await pageA.goto("/practice/writing/community-green-spaces");
+  const start = pageA.getByRole("button", { name: "Bắt đầu viết" });
+  const editor = pageA.getByLabel("Bài viết của bạn");
+  await expect(start.or(editor)).toBeVisible();
+  if (await start.isVisible()) await start.click();
+
+  const essay =
+    "Urban green spaces can improve daily life when towns plan them carefully. This practice essay explains a clear position and provides a local example. Housing remains important, but shared parks can support health, shade, and community contact. Public consultation can help a town balance these needs before it chooses how to use unused land.";
+  await editor.fill(essay);
+  await expect(pageA.getByRole("status")).toContainText(
+    "Đã lưu vào PostgreSQL",
+  );
+  await pageA.reload();
+  await expect(editor).toHaveValue(essay);
+  await expect(pageA.getByLabel(/giây còn lại theo máy chủ/)).toBeVisible();
+
+  await pageA.getByRole("button", { name: "Nộp bài và khóa nội dung" }).click();
+  await expect(pageA).toHaveURL(
+    /\/practice\/writing\/community-green-spaces\/submission\//,
+  );
+  await expect(
+    pageA.getByRole("heading", { name: "Bài đã nộp" }),
+  ).toBeVisible();
+  await expect(pageA.getByText(essay)).toBeVisible();
+  await expect(
+    pageA.getByText(/không phải điểm IELTS chính thức/i),
+  ).toBeVisible();
+  const reviewPath = new URL(pageA.url()).pathname;
+
+  await pageA.goto("/progress");
+  await expect(
+    pageA.getByRole("heading", { name: "Lịch sử Writing" }),
+  ).toBeVisible();
+  await expect(
+    pageA.getByRole("link", { name: "Community green spaces" }).first(),
+  ).toBeVisible();
+
+  const contextB = await browser.newContext();
+  const pageB = await contextB.newPage();
+  await login(pageB, userBEmail!, userBPassword!);
+  await pageB.goto(reviewPath);
+  await expect(
+    pageB.getByRole("heading", { name: "Không tìm thấy trang" }),
+  ).toBeVisible();
+  await expect(pageB.getByText(essay)).toHaveCount(0);
+  await contextB.close();
+  await contextA.close();
+});
+
+test("Writing routes are responsive and keyboard reachable", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(60_000);
+  requirePracticeEnvironment(testInfo);
+  await login(page, userAEmail!, userAPassword!);
+  await page.goto("/practice/writing/community-green-spaces");
+  const start = page.getByRole("button", { name: "Bắt đầu viết" });
+  const editor = page.getByLabel("Bài viết của bạn");
+  await expect(start.or(editor)).toBeVisible();
+  if (await start.isVisible()) await start.click();
+
+  for (const width of [375, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of [
+      "/practice/writing",
+      "/practice/writing/community-green-spaces",
+    ]) {
+      await page.goto(path);
+      await expect(page.locator("#main-content")).toBeVisible();
+      expect(
+        await page.evaluate(
+          () =>
+            document.documentElement.scrollWidth >
+            document.documentElement.clientWidth,
+        ),
+        `${path} at ${width}px`,
+      ).toBe(false);
+    }
+  }
+
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto("/practice/writing/community-green-spaces");
+  await page.waitForLoadState("networkidle");
+  await editor.focus();
+  await expect(editor).toBeFocused();
+  const accessibility = await new AxeBuilder({ page })
+    .include("#main-content")
+    .analyze();
+  expect(accessibility.violations).toEqual([]);
+  await page.keyboard.type(" Keyboard accessible.");
+  await expect(editor).toHaveValue(/Keyboard accessible\.$/);
 });

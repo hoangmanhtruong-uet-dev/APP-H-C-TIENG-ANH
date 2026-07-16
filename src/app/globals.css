@@ -58,7 +58,8 @@ body {
 
 a,
 button,
-input {
+input,
+textarea {
   touch-action: manipulation;
 }
 

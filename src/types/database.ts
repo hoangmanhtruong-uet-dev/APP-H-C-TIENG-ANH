@@ -1341,6 +1341,368 @@ export type Database = {
           },
         ];
       };
+      writing_feedback: {
+        Row: {
+          coherence_cohesion_band: number;
+          confidence: string;
+          corrected_examples: Json;
+          created_at: string;
+          criteria: Json;
+          grammatical_range_accuracy_band: number;
+          id: string;
+          lexical_resource_band: number;
+          overall_band_estimate: number;
+          priority_issues: Json;
+          revision_plan: Json;
+          run_id: string;
+          strengths: Json;
+          submission_id: string;
+          summary: string;
+          task_response_band: number;
+          user_id: string;
+        };
+        Insert: {
+          coherence_cohesion_band: number;
+          confidence: string;
+          corrected_examples: Json;
+          created_at?: string;
+          criteria: Json;
+          grammatical_range_accuracy_band: number;
+          id?: string;
+          lexical_resource_band: number;
+          overall_band_estimate: number;
+          priority_issues: Json;
+          revision_plan: Json;
+          run_id: string;
+          strengths: Json;
+          submission_id: string;
+          summary: string;
+          task_response_band: number;
+          user_id: string;
+        };
+        Update: {
+          coherence_cohesion_band?: number;
+          confidence?: string;
+          corrected_examples?: Json;
+          created_at?: string;
+          criteria?: Json;
+          grammatical_range_accuracy_band?: number;
+          id?: string;
+          lexical_resource_band?: number;
+          overall_band_estimate?: number;
+          priority_issues?: Json;
+          revision_plan?: Json;
+          run_id?: string;
+          strengths?: Json;
+          submission_id?: string;
+          summary?: string;
+          task_response_band?: number;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "writing_feedback_run_scope_fkey";
+            columns: ["run_id", "submission_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "writing_feedback_runs";
+            referencedColumns: ["id", "submission_id", "user_id"];
+          },
+        ];
+      };
+      writing_feedback_runs: {
+        Row: {
+          attempt_number: number;
+          completed_at: string | null;
+          consent_version: string;
+          created_at: string;
+          error_code: string | null;
+          finalize_nonce: string;
+          id: string;
+          input_checksum: string;
+          input_tokens: number | null;
+          latency_ms: number | null;
+          lease_expires_at: string;
+          model_label: string | null;
+          output_schema_version: string;
+          output_tokens: number | null;
+          prompt_version: string;
+          provider: string | null;
+          provider_started_at: string | null;
+          request_hash: string;
+          request_idempotency_key: string;
+          requested_at: string;
+          rubric_version: string;
+          status: string;
+          submission_id: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          attempt_number: number;
+          completed_at?: string | null;
+          consent_version: string;
+          created_at?: string;
+          error_code?: string | null;
+          finalize_nonce?: string;
+          id?: string;
+          input_checksum: string;
+          input_tokens?: number | null;
+          latency_ms?: number | null;
+          lease_expires_at: string;
+          model_label?: string | null;
+          output_schema_version?: string;
+          output_tokens?: number | null;
+          prompt_version?: string;
+          provider?: string | null;
+          provider_started_at?: string | null;
+          request_hash: string;
+          request_idempotency_key: string;
+          requested_at?: string;
+          rubric_version?: string;
+          status?: string;
+          submission_id: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          attempt_number?: number;
+          completed_at?: string | null;
+          consent_version?: string;
+          created_at?: string;
+          error_code?: string | null;
+          finalize_nonce?: string;
+          id?: string;
+          input_checksum?: string;
+          input_tokens?: number | null;
+          latency_ms?: number | null;
+          lease_expires_at?: string;
+          model_label?: string | null;
+          output_schema_version?: string;
+          output_tokens?: number | null;
+          prompt_version?: string;
+          provider?: string | null;
+          provider_started_at?: string | null;
+          request_hash?: string;
+          request_idempotency_key?: string;
+          requested_at?: string;
+          rubric_version?: string;
+          status?: string;
+          submission_id?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "writing_feedback_runs_submission_owner_fkey";
+            columns: ["submission_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "writing_submissions";
+            referencedColumns: ["id", "user_id"];
+          },
+          {
+            foreignKeyName: "writing_feedback_runs_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      writing_submissions: {
+        Row: {
+          content_checksum: string | null;
+          created_at: string;
+          draft_text: string;
+          expires_at: string;
+          id: string;
+          last_saved_at: string;
+          minimum_words_met: boolean;
+          server_revision: number;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_after_time_limit: boolean | null;
+          submitted_at: string | null;
+          submitted_text: string | null;
+          updated_at: string;
+          user_id: string;
+          word_count: number;
+          writing_task_id: string;
+          writing_task_version_id: string;
+        };
+        Insert: {
+          content_checksum?: string | null;
+          created_at?: string;
+          draft_text?: string;
+          expires_at: string;
+          id?: string;
+          last_saved_at?: string;
+          minimum_words_met?: boolean;
+          server_revision?: number;
+          start_idempotency_key: string;
+          started_at?: string;
+          status?: string;
+          submit_idempotency_key?: string | null;
+          submitted_after_time_limit?: boolean | null;
+          submitted_at?: string | null;
+          submitted_text?: string | null;
+          updated_at?: string;
+          user_id: string;
+          word_count?: number;
+          writing_task_id: string;
+          writing_task_version_id: string;
+        };
+        Update: {
+          content_checksum?: string | null;
+          created_at?: string;
+          draft_text?: string;
+          expires_at?: string;
+          id?: string;
+          last_saved_at?: string;
+          minimum_words_met?: boolean;
+          server_revision?: number;
+          start_idempotency_key?: string;
+          started_at?: string;
+          status?: string;
+          submit_idempotency_key?: string | null;
+          submitted_after_time_limit?: boolean | null;
+          submitted_at?: string | null;
+          submitted_text?: string | null;
+          updated_at?: string;
+          user_id?: string;
+          word_count?: number;
+          writing_task_id?: string;
+          writing_task_version_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "writing_submissions_task_version_fkey";
+            columns: ["writing_task_id", "writing_task_version_id"];
+            isOneToOne: false;
+            referencedRelation: "writing_task_versions";
+            referencedColumns: ["writing_task_id", "id"];
+          },
+          {
+            foreignKeyName: "writing_submissions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "writing_submissions_writing_task_id_fkey";
+            columns: ["writing_task_id"];
+            isOneToOne: false;
+            referencedRelation: "writing_tasks";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      writing_task_versions: {
+        Row: {
+          content_checksum: string;
+          created_at: string;
+          description: string;
+          difficulty: string;
+          id: string;
+          instructions: string;
+          licence: string;
+          maximum_words: number;
+          minimum_words: number;
+          prompt_text: string;
+          published_at: string | null;
+          source_name: string;
+          status: string;
+          task_type: string;
+          test_type: string;
+          time_limit_seconds: number;
+          title: string;
+          updated_at: string;
+          version: number;
+          word_target: number;
+          writing_task_id: string;
+        };
+        Insert: {
+          content_checksum: string;
+          created_at?: string;
+          description: string;
+          difficulty: string;
+          id?: string;
+          instructions: string;
+          licence: string;
+          maximum_words: number;
+          minimum_words: number;
+          prompt_text: string;
+          published_at?: string | null;
+          source_name: string;
+          status?: string;
+          task_type: string;
+          test_type: string;
+          time_limit_seconds: number;
+          title: string;
+          updated_at?: string;
+          version: number;
+          word_target: number;
+          writing_task_id: string;
+        };
+        Update: {
+          content_checksum?: string;
+          created_at?: string;
+          description?: string;
+          difficulty?: string;
+          id?: string;
+          instructions?: string;
+          licence?: string;
+          maximum_words?: number;
+          minimum_words?: number;
+          prompt_text?: string;
+          published_at?: string | null;
+          source_name?: string;
+          status?: string;
+          task_type?: string;
+          test_type?: string;
+          time_limit_seconds?: number;
+          title?: string;
+          updated_at?: string;
+          version?: number;
+          word_target?: number;
+          writing_task_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "writing_task_versions_writing_task_id_fkey";
+            columns: ["writing_task_id"];
+            isOneToOne: false;
+            referencedRelation: "writing_tasks";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      writing_tasks: {
+        Row: {
+          created_at: string;
+          display_order: number;
+          id: string;
+          slug: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          slug: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          slug?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -1392,6 +1754,24 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      fail_writing_feedback_run: {
+        Args: {
+          p_error_code: string;
+          p_expires_at: string;
+          p_run_id: string;
+          p_signature: string;
+        };
+        Returns: Json;
+      };
+      finalize_writing_feedback: {
+        Args: {
+          p_expires_at: string;
+          p_feedback_payload: string;
+          p_run_id: string;
+          p_signature: string;
+        };
+        Returns: Json;
+      };
       get_exercise_attempt_result: {
         Args: { p_attempt_id: string };
         Returns: Json;
@@ -1416,6 +1796,16 @@ export type Database = {
           expires_at: string;
           server_now: string;
           started_at: string;
+        }[];
+      };
+      get_writing_ai_configuration_state: { Args: never; Returns: boolean };
+      get_writing_submission_clock: {
+        Args: { p_submission_id: string };
+        Returns: {
+          expires_at: string;
+          server_now: string;
+          started_at: string;
+          submitted_at: string;
         }[];
       };
       open_lesson_section: {
@@ -1469,6 +1859,41 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      save_writing_draft: {
+        Args: {
+          p_draft_text: string;
+          p_expected_revision: number;
+          p_submission_id: string;
+        };
+        Returns: {
+          content_checksum: string | null;
+          created_at: string;
+          draft_text: string;
+          expires_at: string;
+          id: string;
+          last_saved_at: string;
+          minimum_words_met: boolean;
+          server_revision: number;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_after_time_limit: boolean | null;
+          submitted_at: string | null;
+          submitted_text: string | null;
+          updated_at: string;
+          user_id: string;
+          word_count: number;
+          writing_task_id: string;
+          writing_task_version_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "writing_submissions";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
       start_exercise_attempt: {
         Args: { p_exercise_slug: string; p_idempotency_key: string };
         Returns: {
@@ -1498,6 +1923,45 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      start_writing_feedback_request: {
+        Args: {
+          p_consent_version: string;
+          p_idempotency_key: string;
+          p_submission_id: string;
+        };
+        Returns: Json;
+      };
+      start_writing_submission: {
+        Args: { p_idempotency_key: string; p_task_slug: string };
+        Returns: {
+          content_checksum: string | null;
+          created_at: string;
+          draft_text: string;
+          expires_at: string;
+          id: string;
+          last_saved_at: string;
+          minimum_words_met: boolean;
+          server_revision: number;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_after_time_limit: boolean | null;
+          submitted_at: string | null;
+          submitted_text: string | null;
+          updated_at: string;
+          user_id: string;
+          word_count: number;
+          writing_task_id: string;
+          writing_task_version_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "writing_submissions";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
       submit_exercise_attempt: {
         Args: { p_attempt_id: string };
         Returns: {
@@ -1523,6 +1987,37 @@ export type Database = {
         SetofOptions: {
           from: "*";
           to: "learner_attempts";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      submit_writing_submission: {
+        Args: { p_idempotency_key: string; p_submission_id: string };
+        Returns: {
+          content_checksum: string | null;
+          created_at: string;
+          draft_text: string;
+          expires_at: string;
+          id: string;
+          last_saved_at: string;
+          minimum_words_met: boolean;
+          server_revision: number;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_after_time_limit: boolean | null;
+          submitted_at: string | null;
+          submitted_text: string | null;
+          updated_at: string;
+          user_id: string;
+          word_count: number;
+          writing_task_id: string;
+          writing_task_version_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "writing_submissions";
           isOneToOne: true;
           isSetofReturn: false;
         };

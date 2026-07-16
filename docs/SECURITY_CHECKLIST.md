@@ -279,6 +279,25 @@ Không phát hành private beta nếu còn một trong các điều sau:
 - [x] Local full pgTAP 465/465, local and remote lint, remote migration parity 9/9, 98 unit/component tests and 50 Playwright tests pass.
 - [x] Direct remote database-owner verifier ran through `ok 34`, failed 0, with no `not ok` and no `ERROR`; the fixture transaction rolled back and the database password was neither sent nor stored in chat (`KI-079` closed).
 
+## 22. Phase 8 Writing security
+
+- [x] Compatible completed learners read published Writing versions only; draft/unpublished and incompatible test-type content are hidden by RLS.
+- [x] Own pinned task/version remains readable for resume/history; another learner cannot read submission, run or feedback rows.
+- [x] `authenticated` has SELECT-only table grants; start/save/submit/feedback mutations are restricted SECURITY DEFINER RPCs using `auth.uid()` and empty `search_path`.
+- [x] Client payload cannot set `user_id`, status, word count, band, feedback, submitted timestamp or timer remaining; PostgreSQL derives and validates each value.
+- [x] Autosave locks the draft and checks `expected_revision`; identical replay is safe and stale conflicting payload returns `40001` without overwriting browser text.
+- [x] Submit locks and snapshots draft text atomically, derives checksum/time/late state and makes the submitted essay immutable; replay returns stored state.
+- [x] AI feedback requires submitted ownership and explicit versioned consent, has per-user quota/burst and at most 2 attempts per submission.
+- [x] OpenAI key and HMAC signing secret are server-only, never `NEXT_PUBLIC_*`; application does not use a service-role key and RLS stays enabled.
+- [x] Only HMAC-signed payloads backed by Vault secret can finalize; schema, half-band ranges and exact essay evidence are validated before immutable storage.
+- [x] Raw provider response is not stored; verifier suppresses essay/payload output; application does not log full essays or prompts.
+- [x] AI is optional and fail-closed: no provider/Vault configuration yields a clear fallback, provider failure stores only allowlisted error metadata, and no fake feedback is generated.
+- [x] UI repeatedly labels band output as a practice estimate, not an official IELTS score.
+- [x] Seed is small, original and provenance-tagged; draft fixture is hidden and no copyrighted IELTS task is copied.
+- [x] Actor-real local pgTAP 39/39, local owner-style verifier 40/40, full suite 544/544, two-user Playwright, viewport/keyboard and axe audit pass.
+- [x] Remote migrations are forward-only with parity 12/12 and lint clean; no reset or deletion of real user/profile/attempt/submission/progress.
+- [x] Direct remote database-owner verifier ran through `ok 40`, failed 0, with no `not ok` and no `ERROR`; the fixture transaction rolled back and the database password was neither sent nor stored in chat (`KI-080` closed).
+
 ## 19. Sign-off
 
 | Role             | Người duyệt | Ngày | Kết quả/Ghi chú |

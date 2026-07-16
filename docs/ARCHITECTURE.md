@@ -521,3 +521,28 @@ Schema migration và data migration foundation đã apply remote; parity 5/5, lo
 - Autosave gửi monotonic `client_revision`. RPC lock attempt, reject stale/different payload với `40001`, chấp nhận replay cùng revision/cùng payload; submitted answers immutable.
 - Submit lock attempt, deterministic-score toàn snapshot trong một transaction và trả lại result cũ khi replay.
 - Desktop dùng split passage/questions; mobile dùng hai tab button có `aria-pressed`, keyboard activation, no horizontal overflow và content scroll độc lập.
+
+## 22. Phase 8 Writing practice architecture
+
+```text
+authenticated learner
+  -> start_writing_submission(task_slug, request_key)
+  -> save_writing_draft(submission, essay, expected_revision)
+       -> lock owner draft -> calculate revision/word count/time in PostgreSQL
+  -> submit_writing_submission(submission, request_key)
+       -> lock -> immutable essay/checksum/timestamp snapshot
+  -> submitted owner review
+       -> optional versioned AI consent
+       -> start_writing_feedback_request(submission)
+       -> server-only moderation + OpenAI Structured Output
+       -> HMAC-sign exact payload
+       -> finalize_writing_feedback
+            -> Vault secret verification + schema/evidence validation
+            -> immutable structured feedback
+```
+
+The browser never sends an actor, status, word count, band, feedback, submitted timestamp or remaining timer authority. The Supabase server client continues to use the learner JWT and RLS; no service-role key exists in the application path.
+
+The provider call is synchronous for this MVP and bounded by database lease, 25-second SDK timeout, quota and 2-attempt limit. Absence of provider key or Vault/signing configuration is a normal fail-closed mode. Provider failure stores no essay, prompt or raw response in run metadata and cannot produce fake feedback. A future queue is intentionally deferred; Phase 9/Speaking is outside this slice.
+
+Published task versions and submitted essays remain immutable so provider/model/rubric output can be audited against the exact pinned input. Feedback finalization is separated from provider generation by an HMAC boundary: a learner can invoke the owner RPC but cannot forge accepted output without the server/Vault shared secret.

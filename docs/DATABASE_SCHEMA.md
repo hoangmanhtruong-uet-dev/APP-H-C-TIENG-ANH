@@ -632,3 +632,21 @@ Phase 7 adds `listening_audio_assets`, `listening_practice_versions` and `listen
 The published snapshot is immutable. Publication requires controlled WAV metadata with checksum/provenance, a private transcript, contiguous parts within the declared duration, answer keys and only `single_choice`, `multiple_choice` or `short_text` questions. Learners receive SELECT-only metadata through test-type-aware RLS; transcripts and answer keys have no learner table grants.
 
 Listening reuses `start_exercise_attempt`, `save_exercise_answer` and `submit_exercise_attempt`. Dedicated `get_listening_attempt_clock` returns owner-scoped database timestamps, while `get_listening_attempt_result` releases transcript and answer review only after the owner attempt is scored.
+
+# Phase 8 Writing extension (2026-07-17)
+
+| Table | Purpose and integrity |
+| --- | --- |
+| `writing_tasks` | Stable slug/order identity. RLS exposes a current accessible task or a task pinned to the owner's history. |
+| `writing_task_versions` | Immutable versioned task prompt, instructions, provenance, test type, word/time limits and lifecycle; one published version per task. |
+| `writing_submissions` | Owner-scoped PostgreSQL draft and immutable submitted snapshot with server revision, word count, deadline, checksum and timestamps. |
+| `writing_feedback_runs` | Optional AI request lifecycle, consent/version metadata, quota attempt, lease, usage and allowlisted failure code. |
+| `writing_feedback` | Immutable validated feedback only; band estimates, criteria/evidence, priorities, revision plan and corrected examples. No raw provider response. |
+
+All five public tables have RLS enabled. Authenticated learners receive SELECT-only table grants. Mutation RPCs derive the actor from `auth.uid()`, use `SECURITY DEFINER` with empty `search_path`, validate ownership and never accept client owner/status/score/band/timestamp authority.
+
+`start_writing_submission` selects a compatible published version and creates/resumes one active draft. `save_writing_draft` locks the row, enforces expected revision and calculates word count in PostgreSQL. `submit_writing_submission` locks and atomically snapshots the essay, checksum, submitted time and late state; replay is idempotent and later mutation is blocked.
+
+AI feedback begins only for a submitted owner essay with `writing-ai-v1` consent. Quota is 5 requests per rolling 7 days, 2 per minute, and 2 attempts per submission. `finalize_writing_feedback` accepts only an HMAC-signed server payload backed by Vault secret `writing_feedback_signing_secret`; it validates structured fields, half-band ranges and exact essay substrings before storing feedback atomically. `fail_writing_feedback_run` stores only an allowlisted error code. Provider/Vault absence is a supported fail-closed state.
+
+Phase 8 schema history is `20260717130000`, `20260717131500` and `20260717132000`; local and remote parity is 12/12. Seed contains one original published Academic Task 2 and one draft-only visibility fixture.

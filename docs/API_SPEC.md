@@ -720,3 +720,18 @@ Routes are `/practice/reading`, `/practice/reading/[exerciseSlug]` and `/practic
 - `get_listening_attempt_result(attempt_id)` returns score/questions/transcript only after submit and only to the owner. Direct transcript and answer-key table reads are not part of the learner API.
 
 Application routes are `/practice/listening`, `/practice/listening/[exerciseSlug]` and `/practice/listening/[exerciseSlug]/result/[attemptId]`. Server Actions accept only the slug/attempt/question/answer/revision fields required by these RPCs; client-supplied user, score, correctness, submit time or remaining timer values are ignored by schema allowlisting and never sent to PostgreSQL.
+
+# Phase 8 Writing server/RPC contract (2026-07-17)
+
+| Server action / RPC | Accepted client input | Server/database authority |
+| --- | --- | --- |
+| `startWritingAction` → `start_writing_submission` | published task slug | actor, compatible pinned version, initial revision, start/expiry timestamps |
+| `saveWritingDraftAction` → `save_writing_draft` | submission UUID, essay text, expected revision | owner, next revision, word count, minimum state and saved time |
+| `submitWritingAction` → `submit_writing_submission` | submission UUID and opaque idempotency key | immutable text snapshot, checksum, word count, status, submitted time and late state |
+| `get_writing_submission_clock` | submission UUID | owner-only start/expiry/server/submitted timestamps |
+| `requestWritingFeedbackAction` → `start_writing_feedback_request` | submitted UUID and explicit consent | actor, essay/prompt from PostgreSQL, quota, lease, version metadata and nonce |
+| `finalize_writing_feedback` / `fail_writing_feedback_run` | server HMAC payload or allowlisted error | Vault-backed signature, schema/evidence validation, atomic immutable result/run state |
+
+Routes are `/practice/writing`, `/practice/writing/[taskSlug]` and `/practice/writing/[taskSlug]/submission/[submissionId]`. Review lookup requires an owner submission with database status `submitted`; the browser cannot open feedback on a draft by changing a URL or status field.
+
+The optional provider path uses the official OpenAI Responses API server-side with `store: false`, Structured Outputs, moderation, no SDK retry and a 25-second timeout. `OPENAI_API_KEY`, model and signing secret are server-only. Missing configuration returns a safe unavailable state while the submitted essay remains readable. Provider errors never create synthetic feedback and only an allowlisted error code is persisted. Validated output is explicitly labelled a practice estimate, not an official IELTS score.

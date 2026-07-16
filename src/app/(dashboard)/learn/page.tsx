@@ -71,6 +71,16 @@ export default async function LearnPage() {
               và transcript chỉ mở sau khi nộp.
             </p>
           </Link>
+          <Link
+            href="/practice/writing"
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none"
+          >
+            <h3 className="text-lg font-bold">Writing practice</h3>
+            <p className="mt-2 leading-7 text-[var(--muted-foreground)]">
+              Task 2 nguyên bản, PostgreSQL autosave, submit bất biến và góp ý
+              AI tùy chọn với fallback an toàn.
+            </p>
+          </Link>
         </div>
       </section>
       <ModuleCatalog modules={modules} />

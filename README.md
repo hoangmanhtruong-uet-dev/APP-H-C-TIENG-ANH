@@ -1,13 +1,13 @@
 # IELTS Flow
 
-Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 2 Auth/Profile, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress, Phase 5 Exercise/Vocabulary/Grammar, Phase 6 Reading và implementation Phase 7 Listening đã được apply trên project remote. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; completion, timer và exercise scoring được tính trong hardened RPC.
+Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 1–8 đã COMPLETE. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; completion, timer, scoring và Writing submission lifecycle được tính trong hardened RPC.
 
 ## Stack
 
 - Next.js App Router 16, React 19, TypeScript strict
 - Tailwind CSS 4 với shadcn-compatible tokens
 - Supabase Auth, PostgreSQL, `@supabase/ssr`, Supabase CLI
-- Zod, React Markdown 10.1.0, Vitest, Testing Library, Playwright
+- Zod, React Markdown 10.1.0, official OpenAI SDK, Vitest, Testing Library, Playwright và axe-core
 - ESLint, Prettier, npm lockfile
 
 ## Thiết lập local
@@ -26,6 +26,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
 Không cần và không được thêm service-role/secret key cho luồng auth này. `.env.local` đã được Git ignore.
+
+Optional Writing AI feedback fail-closed nếu chưa cấu hình. Khi bật, đặt `OPENAI_API_KEY`, `OPENAI_WRITING_MODEL` và `WRITING_FEEDBACK_SIGNING_SECRET` chỉ ở server; signing secret phải khớp secret Supabase Vault tên `writing_feedback_signing_secret`. Không biến nào được có prefix `NEXT_PUBLIC_`, và application không cần service-role key.
 
 ## Supabase migration
 
@@ -141,7 +143,7 @@ Manual end-to-end verification ngày 2026-07-16 đã pass với Gmail SMTP và t
 - Unit/component/E2E, 284 database assertions local, 64 Phase 5 pgTAP assertions và authenticated two-user Playwright local
 - Health endpoints `/api/health/live` và `/api/health/ready`
 
-Chưa triển khai: Phase 8, Writing, Speaking, AI, mock test, placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, content admin/CMS, roles, consent, forgot/reset password và avatar/storage. **PHASE 7 COMPLETE** ngày 2026-07-17: implementation, local gates, remote apply/parity 9/9, remote lint và direct remote database-owner verifier 34/34 đều pass (`KI-079` closed).
+Chưa triển khai: Phase 9, Speaking, audio recording/STT, mock test, Writing Task 1, placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, content admin/CMS, roles nâng cao, forgot/reset password và avatar/storage. **PHASE 8 COMPLETE** ngày 2026-07-17: implementation, local gates, remote apply, parity 12/12, local/remote lint và direct remote database-owner verifier 40/40 đều pass (`KI-080` closed).
 
 ## Cấu trúc chính
 
@@ -175,4 +177,16 @@ docs                    Product, architecture, schema, API, security docs
 - New migrations `20260717100000_phase_7_listening_practice_engine.sql` and `20260717101500_phase_7_listening_foundation_content.sql` are applied local and remote without modifying Phase 1–6 or resetting remote data.
 - Fresh evidence: local full pgTAP 465/465, local/remote lint clean, parity 9/9, 98 unit/component tests, production build and Playwright 50 pass/14 declared skips. Listening browser checks cover two real actors, 375/768/1024/1440, keyboard, audio, resume, submit and transcript isolation.
 - Direct remote database-owner verifier ran through `ok 34`, failed 0, with no `not ok` and no `ERROR`; its transaction rolled back and the database password was neither sent nor stored in chat.
-- Current status: **PHASE 7 COMPLETE**. No Phase 7 blocker remains. Phase 8 was not implemented.
+- Historical Phase 7 sign-off: **PHASE 7 COMPLETE** with no blocker; Phase 8 had not been implemented at that sign-off.
+
+## Phase 8 Writing practice
+
+- Routes: `/practice/writing`, `/practice/writing/[taskSlug]`, `/practice/writing/[taskSlug]/submission/[submissionId]`.
+- One original Academic Writing Task 2 plus one hidden draft fixture; no copyrighted IELTS task material.
+- PostgreSQL owns task snapshots, draft revision/word count, timer, atomic/idempotent submit, immutable essay and owner-only review/history.
+- Optional AI feedback runs server-only through the official OpenAI Responses API with Structured Outputs, moderation, timeout, quota, HMAC/Vault finalization and exact-essay evidence validation. It is clearly practice guidance, never an official IELTS score.
+- No AI/provider configuration is a supported safe fallback. No fake feedback or raw provider response is stored; no service-role key is used by the application.
+- Three Phase 8 migrations are applied local and remote without reset or data deletion. Final parity is 12/12 and local/remote database lint is clean.
+- Fresh local evidence: full pgTAP 544/544, Phase 8 actor test 39/39, owner-style verifier `ok 1`–`ok 40`, 104 unit/component tests, full practice E2E 8/8, Writing responsive/keyboard/axe checks 2/2.
+- Direct remote database-owner verifier ran through `ok 40`, failed 0, with no `not ok` and no `ERROR`; its transaction rolled back and the database password was neither sent nor stored in chat. `KI-080` is closed.
+- Current status: **PHASE 8 COMPLETE**. No Phase 8 blocker remains. Phase 9 was not implemented.

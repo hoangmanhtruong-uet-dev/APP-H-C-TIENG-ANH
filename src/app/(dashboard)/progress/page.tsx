@@ -10,6 +10,7 @@ import {
   getLearningCatalog,
 } from "@/server/learning/content";
 import { getRecentAttemptHistory } from "@/server/practice/content";
+import { getRecentWritingSubmissions } from "@/server/writing/content";
 
 export const metadata: Metadata = {
   title: "Tiến độ học tập",
@@ -23,9 +24,10 @@ const activityDateFormatter = new Intl.DateTimeFormat("vi-VN", {
 });
 
 export default async function ProgressPage() {
-  const [modules, attempts] = await Promise.all([
+  const [modules, attempts, writingSubmissions] = await Promise.all([
     getLearningCatalog(),
     getRecentAttemptHistory(),
+    getRecentWritingSubmissions(),
   ]);
   const overview = buildLearningOverview(modules);
 
@@ -154,6 +156,52 @@ export default async function ProgressPage() {
         ) : (
           <p className="mt-5 rounded-xl border border-dashed border-[var(--border-strong)] p-8 text-center text-[var(--muted-foreground)]">
             Kết quả Vocabulary và Grammar sẽ xuất hiện sau lần nộp bài đầu tiên.
+          </p>
+        )}
+      </section>
+
+      <section aria-labelledby="writing-history-title">
+        <h2 id="writing-history-title" className="text-2xl font-bold">
+          Lịch sử Writing
+        </h2>
+        {writingSubmissions.length > 0 ? (
+          <ol className="mt-5 space-y-3">
+            {writingSubmissions.map((submission) => (
+              <li
+                key={submission.id}
+                className="flex flex-col gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <Link
+                    href={`/practice/writing/${submission.taskSlug}/submission/${submission.id}`}
+                    className="font-bold hover:text-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none"
+                  >
+                    {submission.title}
+                  </Link>
+                  <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+                    Writing · bài đã nộp bất biến
+                  </p>
+                </div>
+                <div className="text-left sm:text-right">
+                  <p className="font-bold tabular-nums">
+                    {submission.wordCount} từ
+                  </p>
+                  <time
+                    dateTime={submission.submittedAt}
+                    className="text-sm text-[var(--muted-foreground)]"
+                  >
+                    {activityDateFormatter.format(
+                      new Date(submission.submittedAt),
+                    )}
+                  </time>
+                </div>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="mt-5 rounded-xl border border-dashed border-[var(--border-strong)] p-8 text-center text-[var(--muted-foreground)]">
+            Bài Writing đã nộp sẽ xuất hiện tại đây; hệ thống không tạo điểm hay
+            lịch sử giả.
           </p>
         )}
       </section>

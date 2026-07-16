@@ -1,7 +1,7 @@
 # KNOWN ISSUES - Web tự học IELTS
 
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1 foundation, Phase 2 Auth/Profile/RLS, Phase 3 Learner Onboarding, Phase 4 Learning Content/Progress, Phase 5 Exercise/Vocabulary/Grammar, Phase 6 Reading và Phase 7 Listening Practice COMPLETE; các authenticated suites ngoài practice vẫn skip có điều kiện khi thiếu dedicated credentials
+> Trạng thái repo hiện tại: Phase 1–8 COMPLETE. Phase 8 Writing đã đạt implementation, local gates, remote apply, parity 12/12, local/remote lint và direct remote database-owner verifier 40/40 (`KI-080` closed). Các authenticated suites ngoài practice vẫn skip có điều kiện khi thiếu dedicated credentials.
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước
@@ -165,3 +165,11 @@ Accepted MVP limits: four Reading task types only; no Listening/Writing/Speaking
 | KI-079 | P1 | Direct Phase 7 database-owner remote verifier chưa chạy sau parity 9/9 | Từng chặn quyết định Phase 7 COMPLETE | Closed 2026-07-17: chạy tới `ok 34`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat | CLOSED |
 
 Decision `D-004` đã được chốt cho execution slice: Listening dùng 2 part và 3 type `single_choice`, `multiple_choice`, `short_text`; Reading giữ 4 type Phase 6. Đây là giới hạn MVP, không mở Writing/Speaking/AI/mock test.
+
+## Phase 8 Writing verification follow-up
+
+| ID | Sev | Issue | Impact | Resolution | Status |
+| --- | --- | --- | --- | --- | --- |
+| KI-080 | P1 | Direct Phase 8 database-owner remote verifier chưa chạy sau parity 12/12 | Từng chặn quyết định Phase 8 COMPLETE | Closed 2026-07-17: direct owner run tới `ok 40`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat. Final parity 12/12 và local/remote lint vẫn sạch | CLOSED |
+
+Accepted Phase 8 limits: chỉ Academic Writing Task 2; AI feedback optional, không phải điểm IELTS chính thức, không có queue/background job và fallback an toàn khi provider/Vault chưa cấu hình. Không có Speaking, recording, STT, mock test hoặc Phase 9.

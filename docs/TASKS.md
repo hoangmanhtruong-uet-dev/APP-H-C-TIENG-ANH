@@ -387,3 +387,21 @@ Phạm vi execution này là Listening Practice được người dùng phê duy
 - [x] `P7-DOD-01` Final parity 9/9, local/remote lint sạch, remote owner verifier 34/34 PASS và toàn bộ Phase 7 completion gates đều green.
 
 Current status: **PHASE 7 COMPLETE** ngày 2026-07-17. Không còn blocker Phase 7; Phase 8 không được triển khai.
+
+## Phase 8 execution slice — Writing Practice Engine & AI Feedback Foundation
+
+Phạm vi execution này chỉ gồm Academic Writing Task 2 và optional AI feedback. Không triển khai Phase 9, Speaking, audio recording, STT, mock test hoặc Writing Task 1.
+
+- [x] `P8-DB-01` Tạo 3 migration Phase 8 forward-only cho task/version, submission, feedback run/result, constraints/indexes và pinned-owner policy; không sửa migration Phase 1–7.
+- [x] `P8-RLS-01` Published/test-type visibility, draft isolation, owner submission/feedback, anonymous denial và read-only table grants được kiểm tra bằng actor thật.
+- [x] `P8-DOM-01` PostgreSQL-owned start/resume, server timer, optimistic revision autosave, atomic/idempotent submit và immutable submitted essay.
+- [x] `P8-AI-01` Optional OpenAI server-only Structured Outputs, moderation, timeout, quota/retry, HMAC/Vault finalization, evidence validation và safe no-provider fallback; không lưu raw response hoặc tạo feedback giả.
+- [x] `P8-SEED-01` Một Academic Task 2 nguyên bản đã publish và một draft visibility fixture; không sao chép đề IELTS có bản quyền.
+- [x] `P8-APP-01` Catalog, editor, resume/autosave/conflict, server-derived countdown, submitted review, optional AI consent/feedback và Writing history trong `/progress`.
+- [x] `P8-TST-01` Full local pgTAP 544/544; Phase 8 actor test 39/39; local owner-style verifier 40/40; local/remote database lint sạch.
+- [x] `P8-UX-01` 104 unit/component tests; full practice Playwright 8/8; Writing ownership/responsive/keyboard 2/2 và axe không có violation.
+- [x] `P8-REMOTE-01` 3 migration applied linked remote bằng forward migration; không reset/xóa dữ liệu; parity 12/12 và remote lint sạch.
+- [x] `P8-REMOTE-02` Direct remote database-owner verifier chạy tới `ok 40`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat (`KI-080` closed).
+- [x] `P8-DOD-01` Final parity 12/12, local/remote lint sạch, remote owner verifier 40/40 PASS và toàn bộ Phase 8 completion gates đều green.
+
+Current status: **PHASE 8 COMPLETE** ngày 2026-07-17. Không còn blocker Phase 8; Phase 9 không được triển khai.
