@@ -2,6 +2,8 @@
 
 Tài liệu này chỉ dùng public URL/anon key ở ứng dụng. Không nhập access token, database password, connection string có password hoặc service-role/secret key vào source, docs, screenshot hay chat.
 
+Trạng thái Phase 2: **COMPLETE** — database verification và manual email/auth/profile flow đều pass ngày 2026-07-16.
+
 ## 1. Local database
 
 Yêu cầu Docker Desktop đang chạy:
@@ -14,7 +16,7 @@ npx.cmd supabase test db
 npx.cmd supabase db lint --level warning
 ```
 
-`db reset` phải apply migration `20260716015215_phase_2_auth_profiles.sql`; pgTAP phải pass 21 test trước khi push remote.
+`db reset` phải apply migration `20260716015215_phase_2_auth_profiles.sql`; bộ database test phải pass đủ 42 assertions local trước khi push remote.
 
 ## 2. Đăng nhập và link project
 
@@ -91,7 +93,7 @@ Không log hoặc copy confirmation URL/token vào issue, screenshot hay fixture
 ## 7. SMTP và rate limits
 
 - Local Mailpit chỉ dùng để kiểm tra email local.
-- Custom SMTP không bắt buộc trong Phase 2; ghi lại trạng thái provider trước production.
+- Gmail SMTP đã được cấu hình và manual verify bằng inbox thật; mọi thay đổi provider sau này phải được kiểm tra lại trước production.
 - Giữ rate limit mặc định cho tới khi có số liệu; không nới chỉ để E2E pass.
 
 ## 8. Manual verification checklist
@@ -104,16 +106,17 @@ Remote evidence ngày 2026-07-16:
 - Remote database lint trả `No schema errors found`.
 - Remote TAP verifier exit 0 với 21/21 assertions; fixtures kết thúc bằng `ROLLBACK`.
 - Experimental pg-delta từng cảnh báo không cache được catalog sau push; migration history, lint và direct remote verifier độc lập đều pass.
+- Gmail SMTP, register bằng email thật, email delivery, confirmation link, login, profile auto-create/update, logout và protected-route denial sau logout đều manual pass.
 
 - [x] CLI đã login và link đúng project.
 - [x] Migration remote đã apply và history khớp local (`20260716015215`).
 - [x] Remote database lint không có schema error.
-- [ ] Email/password và confirm email đang bật.
-- [ ] Site URL và redirect URL đúng environment.
-- [ ] Confirmation template dùng `token_hash` và `/auth/confirm`.
-- [ ] Đăng ký bằng inbox thật nhận được email.
-- [ ] Link xác minh tạo session và vào `/dashboard`.
-- [ ] Login/logout và session refresh hoạt động.
+- [x] Email/password và confirm email đang bật.
+- [x] Site URL và redirect URL hoạt động với confirmation flow hiện tại.
+- [x] Confirmation template đưa token về `/auth/confirm` thành công.
+- [x] Đăng ký bằng inbox Gmail thật nhận được email qua SMTP.
+- [x] Link xác minh tạo session và vào protected application flow.
+- [x] Login, profile read/update, logout và route denial sau logout hoạt động.
 - [x] TAP remote chứng minh User A không đọc/cập nhật profile B và anon bị từ chối; toàn bộ fixture rollback.
-- [ ] `E2E_AUTH_EMAIL`/`E2E_AUTH_PASSWORD` được cấp qua secret và authenticated E2E pass.
+- [-] `E2E_AUTH_EMAIL`/`E2E_AUTH_PASSWORD` chưa được cấp; hai automated authenticated cases skip rõ ràng, được thay bằng manual full-flow evidence trong Phase 2.
 - [x] `.env.local`, CLI state/token, pooler metadata, test output và credential không bị Git track; secret-pattern scan pass.

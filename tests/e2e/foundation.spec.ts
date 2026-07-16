@@ -7,6 +7,7 @@ const publicRoutes = [
 ] as const;
 
 const protectedRoutes = [
+  "/onboarding",
   "/dashboard",
   "/learn",
   "/roadmap",
@@ -25,6 +26,9 @@ const requiredViewports = [
 const authEmail = process.env.E2E_AUTH_EMAIL;
 const authPassword = process.env.E2E_AUTH_PASSWORD;
 const hasAuthAccount = Boolean(authEmail && authPassword);
+const onboardingEmail = process.env.E2E_ONBOARDING_EMAIL;
+const onboardingPassword = process.env.E2E_ONBOARDING_PASSWORD;
+const hasOnboardingAccount = Boolean(onboardingEmail && onboardingPassword);
 
 async function expectNoHorizontalOverflow(page: Page) {
   const hasOverflow = await page.evaluate(
@@ -41,7 +45,7 @@ async function loginWithTestAccount(page: Page) {
   await page.getByLabel("Email").fill(authEmail!);
   await page.getByLabel("Mật khẩu", { exact: true }).fill(authPassword!);
   await page.getByRole("button", { name: "Đăng nhập" }).click();
-  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(page).toHaveURL(/\/(dashboard|onboarding)$/);
 }
 
 function skipWithoutDesktopTestAccount(testInfo: TestInfo) {
@@ -171,9 +175,6 @@ test("real login, profile update, logout, and route guard", async ({
 }, testInfo) => {
   skipWithoutDesktopTestAccount(testInfo);
   await loginWithTestAccount(page);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Xin chào",
-  );
 
   await page.goto("/profile");
   const displayName = page.getByLabel("Họ và tên");
@@ -195,6 +196,88 @@ test("real login, profile update, logout, and route guard", async ({
   await expect(page).toHaveURL(/\/login$/);
   await page.goto("/dashboard");
   await expect(page).toHaveURL(/\/login\?/);
+});
+
+test("real onboarding saves every step and unlocks dashboard", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "chromium-desktop",
+    "Authenticated onboarding E2E runs once in the desktop project.",
+  );
+  test.skip(
+    !hasOnboardingAccount,
+    "E2E_ONBOARDING_EMAIL and E2E_ONBOARDING_PASSWORD were not provided.",
+  );
+
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(onboardingEmail!);
+  await page.getByLabel("Mật khẩu", { exact: true }).fill(onboardingPassword!);
+  await page.getByRole("button", { name: "Đăng nhập" }).click();
+  await expect(page).toHaveURL(/\/(dashboard|onboarding)$/);
+
+  test.skip(
+    new URL(page.url()).pathname === "/dashboard",
+    "The onboarding test account is already complete.",
+  );
+
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/onboarding$/);
+
+  if (
+    await page.getByRole("button", { name: "Bắt đầu thiết lập" }).isVisible()
+  ) {
+    await page.getByRole("button", { name: "Bắt đầu thiết lập" }).click();
+  }
+
+  await page.getByLabel("IELTS Academic").check();
+  await page.getByRole("button", { name: "Lưu và tiếp tục" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Band hiện tại của bạn là bao nhiêu?" }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Band hiện tại của bạn là bao nhiêu?" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Quay lại" }).click();
+  await expect(page.getByLabel("IELTS Academic")).toBeChecked();
+  await page.getByRole("button", { name: "Lưu và tiếp tục" }).click();
+  await page.getByLabel("Band hiện tại").selectOption("unknown");
+  await page.getByRole("button", { name: "Lưu và tiếp tục" }).click();
+  await page.getByLabel("Band mục tiêu").selectOption("7");
+  await page.getByLabel("Mục tiêu chính").selectOption("study_abroad");
+  await page.getByRole("button", { name: "Lưu và tiếp tục" }).click();
+  await page.getByLabel("Chưa xác định ngày thi").check();
+  await page.getByRole("button", { name: "Lưu và tiếp tục" }).click();
+  await page.getByLabel("Thời lượng mỗi ngày").selectOption("45");
+  await page.getByLabel("Số ngày mỗi tuần").selectOption("5");
+  await page.getByRole("button", { name: "Lưu và tiếp tục" }).click();
+  await page.getByLabel("Writing").check();
+  await page.getByLabel("Speaking").check();
+  await page.getByRole("button", { name: "Lưu và tiếp tục" }).click();
+  await page.getByRole("button", { name: "Hoàn tất onboarding" }).click();
+
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(page.getByText("Band mục tiêu")).toBeVisible();
+  await expect(page.getByText("7.0").first()).toBeVisible();
+
+  await page.goto("/onboarding");
+  await expect(page).toHaveURL(/\/dashboard$/);
+
+  await page.goto("/profile");
+  await page.getByLabel("Mục tiêu chính").selectOption("work");
+  await page.getByRole("button", { name: "Lưu mục tiêu học" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Mục tiêu học đã được cập nhật.",
+  );
+  await page.reload();
+  await expect(page.getByLabel("Mục tiêu chính")).toHaveValue("work");
+
+  await page.getByLabel("Mục tiêu chính").selectOption("study_abroad");
+  await page.getByRole("button", { name: "Lưu mục tiêu học" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Mục tiêu học đã được cập nhật.",
+  );
 });
 
 test("not-found state gives a safe path home", async ({ page }) => {

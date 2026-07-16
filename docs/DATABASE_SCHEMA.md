@@ -43,6 +43,7 @@ PostgreSQL enum phù hợp cho state ổn định; taxonomy mở như question t
 ```mermaid
 erDiagram
   AUTH_USERS ||--|| PROFILES : has
+  PROFILES ||--o| LEARNER_PROFILES : personalizes
   PROFILES ||--o{ LEARNING_GOALS : owns
   LEARNING_GOALS ||--o{ STUDY_PLANS : versions
   STUDY_PLANS ||--o{ PLAN_WEEKS : contains
@@ -77,7 +78,7 @@ Schema đang được triển khai bởi migration Phase 2:
 | `locale`                   | text        | required, default `vi-VN`                 |
 | `created_at`, `updated_at` | timestamptz | required, database default `now()`        |
 
-`current_band`, `target_band`, `exam_date` và `onboarding_completed_at` là phần mở rộng onboarding; chưa tồn tại trong migration Phase 2 và không được giả lập ở profile.
+`current_band`, `target_band`, `target_exam_date` và `onboarding_completed_at` thuộc domain `learner_profiles`; không nhồi vào identity profile.
 
 Database behavior:
 
@@ -86,17 +87,44 @@ Database behavior:
 - `set_profiles_updated_at` cập nhật timestamp phía database.
 - Email vẫn thuộc Supabase Auth, không sao chép vào `profiles`.
 
-### 4.2. `user_roles`
+### 4.2. `learner_profiles` (Phase 3 implemented)
+
+Migration `20260716040212_phase_3_learner_onboarding.sql` tạo một row tối đa cho mỗi profile. Row được tạo lazy bằng server-side upsert khi user lưu bước đầu tiên; actor luôn lấy từ session, không lấy `user_id` từ form.
+
+| Column | Type | Nullable | Constraint/semantics |
+| --- | --- | --- | --- |
+| `user_id` | uuid PK | no | FK `profiles(id)` ON DELETE CASCADE |
+| `test_type` | text | yes | `academic` hoặc `general_training` |
+| `current_band` | numeric(2,1) | yes | 0-9, bước 0.5; null là chưa biết |
+| `target_band` | numeric(2,1) | yes while draft | 0-9, bước 0.5; bắt buộc khi complete |
+| `target_exam_date` | date | yes | null hoặc không ở quá khứ theo timezone profile khi nhập/sửa |
+| `daily_study_minutes` | smallint | yes while draft | 15, 30, 45, 60, 90 hoặc 120 |
+| `study_days_per_week` | smallint | yes while draft | integer 1-7 |
+| `priority_skills` | text[] | no | subset unique của listening/reading/writing/speaking |
+| `primary_goal` | text | yes while draft | allowlist goal Phase 3 |
+| `onboarding_step` | smallint | no | 1-8; bước resume hiện tại |
+| `onboarding_completed_at` | timestamptz | yes | chỉ RPC server/database ghi; UTC |
+| `created_at`, `updated_at` | timestamptz | no | database `now()`; update trigger |
+
+RLS/grants:
+
+- `authenticated`: SELECT/INSERT/UPDATE đúng row có `user_id = auth.uid()`; không DELETE.
+- Column grants chỉ cho phép các preference và `onboarding_step`; không cho ghi completion/timestamps.
+- `anon`: không có table grant và không execute completion RPC.
+- `complete_learner_onboarding()` là hardened SECURITY DEFINER, `search_path = ''`, tự lấy `auth.uid()`, lock row, validate đủ field rồi idempotently ghi completion timestamp.
+- Không tạo index phụ: PK đã phục vụ toàn bộ lookup Phase 3 theo user.
+
+### 4.3. `user_roles`
 
 `user_id uuid`, `role app_role`, `granted_by uuid`, `granted_at timestamptz`, unique `(user_id, role)`.
 
 Role mutation chỉ qua protected server function/use case; learner không tự ghi.
 
-### 4.3. `user_settings`
+### 4.4. `user_settings`
 
 `user_id PK`, `study_reminder_enabled`, `email_enabled`, `daily_reminder_time`, `week_starts_on`, `reduced_motion`, timestamps.
 
-### 4.4. `consents`
+### 4.5. `consents`
 
 | Column                      | Type                                                           |
 | --------------------------- | -------------------------------------------------------------- |

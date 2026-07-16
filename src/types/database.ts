@@ -7,8 +7,67 @@ export type Json =
   | Json[];
 
 export type Database = {
+  __InternalSupabase: {
+    PostgrestVersion: "14.5";
+  };
   public: {
     Tables: {
+      learner_profiles: {
+        Row: {
+          created_at: string;
+          current_band: number | null;
+          daily_study_minutes: number | null;
+          onboarding_completed_at: string | null;
+          onboarding_step: number;
+          primary_goal: string | null;
+          priority_skills: string[];
+          study_days_per_week: number | null;
+          target_band: number | null;
+          target_exam_date: string | null;
+          test_type: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          current_band?: number | null;
+          daily_study_minutes?: number | null;
+          onboarding_completed_at?: string | null;
+          onboarding_step?: number;
+          primary_goal?: string | null;
+          priority_skills?: string[];
+          study_days_per_week?: number | null;
+          target_band?: number | null;
+          target_exam_date?: string | null;
+          test_type?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          current_band?: number | null;
+          daily_study_minutes?: number | null;
+          onboarding_completed_at?: string | null;
+          onboarding_step?: number;
+          primary_goal?: string | null;
+          priority_skills?: string[];
+          study_days_per_week?: number | null;
+          target_band?: number | null;
+          target_exam_date?: string | null;
+          test_type?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "learner_profiles_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       profiles: {
         Row: {
           created_at: string;
@@ -41,7 +100,30 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      complete_learner_onboarding: {
+        Args: never;
+        Returns: {
+          created_at: string;
+          current_band: number | null;
+          daily_study_minutes: number | null;
+          onboarding_completed_at: string | null;
+          onboarding_step: number;
+          primary_goal: string | null;
+          priority_skills: string[];
+          study_days_per_week: number | null;
+          target_band: number | null;
+          target_exam_date: string | null;
+          test_type: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "learner_profiles";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
     };
     Enums: {
       [_ in never]: never;

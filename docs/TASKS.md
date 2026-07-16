@@ -69,14 +69,24 @@ Exit criteria:
 
 ### 4.3. Auth và profile
 
+> Phase 2 Authentication execution slice: **COMPLETE**. Các task roadmap rộng hơn về forgot/reset, roles, settings và consents vẫn giữ trạng thái riêng và không bị đánh dấu hoàn thành thay cho phase sau.
+
+> Phase 3 execution slice — IELTS Learner Onboarding & Personalization Foundation: **IMPLEMENTED AND VERIFIED** ngày 2026-07-16. Slice này map vào phần onboarding của roadmap “Phase 2 - Goal, onboarding, plan và Today”; goal versioning, diagnostic, plan generator và Today vẫn chưa triển khai nên không được đánh dấu complete.
+
+- [x] `P3-ONB-DB-01` `learner_profiles`, FK, constraints, updated_at, RLS, policies, least-privilege grants và hardened completion RPC.
+- [x] `P3-ONB-SRV-01` Zod schemas, save-per-step, completion, preference update và request-scoped server guards.
+- [x] `P3-ONB-UI-01` Wizard 8 bước responsive/accessibility, resume, review, dashboard/profile integration.
+- [x] `P3-ONB-TST-01` 44 pgTAP assertions Phase 3 local và 42 assertion trực tiếp trên remote; unit/component/conditional authenticated E2E.
+- [-] `P3-ONB-E2E-01` Dedicated real onboarding E2E đã viết nhưng skip khi `E2E_ONBOARDING_*` không được cấp; database/server behavior đã verify, manual browser flow với dedicated account còn là release follow-up.
+
 - [x] `P1-AUTH-01` Tạo Supabase dev project, migration workflow và generated types. Local/remote history đồng bộ; types generate từ schema applied.
-- [-] `P1-AUTH-02` Register/login/logout/forgot/reset/email verify flows. Register/login/logout/confirm đã có; forgot/reset nằm ngoài Phase 2 hiện tại.
+- [-] `P1-AUTH-02` Register/login/logout/forgot/reset/email verify flows. Register/login/logout/confirm đã pass bằng email thật; forgot/reset nằm ngoài Phase 2 hiện tại.
 - [x] `P1-AUTH-03` Server-side session helpers; Next.js 16 Proxy chỉ refresh/coarse redirect, protected layout xác minh lại bằng `getUser()`.
 - [-] `P1-AUTH-04` `profiles`, settings, consents, roles migrations. `profiles` đã xong; settings/consents/roles để phase tương ứng.
 - [-] `P1-AUTH-05` RLS profiles/settings/consents; owner-scoped repository. Profiles đã có least-privilege RLS và server-owned actor; các bảng còn lại chưa tạo.
 - [x] `P1-AUTH-06` Safe relative redirect allowlist; chống open redirect và encoded/control-character variants.
-- [-] `P1-AUTH-07` Cross-user tests user A/B; role escalation negative tests. Local pgTAP và 21 TAP remote pass với hai auth users, `authenticated`/`anon` roles và rollback; JWT client E2E vẫn chờ test credentials.
-- [-] `P1-AUTH-08` E2E register -> login -> profile -> logout -> reset. Anonymous/auth UI pass; authenticated provider flow skip khi thiếu `E2E_AUTH_*`; reset ngoài scope.
+- [x] `P1-AUTH-07` Cross-user tests user A/B trong phạm vi profiles. Local pgTAP và 21 TAP remote pass với hai auth users, `authenticated`/`anon` roles và rollback; role escalation chờ khi role model tồn tại.
+- [-] `P1-AUTH-08` E2E register -> login -> profile -> logout -> reset. Luồng register/confirm/login/profile/logout đã manual pass bằng email thật; automated authenticated Playwright thiếu `E2E_AUTH_*`, reset ngoài scope.
 
 Exit criteria:
 
@@ -89,9 +99,9 @@ Exit criteria:
 
 ### 5.1. Database/domain
 
-- [ ] `P2-DB-01` Migrations goal, diagnostic, plan, week, task, task event.
+- [-] `P2-DB-01` Onboarding learner profile đã có; goal, diagnostic, plan, week, task và task event chưa triển khai.
 - [ ] `P2-DB-02` Constraints/partial unique active goal/plan và required indexes.
-- [ ] `P2-DB-03` RLS + repository ownership tests.
+- [-] `P2-DB-03` Onboarding ownership RLS pass 42 remote assertions; các bảng goal/plan/task chưa tồn tại.
 - [ ] `P2-DOM-01` Deterministic plan generator v1, unit tests edge cases.
 - [ ] `P2-DOM-02` Task state machine và transition tests.
 - [ ] `P2-DOM-03` Regenerate/reschedule transaction + idempotency.
@@ -99,7 +109,7 @@ Exit criteria:
 
 ### 5.2. UI/API
 
-- [ ] `P2-UI-01` Onboarding goal, schedule, weak skills và consent wizard.
+- [-] `P2-UI-01` Onboarding goal/schedule/priority skills đã hoàn thành; consent ngoài scope Phase 3.
 - [ ] `P2-UI-02` Diagnostic optional/placeholder confidence có nhãn rõ, không giả score.
 - [ ] `P2-UI-03` Plan preview 4 tuần, rationale và confirm.
 - [ ] `P2-UI-04` Dashboard Today với task, estimated time, continue, weekly progress.
@@ -109,11 +119,11 @@ Exit criteria:
 
 ### 5.3. Verification
 
-- [ ] `P2-TST-01` 0/ít phút, exam date gần/quá khứ, study days rỗng.
+- [-] `P2-TST-01` Onboarding kiểm invalid duration, date quá khứ, days 0 và validation matrix; plan edge cases chưa có.
 - [ ] `P2-TST-02` Regenerate nhiều lần/cùng key/khác key không duplicate.
 - [ ] `P2-TST-03` Missed 2-3 days tạo plan vừa sức, không dồn backlog.
 - [ ] `P2-TST-04` Đổi timezone qua UTC boundary.
-- [ ] `P2-E2E-01` Register -> onboarding -> plan -> Today -> start task.
+- [-] `P2-E2E-01` Auth + onboarding conditional E2E đã có; plan/Today/start task chưa triển khai.
 
 Exit criteria:
 

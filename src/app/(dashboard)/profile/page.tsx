@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
 import { ProfileForm } from "@/components/profile/profile-form";
+import { LearningPreferencesForm } from "@/components/profile/learning-preferences-form";
 import { ErrorState } from "@/components/shared/error-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { requireCurrentAccount } from "@/server/auth/account";
+import { getCurrentLearnerProfile } from "@/server/onboarding/learner-profile";
 
 export const metadata: Metadata = { title: "Hồ sơ" };
 
@@ -13,7 +15,10 @@ const dateFormatter = new Intl.DateTimeFormat("vi-VN", {
 });
 
 export default async function ProfilePage() {
-  const account = await requireCurrentAccount();
+  const [account, learnerProfile] = await Promise.all([
+    requireCurrentAccount(),
+    getCurrentLearnerProfile(),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -68,6 +73,18 @@ export default async function ProfilePage() {
           </aside>
         </div>
       )}
+      {learnerProfile?.onboarding_completed_at ? (
+        <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-7">
+          <h2 className="text-xl font-bold">Mục tiêu học IELTS</h2>
+          <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">
+            Cập nhật các lựa chọn onboarding. Thay đổi này chưa tự tạo hoặc sửa
+            lộ trình học.
+          </p>
+          <div className="mt-6">
+            <LearningPreferencesForm profile={learnerProfile} />
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

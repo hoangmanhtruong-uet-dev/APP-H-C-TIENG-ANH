@@ -1,29 +1,120 @@
-import { ArrowRight, CalendarClock, NotebookPen } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarClock,
+  Clock3,
+  NotebookPen,
+  Target,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { SectionHeader } from "@/components/shared/section-header";
-import { StatusBadge } from "@/components/shared/status-badge";
 import { Button } from "@/components/ui/button";
-import { getAccountLabel, requireCurrentAccount } from "@/server/auth/account";
+import {
+  GOAL_LABELS,
+  isPrimaryGoal,
+  isPrioritySkill,
+  isTestType,
+  SKILL_LABELS,
+  TEST_TYPE_LABELS,
+} from "@/features/onboarding/constants";
+import { getAccountLabel } from "@/server/auth/account";
+import { requireCompletedOnboarding } from "@/server/onboarding/learner-profile";
 
 export const metadata: Metadata = {
   title: "Tổng quan",
-  description: "Không gian tổng quan cho kế hoạch học IELTS.",
+  description: "Không gian tổng quan cho mục tiêu tự học IELTS.",
 };
 
+const examDateFormatter = new Intl.DateTimeFormat("vi-VN", {
+  dateStyle: "long",
+  timeZone: "UTC",
+});
+
 export default async function DashboardPage() {
-  const account = await requireCurrentAccount();
+  const { account, learnerProfile } = await requireCompletedOnboarding();
+  const skills = learnerProfile.priority_skills.filter(isPrioritySkill);
+  const testType = isTestType(learnerProfile.test_type)
+    ? TEST_TYPE_LABELS[learnerProfile.test_type]
+    : "IELTS";
+  const goal = isPrimaryGoal(learnerProfile.primary_goal)
+    ? GOAL_LABELS[learnerProfile.primary_goal]
+    : "Chưa xác định";
 
   return (
     <div className="space-y-10">
       <PageHeader
         title={`Xin chào, ${getAccountLabel(account)}`}
-        description="Tài khoản của bạn đã được xác thực. Kế hoạch học sẽ được tạo trong phase onboarding tiếp theo."
-        action={<StatusBadge status="foundation" />}
+        description={`Thiết lập ${testType} của bạn đã sẵn sàng. Các phase sau sẽ dùng chính dữ liệu này để xây dựng lộ trình.`}
+        action={
+          <Button asChild variant="secondary" size="sm">
+            <Link href="/profile">Chỉnh mục tiêu</Link>
+          </Button>
+        }
       />
+
+      <section
+        className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+        aria-label="Thiết lập học tập"
+      >
+        <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5">
+          <Target
+            aria-hidden="true"
+            size={22}
+            className="text-[var(--primary)]"
+          />
+          <p className="mt-5 text-sm text-[var(--muted-foreground)]">
+            Band mục tiêu
+          </p>
+          <p className="mt-1 text-2xl font-bold">
+            {learnerProfile.target_band?.toFixed(1)}
+          </p>
+        </article>
+        <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5">
+          <Clock3
+            aria-hidden="true"
+            size={22}
+            className="text-[var(--primary)]"
+          />
+          <p className="mt-5 text-sm text-[var(--muted-foreground)]">
+            Quỹ thời gian
+          </p>
+          <p className="mt-1 text-lg font-bold">
+            {learnerProfile.daily_study_minutes} phút ·{" "}
+            {learnerProfile.study_days_per_week} ngày/tuần
+          </p>
+        </article>
+        <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5">
+          <NotebookPen
+            aria-hidden="true"
+            size={22}
+            className="text-[var(--primary)]"
+          />
+          <p className="mt-5 text-sm text-[var(--muted-foreground)]">Ưu tiên</p>
+          <p className="mt-1 font-bold">
+            {skills.map((skill) => SKILL_LABELS[skill]).join(", ")}
+          </p>
+        </article>
+        <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5">
+          <CalendarClock
+            aria-hidden="true"
+            size={22}
+            className="text-[var(--primary)]"
+          />
+          <p className="mt-5 text-sm text-[var(--muted-foreground)]">
+            Ngày thi dự kiến
+          </p>
+          <p className="mt-1 font-bold">
+            {learnerProfile.target_exam_date
+              ? examDateFormatter.format(
+                  new Date(`${learnerProfile.target_exam_date}T00:00:00Z`),
+                )
+              : "Chưa xác định"}
+          </p>
+        </article>
+      </section>
 
       <section
         className="grid gap-5 lg:grid-cols-[1.3fr_0.7fr]"
@@ -32,12 +123,12 @@ export default async function DashboardPage() {
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-7">
           <SectionHeader
             title="Học hôm nay"
-            description="Task thật sẽ xuất hiện sau khi hoàn thành onboarding và plan generator ở Phase 2."
+            description="Nhiệm vụ học sẽ xuất hiện khi module tạo lộ trình được triển khai ở phase tiếp theo."
           />
           <EmptyState
             className="mt-6 border-0 bg-[var(--background)] py-8"
             title="Chưa có nhiệm vụ học"
-            description="Không có dữ liệu mẫu được dùng để giả một kế hoạch đang hoạt động."
+            description="Onboarding chỉ lưu mục tiêu và sở thích thật; hệ thống không tạo task mẫu để giả một kế hoạch đang hoạt động."
             action={
               <Button asChild variant="secondary" size="sm">
                 <Link href="/roadmap">
@@ -49,57 +140,18 @@ export default async function DashboardPage() {
           />
         </div>
 
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--foreground)] p-6 text-white sm:p-7">
-          <CalendarClock
-            aria-hidden="true"
-            size={26}
-            strokeWidth={1.7}
-            className="text-[#aebfff]"
-          />
-          <h2 className="mt-5 text-xl font-bold">Tuần học đầu tiên</h2>
-          <p className="mt-3 text-sm leading-6 text-[#ccd5e8]">
-            Onboarding sẽ tạo lộ trình 4 tuần dựa trên mục tiêu và quỹ thời gian
-            thật.
+        <aside className="rounded-2xl border border-[var(--border)] bg-[var(--foreground)] p-6 text-white sm:p-7">
+          <p className="text-sm font-semibold text-[#aebfff]">Mục tiêu chính</p>
+          <h2 className="mt-3 text-2xl font-bold">{goal}</h2>
+          <p className="mt-4 text-sm leading-6 text-[#ccd5e8]">
+            Band hiện tại:{" "}
+            {learnerProfile.current_band?.toFixed(1) ?? "chưa xác định"}. Band
+            mục tiêu: {learnerProfile.target_band?.toFixed(1)}.
           </p>
-          <div className="mt-7 border-t border-white/15 pt-5">
-            <span className="text-sm font-semibold text-[#e6ebf5]">
-              Dữ liệu chưa khởi tạo
-            </span>
+          <div className="mt-7 border-t border-white/15 pt-5 text-sm font-semibold text-[#e6ebf5]">
+            Dữ liệu onboarding đã lưu
           </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="foundation-title">
-        <div className="flex items-center gap-3">
-          <NotebookPen
-            aria-hidden="true"
-            className="text-[var(--primary)]"
-            size={23}
-            strokeWidth={1.8}
-          />
-          <h2
-            id="foundation-title"
-            className="text-xl font-bold tracking-[-0.025em]"
-          >
-            Foundation hiện có
-          </h2>
-        </div>
-        <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5">
-            <p className="font-bold">Application shell</p>
-            <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">
-              Điều hướng desktop và mobile có active state, focus state và route
-              riêng.
-            </p>
-          </div>
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5">
-            <p className="font-bold">Trạng thái dùng chung</p>
-            <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">
-              Loading, empty, error và not-found được tách thành nền tảng tái sử
-              dụng.
-            </p>
-          </div>
-        </div>
+        </aside>
       </section>
     </div>
   );

@@ -3,6 +3,7 @@ node_modules
 .npm-cache
 .agents
 .codex
+supabase/.temp
 coverage
 docs
 docs/Ke_hoach_chi_tiet_xay_dung_web_tu_hoc_IELTS.pdf

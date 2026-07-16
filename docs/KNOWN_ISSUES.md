@@ -1,7 +1,7 @@
 # KNOWN ISSUES - Web tự học IELTS
 
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1 foundation đã có application code; Auth/RLS/business modules chưa triển khai  
+> Trạng thái repo hiện tại: Phase 1 foundation, Phase 2 Auth/Profile/RLS và Phase 3 Learner Onboarding Foundation đã triển khai; placement/plan/practice/AI và các module ngoài Phase 3 chưa triển khai
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước
@@ -42,7 +42,7 @@
 
 | ID     | Sev | Rủi ro                                                | Failure mode                      | Giảm thiểu                                                              | Status   |
 | ------ | --- | ----------------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------- | -------- |
-| KI-020 | P0  | RLS/ownership sai                                     | User A đọc/sửa dữ liệu B          | Server scope + RLS + user A/B integration tests                         | PLANNED  |
+| KI-020 | P0  | RLS/ownership sai                                     | User A đọc/sửa dữ liệu B          | Profiles và learner_profiles đã pass local/remote A/B/anon tests; tiếp tục bắt buộc cho bảng mới | MITIGATED |
 | KI-021 | P0  | Mất draft/bài nộp                                     | Network/reload/conflict overwrite | Local recovery + server revision + immutable submit + E2E network tests | PLANNED  |
 | KI-022 | P1  | Double submit/job                                     | Duplicate score/cost/feedback     | Idempotency record + unique DB constraint + state lock                  | PLANNED  |
 | KI-023 | P1  | Content update làm đổi result cũ                      | Answer/explanation drift          | Snapshot `content_version_id`; published immutable                      | PLANNED  |
@@ -102,15 +102,18 @@
 
 | ID     | Sev | Vấn đề                                                   | Ảnh hưởng                                      | Hướng xử lý                                           | Target  | Status  |
 | ------ | --- | -------------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------- | ------- | ------- |
-| KI-060 | P1  | Auth screens từng là placeholder | Register/login/logout/confirm/profile hiện đã gọi Supabase thật; provider E2E còn chờ test credential | Chạy authenticated E2E với inbox/test account thật | Phase 2 | MITIGATED |
-| KI-061 | P1  | Migration/RLS/types Supabase từng chưa có | Migration/history/types và 21 local + 21 remote database assertions đã được kiểm chứng | Không cần xử lý thêm trong Phase 2 | Phase 2 | CLOSED |
+| KI-060 | P1  | Auth screens từng là placeholder | Register/login/logout/confirm/profile đã manual pass với email thật | Không cần xử lý thêm trong Phase 2 | Phase 2 | CLOSED |
+| KI-061 | P1  | Migration/RLS/types Supabase từng chưa có | Migration/history/types, 42 local và 21 remote database assertions đã được kiểm chứng | Không cần xử lý thêm trong Phase 2 | Phase 2 | CLOSED |
 | KI-062 | P2  | Permission-based navigation chưa có role source | Shell đã dùng session/profile thật nhưng chưa có role model | Triển khai role/permission ở phase được phê duyệt, không tự thêm Phase 2 | Later | OPEN |
 | KI-063 | P2  | Structured logging, feature flags, toast/network states chưa hoàn chỉnh | Vận hành private beta chưa đủ quan sát | Thêm khi có mutation/API flows đầu tiên               | Phase 1 | PLANNED |
 | KI-064 | P3  | Git metadata trong workspace từng không đọc được như repo hợp lệ | Repo hiện đọc được branch/status/origin bình thường | Không cần xử lý thêm | Ops | CLOSED |
 | KI-065 | P1  | Supabase CLI từng chưa login/link project thật | CLI đã link đúng project; dry-run/push/history/lint remote đã pass | Không cần xử lý thêm | Phase 2 | CLOSED |
-| KI-066 | P1  | Chưa có `E2E_AUTH_EMAIL`/`E2E_AUTH_PASSWORD` | Provider invalid-login và authenticated login/profile/logout test đang skip | Cấp test account qua shell/CI secret sau remote migration | Phase 2 | BLOCKED |
-| KI-067 | P1  | Chưa kiểm tra email xác minh bằng inbox thật | Chưa chứng minh delivery/template/expired-link trên project remote | Verify Dashboard template rồi đăng ký bằng inbox thử | Phase 2 | BLOCKED |
+| KI-066 | P3  | Chưa có `E2E_AUTH_EMAIL`/`E2E_AUTH_PASSWORD` trong automation | Hai authenticated Playwright cases skip có điều kiện; manual full flow đã pass | Cấp dedicated test account qua CI secret khi có test environment | Automation | ACCEPTED |
+| KI-067 | P1  | Email xác minh bằng inbox thật từng chưa được kiểm tra | Gmail SMTP, delivery, confirmation link và session flow đã manual pass | Không cần xử lý thêm trong Phase 2 | Phase 2 | CLOSED |
 | KI-068 | P3  | Experimental pg-delta không cache được catalog sau push vì thiếu CA temp file | Không ảnh hưởng apply/history/schema; tạo warning tooling sau push | Theo dõi Supabase CLI update hoặc tắt experimental pg-delta nếu tái diễn | Tooling | ACCEPTED |
+| KI-069 | P3  | `E2E_ONBOARDING_EMAIL`/`E2E_ONBOARDING_PASSWORD` chưa được cấp | Authenticated onboarding/resume/complete/edit Playwright case skip; không có browser evidence tự động với remote user trong run này | Cấp dedicated verified account qua CI secret; test tự skip nếu account đã complete | Automation | ACCEPTED |
+| KI-070 | P2  | Phase 3 lưu cả Academic và General Training nhưng content chưa tồn tại | User có thể chọn General Training nhưng chưa có learning content tương ứng | Dashboard chỉ hiển thị preference thật, không hứa content/plan; giữ KI-014 và gate content ở phase sau | Product | ACCEPTED |
+| KI-071 | P3  | Browser verification local dùng nhầm Next process/build đã bind `NEXT_PUBLIC_*` remote | Tối đa hai signup request chưa xác minh với email test `@example.test` có thể đã tạo auth record remote; không có learner data và không dùng credential thật | Dừng test ngay; không tự xóa remote user theo scope; dùng dedicated `E2E_ONBOARDING_*`/test environment tách biệt cho lần chạy sau | Verification | OPEN |
 
 ## 10. Decision backlog
 

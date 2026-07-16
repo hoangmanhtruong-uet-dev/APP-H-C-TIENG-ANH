@@ -4,7 +4,7 @@
 > Style: Next.js Server Actions cho mutation UI; Route Handlers cho HTTP/upload/job/ops  
 > Base path cho Route Handlers: `/api/v1`
 
-> Trạng thái: phần Auth bên dưới mô tả implementation hiện có; các catalog business từ onboarding trở đi là target contract cho phase sau, chưa phải endpoint đang chạy.
+> Trạng thái: Auth và ba Server Action onboarding bên dưới mô tả implementation hiện có. Goal/plan/task HTTP contracts còn lại là target cho phase sau.
 
 ## 1. Quy ước contract
 
@@ -171,31 +171,29 @@ type ActionState<Field extends string> = {
 
 Không trả raw Supabase/SQL error, stack, token hoặc cookie.
 
-## 4. Goals, onboarding và plan
+## 4. Onboarding implementation và target plan APIs
 
-### `POST /api/v1/onboarding/complete`
+Phase 3 không tạo REST endpoint onboarding trùng nghiệp vụ. UI dùng Server Actions và typed form state:
 
-HTTP equivalent của `completeOnboarding`.
+| Action | Input | Authorization | Persistence/result |
+| --- | --- | --- | --- |
+| `saveOnboardingStepAction` | `step` + allowlist field của đúng bước; không có `user_id` | `requireCurrentAccount`; actor từ session; completed user redirect dashboard | Zod validate, upsert own `learner_profiles`, tăng `onboarding_step`, revalidate `/onboarding` |
+| `completeOnboardingAction` | Không nhận profile id/completion flag | Session + full-row Zod; RPC tự lấy `auth.uid()` | RPC lock/validate row, ghi completion timestamp, revalidate private layout, redirect `/dashboard` |
+| `updateLearnerPreferencesAction` | Test type, bands, date, schedule, skills, goal | Session; chỉ row đã complete; explicit field map | Update own row qua RLS, không đổi completion, revalidate profile/dashboard |
 
-Request:
-
-```json
-{
-  "testType": "ACADEMIC",
-  "currentOverall": 5.0,
-  "targetOverall": 6.5,
-  "examDate": "2026-12-15",
-  "minutesPerDay": 45,
-  "studyDays": [1, 2, 4, 5, 6],
-  "weakSkills": ["WRITING", "LISTENING"],
-  "timezone": "Asia/Ho_Chi_Minh",
-  "consents": [
-    { "type": "AI_PROCESSING", "version": "2026-07", "granted": true }
-  ]
-}
+```ts
+type OnboardingActionState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+  fieldErrors?: Record<string, string[] | undefined>;
+  requestId?: string;
+  nextStep?: number;
+};
 ```
 
-Response `201`: goal và plan version 1. Transaction phải tránh trạng thái onboarding complete nhưng không có plan.
+Validation chạy ở UI, Zod server và PostgreSQL constraints. Error trả tiếng Việt + request ID; không trả raw Supabase/Postgres error. Database lưu canonical lowercase values, UI map sang label tiếng Việt.
+
+Các HTTP contract goal/plan dưới đây vẫn là target, chưa triển khai trong Phase 3.
 
 ### `GET /api/v1/plans/active`
 

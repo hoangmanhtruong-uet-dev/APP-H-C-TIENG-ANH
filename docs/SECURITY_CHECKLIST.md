@@ -23,7 +23,7 @@ Không phát hành private beta nếu còn một trong các điều sau:
 - [x] Next.js Proxy chỉ redirect/refresh phục vụ UX; protected server layout xác minh lại bằng `getUser()`.
 - [-] Register/login dùng generic feedback; reset chưa triển khai trong scope hiện tại.
 - [ ] Reset token single-use, expiry hợp lý, không xuất hiện trong log/referrer.
-- [-] Email confirmation bật trong local config; remote Dashboard/template/inbox thật chưa verify.
+- [x] Email confirmation, Gmail SMTP, template callback và inbox thật đã manual verify trên remote.
 - [x] Logout/revocation xử lý session thiết bị hiện tại bằng local scope; logout-all để phase cần thiết.
 - [ ] Session expiry giữa autosave/submit có UX recovery, không mất draft.
 - [x] Redirect sau login chỉ nhận protected relative path allowlisted; đã test absolute, `//`, backslash, encoded và control character.
@@ -33,33 +33,38 @@ Không phát hành private beta nếu còn một trong các điều sau:
 ## 3. Authorization, ownership và IDOR
 
 - [x] Profile mutation không nhận `user_id`/profile id từ client; actor lấy từ verified server session.
+- [x] Onboarding save/complete/preference actions không nhận `user_id`; explicit allowlist mapping, actor lấy từ server session.
 - [ ] Owner query scope theo actor ở repository; không query ID đơn độc.
 - [ ] Resource không thuộc actor trả 404 hoặc 403 theo policy nhất quán, không leak existence.
 - [x] Mọi Server Action Phase 2 kiểm public/auth context phù hợp; profile mutation require actor phía server.
+- [x] Onboarding guard xác minh server-side trước render; auth guard và completion guard không bị trộn vào Proxy.
 - [ ] Role được map sang permission; không dùng một boolean `is_admin` cho mọi quyền.
 - [ ] Content editor không mặc định có quyền publish/user sensitive view.
 - [ ] Support chỉ xem trường tối thiểu cần thiết.
 - [ ] Role grant/revoke chỉ qua protected use case, có audit.
 - [-] `profiles` có pgTAP A/B/anon local; authenticated client E2E với hai JWT thật chưa chạy.
+- [x] `learner_profiles` có A/B/anon tests trực tiếp trên remote: own SELECT/UPDATE allowed, other row hidden/unchanged, anon denied.
 - [ ] Negative tests cho guessed UUID, nested child ID, source reference và signed URL.
 
 ## 4. Supabase RLS và database
 
-- [x] RLS bật trên `public.profiles`, public table chứa user data duy nhất hiện tại.
+- [x] RLS bật trên `public.profiles` và `public.learner_profiles`.
 - [x] Profiles có SELECT-own/UPDATE-own; không cấp client INSERT/DELETE.
-- [ ] Child table policy dựa trên `user_id` denormalized hoặc indexed parent ownership.
+- [x] `learner_profiles.user_id` là PK/FK và mọi policy ownership so với `(select auth.uid())`.
 - [ ] Learner không trực tiếp update immutable submission/result/audit/event.
 - [ ] Published content read policy không mở draft/answer key.
 - [x] Ứng dụng không có service-role client/key; migration/RLS test không dùng service role.
 - [x] `handle_new_auth_user` SECURITY DEFINER có empty `search_path`, schema-qualified objects và revoked execute grants.
-- [ ] Constraints enforce active goal/plan, uniqueness, band range và state invariants quan trọng.
-- [-] 21 pgTAP test chạy bằng PostgreSQL `authenticated`/`anon` với hai auth user và JWT claim giả lập, không dùng service role; hai session JWT thật còn chờ test account.
+- [x] Onboarding date validator và completion RPC là SECURITY DEFINER hardened, schema-qualified, empty `search_path`; trigger function không executable bởi client.
+- [-] Constraints enforce onboarding band/range/skills/completion invariants; active goal/plan invariants chờ schema tương lai.
+- [x] 130 database assertions local; 21 Phase 2 và 42 Phase 3 assertions trực tiếp trên remote chạy transaction rollback với `authenticated`/`anon`, hai auth users và JWT claim giả lập, không dùng service role. Hai direct anon UPDATE/DELETE assertions bổ sung pass local; remote privilege assertion chứng minh anon không có hai grants này.
 - [x] Grants least privilege đã kiểm chứng trực tiếp trên local và remote; remote lint không có schema error.
 
 ## 5. Input validation và output encoding
 
 - [x] Mọi mutation Phase 2 có Zod server schema; HTML attributes chỉ hỗ trợ UX.
-- [ ] UUID, enum, band, date, timezone, word count, array size và JSON depth có giới hạn.
+- [x] Mutation onboarding có Zod server schema cho canonical test type/goal, half-band, timezone-safe date, duration, days và unique skill array.
+- [-] UUID, enum, band, date và onboarding array size có giới hạn; word count/JSON depth chờ feature tương ứng.
 - [ ] Unknown fields bị strip/reject theo contract.
 - [ ] Text người dùng render như text; rich text được sanitize bằng allowlist.
 - [ ] Không render raw HTML từ content/user/AI.
@@ -82,12 +87,22 @@ Không phát hành private beta nếu còn một trong các điều sau:
 
 - [x] `.env*` thực nằm trong `.gitignore`; chỉ `.env.example` được commit.
 - [x] Chỉ public Supabase URL/anon key dùng `NEXT_PUBLIC_`; không có service-role/secret key.
+- [x] `E2E_AUTH_*` và `E2E_ONBOARDING_*` chỉ có tên rỗng trong `.env.example`; credential thật không Git track.
 - [ ] Env validation fail fast và phân biệt dev/staging/prod.
 - [ ] Secret manager/provider env được dùng cho production.
 - [ ] Secret rotation runbook và owner rõ.
 - [ ] CI log/artifact không in env hoặc signed URL.
 - [ ] Dependency/secret scanning chạy CI; lockfile committed.
 - [ ] Preview deploy không có production secrets/data.
+
+## 7.1. Phase 3 completion/cache integrity
+
+- [x] Browser không thể update `onboarding_completed_at`; column grant bị revoke và completion chỉ qua RPC.
+- [x] RPC tự lấy `auth.uid()`, lock own row, validate required fields và giữ timestamp lần complete đầu tiên.
+- [x] Không có DELETE grant/policy cho learner profile; anon không có table/RPC access.
+- [x] Không dùng service-role client, `USING (true)`, mass assignment, localStorage source-of-truth hay onboarding payload trong URL.
+- [x] Learner profile chỉ memoize request-scoped; không static/shared cache private state.
+- [x] Action errors map sang thông báo tiếng Việt + request ID, không leak SQL/provider details.
 
 ## 8. Upload, audio và storage
 

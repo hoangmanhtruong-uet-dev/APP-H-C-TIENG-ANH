@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 
 import { FoundationPage } from "@/components/shared/foundation-page";
+import { requireCompletedOnboarding } from "@/server/onboarding/learner-profile";
 
 export const metadata: Metadata = { title: "Lộ trình" };
 
-export default function RoadmapPage() {
+export default async function RoadmapPage() {
+  await requireCompletedOnboarding();
+
   return (
     <FoundationPage
       title="Lộ trình"

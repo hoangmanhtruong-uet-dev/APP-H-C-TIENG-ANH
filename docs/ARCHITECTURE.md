@@ -258,7 +258,29 @@ Luồng request authenticated:
 
 Không cache global current user/profile. React request cache chỉ deduplicate helper trong cùng render request.
 
-### 10.2. Authorization
+### 10.2. Onboarding boundary (Phase 3 implemented)
+
+Auth guard và onboarding guard là hai trách nhiệm tách biệt:
+
+```text
+request
+  -> proxy: refresh cookie + coarse authenticated route check
+  -> server page/helper: requireCurrentAccount()
+  -> getCurrentLearnerProfile(): request-scoped React cache + RLS query
+  -> requirePendingOnboarding() hoặc requireCompletedOnboarding()
+  -> render hoặc redirect trước private content
+```
+
+- `/onboarding` dùng `requirePendingOnboarding`; completed user được redirect `/dashboard`.
+- `/dashboard`, `/learn`, `/roadmap`, `/progress` dùng `requireCompletedOnboarding`; incomplete user được redirect `/onboarding`.
+- `/profile` và `/settings` vẫn mở cho authenticated user để tài khoản luôn có đường logout/recovery.
+- Proxy không query `learner_profiles`; database/user-specific state không được đưa vào edge middleware.
+- Wizard giữ local state chỉ cho UX. Mỗi bước được Server Action persist vào PostgreSQL; reload/resume đọc `onboarding_step` và row thật.
+- Completion không nhận boolean/user id từ browser. Action validate full row, sau đó gọi hardened RPC tự lấy `auth.uid()`.
+- Dashboard/profile chỉ render preference thật; study plan, progress và recommendation tiếp tục dùng empty state cho tới phase được phê duyệt.
+- `cache()` chỉ deduplicate trong một React server request; không dùng `unstable_cache`, static generation hay shared global cache cho learner data.
+
+### 10.3. Authorization
 
 Ba lớp:
 
