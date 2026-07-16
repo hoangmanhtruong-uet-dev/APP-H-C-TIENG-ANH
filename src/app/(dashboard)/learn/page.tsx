@@ -1,19 +1,32 @@
 import type { Metadata } from "next";
 
-import { FoundationPage } from "@/components/shared/foundation-page";
-import { requireCompletedOnboarding } from "@/server/onboarding/learner-profile";
+import { ModuleCatalog } from "@/components/learning/module-catalog";
+import { PageHeader } from "@/components/shared/page-header";
+import { getLearningCatalog } from "@/server/learning/content";
 
-export const metadata: Metadata = { title: "Học hôm nay" };
+export const metadata: Metadata = {
+  title: "Thư viện học",
+  description: "Các module và bài học IELTS đã xuất bản.",
+};
 
 export default async function LearnPage() {
-  await requireCompletedOnboarding();
+  const modules = await getLearningCatalog();
+  const totalLessons = modules.reduce(
+    (total, module) => total + module.totalLessons,
+    0,
+  );
 
   return (
-    <FoundationPage
-      title="Học hôm nay"
-      description="Nơi bắt đầu các nhiệm vụ Reading, Listening, Writing và Speaking theo kế hoạch."
-      emptyTitle="Chưa có kế hoạch học"
-      emptyDescription="Daily task sẽ được tạo từ goal và study plan ở Phase 2."
-    />
+    <div className="space-y-8">
+      <PageHeader
+        title="Thư viện học"
+        description={
+          totalLessons > 0
+            ? `${modules.length} module với ${totalLessons} bài học đã xuất bản và phù hợp với thiết lập IELTS của bạn.`
+            : "Các module đã xuất bản và phù hợp với thiết lập IELTS của bạn sẽ xuất hiện tại đây."
+        }
+      />
+      <ModuleCatalog modules={modules} />
+    </div>
   );
 }

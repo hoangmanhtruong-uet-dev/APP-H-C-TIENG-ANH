@@ -213,7 +213,26 @@ Không phát hành private beta nếu còn một trong các điều sau:
 | Concurrency | Double submit, duplicate job, stale autosave, concurrent publish                |
 | Leakage     | Transcript/answer key before submit; signed URL/log/cache leak                  |
 
-## 17. Sign-off
+## 17. Phase 4 learning content và progress
+
+- [x] RLS bật trên module, lesson, version, section và hai bảng progress.
+- [x] Full parent-chain policy ngăn draft/in-review leak; learner test type được kiểm tra tại database.
+- [x] `anon` không có content/progress table privilege.
+- [x] `authenticated` chỉ SELECT table; không có direct INSERT/UPDATE/DELETE content hoặc progress.
+- [x] Progress ownership dùng `auth.uid() = user_id`; cross-user/anonymous được pgTAP kiểm tra local.
+- [x] RPC không nhận `user_id`, status, percent, completed timestamp hoặc section count từ client.
+- [x] Completion tính từ required sections trong transaction và idempotent.
+- [x] `SECURITY DEFINER` functions có empty `search_path`, schema-qualified names và revoke PUBLIC/anon.
+- [x] Published versions/sections immutable và publish validation yêu cầu required content.
+- [x] Markdown renderer dùng `skipHtml`, không `dangerouslySetInnerHTML`, chặn `javascript:` và harden external links.
+- [x] User progress không shared-cache/static generate; mutation revalidate các route có liên quan.
+- [x] E2E runner fail-closed theo dedicated port và expected Supabase project ref trước authenticated mutation.
+- [x] `.env.local`, CLI token/password và credential names/values không Git track; `.env.example` chỉ có placeholder rỗng.
+- [x] Phase 4 file test chính chạy trực tiếp trên remote bằng database-owner session: 66/66 PASS, fixture transaction rollback; password không gửi/lưu.
+- [x] Wrapper `\ir` lỗi đã xóa; command remote dùng trực tiếp file chính, không duplicate assertions hoặc test logic.
+- [-] 8 authenticated Playwright cases vẫn skip rõ vì chưa có dedicated credentials/project ref (`KI-072`); không ghi thành PASS.
+
+## 18. Sign-off
 
 | Role             | Người duyệt | Ngày | Kết quả/Ghi chú |
 | ---------------- | ----------- | ---- | --------------- |

@@ -134,6 +134,17 @@ Exit criteria:
 
 ## 6. Phase 3 - Content core và Vocabulary (tuần 5)
 
+> Execution Phase 4 — Learning Content & Study Progress Foundation: **COMPLETE** ngày 2026-07-16. Đây là vertical slice lesson foundation được yêu cầu riêng, không đồng nghĩa roadmap Phase 4 Reading/Listening practice bên dưới đã hoàn thành. Remote pgTAP file chính pass 66/66; 8 authenticated Playwright cases vẫn skip công khai do thiếu dedicated credentials.
+
+- [x] `P4-LRN-DB-01` Tạo module, stable lesson identity, immutable lesson version, ordered section, lesson/section progress, constraints và indexes.
+- [x] `P4-LRN-SEC-01` RLS chain module → lesson → version → section, test-type filtering, own-progress select, table grants chỉ SELECT và RPC-only mutation.
+- [x] `P4-LRN-RPC-01` Atomic open/resume và section completion RPC lấy actor từ `auth.uid()`, tự tính required progress và idempotent completion.
+- [x] `P4-LRN-SEED-01` Seed nguyên bản gồm 2 module, 4 published lesson, 1 draft lesson; stable UUID/slug và rerun idempotent.
+- [x] `P4-LRN-UI-01` `/learn`, module page, lesson reader, section navigation, safe Markdown, next lesson, dashboard và `/progress` dùng database thật.
+- [x] `P4-LRN-TST-01` Unit/component suite, 5 file/196 local database assertions, local/remote lint, build và anonymous E2E pass.
+- [x] `P4-LRN-REM-01` Migration/history/schema/lint/types remote pass; file test Phase 4 chính pass 66/66 trên remote và rollback fixture.
+- [-] `P4-LRN-E2E-01` Dedicated authenticated flow đã viết và fail-closed theo project ref; 8 authenticated cases skip rõ vì chưa cấp dedicated credentials.
+
 - [ ] `P3-DB-01` Content item/version, tag, question/prompt schema + indexes/RLS.
 - [ ] `P3-DOM-01` Content lifecycle và published immutability.
 - [ ] `P3-DOM-02` Validation required metadata, answer keys, source/licence, asset links.

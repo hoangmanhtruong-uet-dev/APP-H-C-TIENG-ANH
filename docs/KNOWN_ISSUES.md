@@ -1,7 +1,7 @@
 # KNOWN ISSUES - Web tự học IELTS
 
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1 foundation, Phase 2 Auth/Profile/RLS và Phase 3 Learner Onboarding Foundation đã triển khai; placement/plan/practice/AI và các module ngoài Phase 3 chưa triển khai
+> Trạng thái repo hiện tại: Phase 1 foundation, Phase 2 Auth/Profile/RLS, Phase 3 Learner Onboarding và Phase 4 Learning Content/Progress COMPLETE; 8 authenticated Playwright cases vẫn skip công khai do thiếu dedicated credentials
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước
@@ -112,8 +112,11 @@
 | KI-067 | P1  | Email xác minh bằng inbox thật từng chưa được kiểm tra | Gmail SMTP, delivery, confirmation link và session flow đã manual pass | Không cần xử lý thêm trong Phase 2 | Phase 2 | CLOSED |
 | KI-068 | P3  | Experimental pg-delta không cache được catalog sau push vì thiếu CA temp file | Không ảnh hưởng apply/history/schema; tạo warning tooling sau push | Theo dõi Supabase CLI update hoặc tắt experimental pg-delta nếu tái diễn | Tooling | ACCEPTED |
 | KI-069 | P3  | `E2E_ONBOARDING_EMAIL`/`E2E_ONBOARDING_PASSWORD` chưa được cấp | Authenticated onboarding/resume/complete/edit Playwright case skip; không có browser evidence tự động với remote user trong run này | Cấp dedicated verified account qua CI secret; test tự skip nếu account đã complete | Automation | ACCEPTED |
-| KI-070 | P2  | Phase 3 lưu cả Academic và General Training nhưng content chưa tồn tại | User có thể chọn General Training nhưng chưa có learning content tương ứng | Dashboard chỉ hiển thị preference thật, không hứa content/plan; giữ KI-014 và gate content ở phase sau | Product | ACCEPTED |
-| KI-071 | P3  | Browser verification local dùng nhầm Next process/build đã bind `NEXT_PUBLIC_*` remote | Tối đa hai signup request chưa xác minh với email test `@example.test` có thể đã tạo auth record remote; không có learner data và không dùng credential thật | Dừng test ngay; không tự xóa remote user theo scope; dùng dedicated `E2E_ONBOARDING_*`/test environment tách biệt cho lần chạy sau | Verification | OPEN |
+| KI-070 | P2  | General Training mới có module foundation dùng chung, chưa có curriculum riêng | Learner GT không thấy module Reading Academic và phạm vi nội dung còn nhỏ | RLS filter đúng test type; hiển thị đúng số nội dung thật, không giả coverage | Product | ACCEPTED |
+| KI-071 | P3  | Browser verification từng có thể dùng nhầm Next process/build đã bind remote env | Mutation có thể đi nhầm project nếu chỉ dựa vào port 3000 | Runner nay dùng production build cổng 3100 riêng và mọi authenticated mutation yêu cầu expected project ref khớp active ref | Verification | CLOSED |
+| KI-072 | P2  | Chưa cấp `E2E_LEARNING_EMAIL`/`E2E_LEARNING_PASSWORD` và expected project ref | 8 authenticated Playwright cases skip; database/RPC/RLS remote đã được verifier trực tiếp 66/66 | Cấp dedicated completed-onboarding account qua CI secret trên isolated test project trước release automation đầy đủ | Automation | ACCEPTED |
+| KI-073 | P1  | Remote wrapper dùng `\ir` không resolve file include trong Supabase CLI container | Wrapper fail dù file test chính hợp lệ; có thể gây hiểu nhầm remote verifier | Xóa wrapper, không duplicate assertions; chạy trực tiếp `supabase/tests/database/phase_4_learning_content_progress.test.sql`, remote 66/66 PASS và rollback | Verification | CLOSED |
+| KI-074 | P3  | Seed Phase 4 cố ý chỉ có 2 module/4 published lesson và 1 draft lesson | Không đại diện curriculum IELTS hoàn chỉnh | Giữ nhãn foundation, bổ sung qua content workflow/versioned seed sau khi có review và licence metadata | Content | ACCEPTED |
 
 ## 10. Decision backlog
 

@@ -10,6 +10,8 @@ const protectedRoutes = [
   "/onboarding",
   "/dashboard",
   "/learn",
+  "/learn/ielts-foundations",
+  "/learn/ielts-foundations/hieu-cau-truc-bai-thi",
   "/roadmap",
   "/progress",
   "/profile",
@@ -29,6 +31,13 @@ const hasAuthAccount = Boolean(authEmail && authPassword);
 const onboardingEmail = process.env.E2E_ONBOARDING_EMAIL;
 const onboardingPassword = process.env.E2E_ONBOARDING_PASSWORD;
 const hasOnboardingAccount = Boolean(onboardingEmail && onboardingPassword);
+const expectedProjectRef = process.env.E2E_EXPECTED_SUPABASE_PROJECT_REF;
+const activeProjectRef = process.env.E2E_ACTIVE_SUPABASE_PROJECT_REF;
+const hasVerifiedE2EEnvironment = Boolean(
+  expectedProjectRef &&
+  activeProjectRef &&
+  expectedProjectRef === activeProjectRef,
+);
 
 async function expectNoHorizontalOverflow(page: Page) {
   const hasOverflow = await page.evaluate(
@@ -56,6 +65,10 @@ function skipWithoutDesktopTestAccount(testInfo: TestInfo) {
   test.skip(
     !hasAuthAccount,
     "E2E_AUTH_EMAIL and E2E_AUTH_PASSWORD were not provided.",
+  );
+  test.skip(
+    !hasVerifiedE2EEnvironment,
+    "Authenticated E2E requires an expected Supabase project ref matching the active environment.",
   );
 }
 
@@ -208,6 +221,10 @@ test("real onboarding saves every step and unlocks dashboard", async ({
   test.skip(
     !hasOnboardingAccount,
     "E2E_ONBOARDING_EMAIL and E2E_ONBOARDING_PASSWORD were not provided.",
+  );
+  test.skip(
+    !hasVerifiedE2EEnvironment,
+    "Authenticated E2E requires an expected Supabase project ref matching the active environment.",
   );
 
   await page.goto("/login");

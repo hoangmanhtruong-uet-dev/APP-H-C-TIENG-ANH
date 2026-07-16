@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 
 const navigation = [
   { href: "/dashboard", label: "Tổng quan", icon: LayoutDashboard },
-  { href: "/learn", label: "Học hôm nay", icon: BookOpenText },
+  { href: "/learn", label: "Thư viện học", icon: BookOpenText },
   { href: "/roadmap", label: "Lộ trình", icon: Map },
   { href: "/progress", label: "Tiến độ", icon: ChartNoAxesCombined },
   { href: "/profile", label: "Hồ sơ", icon: UserRound },

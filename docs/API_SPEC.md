@@ -605,7 +605,61 @@ Giá trị cuối cùng phải cấu hình theo environment và đo tải; khôn
 - Snapshot/contract tests cho AI validated output, không snapshot raw provider prose.
 - E2E bắt buộc: onboarding, Today, Reading submit, Writing processing/result, Speaking upload/delete, admin publish.
 
-## 16. Versioning policy
+## 16. Phase 4 learning contracts (implemented)
+
+Phase 4 không tạo REST API mới. Pages gọi server-only data layer; mutation đi qua Server Actions và hai PostgreSQL RPC. Các `/api/v1/content` target ở mục 5 chưa tồn tại và không được xem là implementation hiện tại.
+
+### `openLessonSectionAction(input)`
+
+- Input internal typed object: `{ lessonId: UUID, sectionId: UUID, moduleSlug: slug, lessonSlug: slug }`.
+- Authorization: `requireCompletedOnboarding()` rồi Supabase server client dùng session cookie; không nhận actor ID.
+- Validation: Zod UUID và lower-kebab slug allowlist.
+- Database: `open_lesson_section(p_lesson_id, p_section_id)`.
+- Success: `{ status: "success", message, requestId }`.
+- Error: `{ status: "error", message, requestId }`; không trả raw Postgres message/constraint.
+- Revalidation: exact lesson/module và `/learn`, `/dashboard`, `/progress`.
+
+### `completeLessonSectionAction(previousState, formData)`
+
+- Form fields: `lessonId`, `sectionId`, `moduleSlug`, `lessonSlug`; không có `userId`, `status`, `percent` hoặc timestamps.
+- Authorization/validation/result/error/revalidation giống action open.
+- Database: `complete_lesson_section(p_lesson_id, p_section_id)` tự kiểm relationship và tự tính completion.
+- Pending state dùng `useActionState`; lỗi hiển thị tiếng Việt kèm request ID.
+
+Typed action result:
+
+```ts
+type LearningProgressActionState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+  requestId?: string;
+};
+```
+
+### `open_lesson_section(uuid, uuid default null)` RPC
+
+- Execute: chỉ `authenticated`.
+- Actor: `auth.uid()`; lỗi `28000` nếu không có session.
+- Validation: learner đã onboarding, lesson/version/module accessible, section thuộc đúng version.
+- Result: row `learner_lesson_progress` đã upsert.
+- Integrity: stable version snapshot, current-section composite FK, idempotent open/resume.
+
+### `complete_lesson_section(uuid, uuid)` RPC
+
+- Execute/actor/access validation như RPC open.
+- Atomic steps: lock actor/progress, upsert completed section, đếm required/required-completed, tính percent, update lesson status/timestamps.
+- Result: row `learner_lesson_progress` sau calculation.
+- Optional section không block completion; completed lesson gọi lại vẫn completed.
+
+### Read data layer
+
+- `getLearningCatalog()`: published modules/versions + own progress, RLS filtered theo test type.
+- `getLearningModule(moduleSlug)`: validation slug rồi lookup catalog.
+- `getLessonReader(moduleSlug, lessonSlug, sectionOrder?)`: published hoặc owned archived snapshot, sections, resume selection và deterministic next lesson.
+- `getLearningOverview()`: totals/continue/next/recent từ catalog/progress thật.
+- Read failures ném `LearningContentReadError` an toàn; invalid/unavailable slug trả `null` để route dùng `notFound()`.
+
+## 17. Versioning policy
 
 - `/api/v1` chỉ có breaking changes qua `/api/v2` hoặc negotiated migration.
 - Thêm optional field là non-breaking; đổi enum/state cần compatibility window.

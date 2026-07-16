@@ -405,7 +405,62 @@ Tests không dùng service role cho case cần chứng minh RLS learner.
 4. Tách worker AI/media khi tải hoặc blast radius yêu cầu.
 5. Chỉ tách service/module khi ownership dữ liệu, deploy cadence và scaling độc lập đã rõ.
 
-## 18. Architecture decision log
+## 18. Phase 4 learning content và progress boundary (implemented)
+
+### 19.1. Content boundary
+
+- `learning_modules` giữ metadata catalog và phân loại canonical.
+- `lessons` là identity/slug/order ổn định trong module.
+- `lesson_versions` giữ snapshot title/summary/difficulty/time; chỉ một version published cho mỗi lesson.
+- `lesson_sections` là Markdown có cấu trúc, thuộc đúng một version và có order/required flag.
+- Published version/section không sửa hoặc xóa tại chỗ; thay đổi nội dung phải tạo version mới. Publication trigger từ chối version không có required section.
+- Learner không có quyền ghi content. Phase 4 tạo content qua migration/seed version-controlled; chưa có admin/CMS.
+
+### 19.2. Progress boundary
+
+- `learner_lesson_progress` giữ version snapshot, current section, calculated percent và timestamps.
+- `learner_section_progress` là bằng chứng section-level; optional section không chặn lesson completion.
+- Client không gửi `user_id`, percent, status, completed timestamp hoặc section count.
+- Hai RPC `open_lesson_section` và `complete_lesson_section` lấy actor bằng `auth.uid()`, kiểm tra content chain và cập nhật atomic.
+- Progress chỉ SELECT trực tiếp; INSERT/UPDATE/DELETE bị revoke. Mutation chỉ qua RPC hardened.
+
+### 19.3. Guard và request path
+
+```text
+request /learn/**
+  -> proxy refresh session/coarse auth redirect
+  -> dashboard layout requireCurrentAccount
+  -> learning data layer requireCompletedOnboarding
+  -> Supabase Data API under learner JWT + RLS
+  -> database-published content + own progress
+```
+
+Invalid slug, draft, unpublished parent hoặc content không phù hợp test type trả `notFound()`/không có row, không lộ database error. User chưa onboarding bị redirect server-side về `/onboarding` trước khi đọc content.
+
+### 19.4. Resume và completion flow
+
+1. Reader ưu tiên section query hợp lệ; nếu không có, chọn `current_section_id`, rồi section chưa hoàn thành đầu tiên.
+2. Khi section active đổi, Server Action gọi `open_lesson_section`; RPC upsert lesson/section progress và `last_accessed_at`.
+3. Mark complete gọi `complete_lesson_section`; RPC lock profile/progress, upsert evidence, đếm required sections từ version thật và tự tính percent.
+4. Đủ required sections thì status/percent/completed timestamp được set trong cùng transaction; gọi lại là idempotent.
+5. Sau mutation chỉ revalidate lesson, module, `/learn`, `/dashboard`, `/progress`.
+
+### 19.5. Cache và data fetching
+
+- User progress không static generate và không dùng shared global cache.
+- Account/learner profile chỉ deduplicate trong request bằng React `cache` hiện có.
+- Catalog query chạy các read độc lập song song; RLS vẫn là boundary cuối.
+- Published content chưa dùng cross-request cache trong Phase 4, vì chưa có publication UI/revalidation event.
+
+### 19.6. Archived behavior
+
+Archived module/version biến mất khỏi catalog và không thể bắt đầu mới. Learner đã có progress vẫn đọc đúng snapshot archived để hoàn tất/review; UI hiển thị trạng thái lưu trữ. Đây tránh làm mất resume khi content được thay version.
+
+### 19.7. Seed strategy
+
+`supabase/seed.sql` dùng stable UUID/slug, nội dung nguyên bản, 2 module, 4 published lesson, 1 draft lesson và 13 section. Seed idempotent, không chứa official IELTS passage, không dùng Storage, không tạo user/progress và không tuyên bố curriculum đầy đủ.
+
+## 19. Architecture decision log
 
 | ID      | Quyết định                             | Lý do                            | Trạng thái |
 | ------- | -------------------------------------- | -------------------------------- | ---------- |

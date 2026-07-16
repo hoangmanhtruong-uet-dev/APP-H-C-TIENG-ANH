@@ -502,7 +502,66 @@ Tất cả policy phải có integration tests user A/user B và role matrix.
 - Không seed production credential hoặc nội dung không rõ licence.
 - Migration thay state/schema phải tương thích ít nhất một deploy window giữa app cũ/mới.
 
-## 18. Retention và deletion
+## 18. Phase 4 learning content/progress schema (implemented)
+
+Migration nguồn sự thật: `20260716100110_phase_4_learning_content_progress.sql`. Phần content/question-bank ở mục 6 vẫn là target cho practice/admin tương lai; các bảng dưới đây là lesson foundation đã tồn tại thật.
+
+### 19.1. Content tables
+
+| Table | Columns chính | Constraints và quan hệ |
+| --- | --- | --- |
+| `learning_modules` | `id`, `slug`, `title`, `description`, `skill`, `test_type`, `difficulty`, `display_order`, `status`, `estimated_minutes`, `published_at`, timestamps | PK UUID; slug unique/lower kebab; canonical CHECK; order/time bounds; publication timestamp phải khớp lifecycle |
+| `lessons` | `id`, `module_id`, `slug`, `display_order`, timestamps | FK module `RESTRICT`; unique `(module_id, slug)` và `(module_id, display_order)` |
+| `lesson_versions` | `id`, `lesson_id`, `version`, `title`, `summary`, `difficulty`, `estimated_minutes`, `status`, `published_at`, `archived_at`, timestamps | FK lesson `RESTRICT`; unique `(lesson_id, version)`; partial unique một published version/lesson; lifecycle/time/content CHECK |
+| `lesson_sections` | `id`, `lesson_version_id`, `section_type`, `title`, `body_markdown`, `display_order`, `is_required`, timestamps | FK version `RESTRICT`; type allowlist; Markdown 1–20,000 chars; unique order trong version |
+
+Canonical values:
+
+- skill: `foundations`, `listening`, `reading`, `writing`, `speaking`, `vocabulary`, `grammar`.
+- test type: `academic`, `general_training`, `both`.
+- difficulty: `beginner`, `intermediate`, `advanced`.
+- lifecycle: `draft`, `in_review`, `published`, `archived`.
+- section type: `text`, `example`, `checklist`, `tip`, `warning`, `summary`.
+
+Published lesson versions và sections không được UPDATE/DELETE bởi protection triggers. Publish validation yêu cầu ít nhất một required section.
+
+### 19.2. Progress tables
+
+| Table | Columns chính | Constraints và quan hệ |
+| --- | --- | --- |
+| `learner_lesson_progress` | `user_id`, `lesson_id`, `lesson_version_id`, `status`, `current_section_id`, `progress_percent`, `started_at`, `last_accessed_at`, `completed_at`, timestamps | PK `(user_id, lesson_id)`; FK profile cascade; composite FK bảo đảm version thuộc lesson và section thuộc version; percent 0–100; completion/status/timestamp invariant |
+| `learner_section_progress` | `user_id`, `lesson_id`, `lesson_version_id`, `section_id`, `last_viewed_at`, `completed_at`, timestamps | PK `(user_id, section_id)`; FK lesson progress cascade; composite FK bảo đảm lesson-version-section chain |
+
+Không lưu row `not_started`. `in_progress` bắt buộc percent `< 100` và chưa có `completed_at`; `completed` bắt buộc percent `100` và có timestamp. Optional sections có thể hoàn thành nhưng không nằm trong mẫu số completion.
+
+### 19.3. Indexes
+
+- Catalog published theo `display_order`.
+- Lesson version theo lesson/status/version và partial unique published.
+- Lesson progress theo user/status/last access, version và current section.
+- Section progress theo user/lesson, version và section.
+- Không tạo index trùng PK/unique constraints.
+
+### 19.4. RLS, policies và grants
+
+RLS bật trên cả sáu bảng. `anon` không có table privilege. `authenticated` chỉ có `SELECT`; không có direct content/progress write.
+
+- Content SELECT gọi các helper `private.*_is_accessible` để kiểm tra full parent chain, onboarding complete và test type.
+- Draft/in-review không đọc được qua Data API.
+- Archived chỉ đọc được nếu actor đã có progress trên snapshot liên quan.
+- Progress SELECT yêu cầu `auth.uid() = user_id`.
+- RPC execute chỉ cấp cho `authenticated`; `PUBLIC`/`anon` bị revoke.
+- Helper/RPC là `SECURITY DEFINER`, `search_path = ''`, schema-qualified object và actor từ `auth.uid()`.
+
+### 19.5. Mutation/completion semantics
+
+`open_lesson_section(lesson_id, section_id?)` bắt đầu hoặc resume đúng published snapshot và lưu current section. `complete_lesson_section(lesson_id, section_id)` upsert section evidence, đếm required sections, tính percent và set completion atomic. Cả hai không nhận `user_id`, khóa profile/progress phù hợp và an toàn khi gọi lặp.
+
+### 19.6. Seed
+
+`supabase/seed.sql` chứa stable identifiers và `NOT EXISTS` cho immutable section inserts. Seed rerun tạo 0 row mới, không tạo auth user hay progress. Seed remote chỉ chạy sau dry-run/review với `--include-seed`; không reset/xóa dữ liệu remote.
+
+## 19. Retention và deletion
 
 - Audio có `retention_until`; cleanup job xóa object rồi tombstone metadata.
 - User delete/export workflow xác định rõ dữ liệu phải xóa, anonymize hoặc giữ vì audit/legal.
