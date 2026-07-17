@@ -5,6 +5,7 @@ import { AlertTriangle, Check, Clock3, Save } from "lucide-react";
 
 import { LessonMarkdown } from "@/components/learning/lesson-markdown";
 import { Button } from "@/components/ui/button";
+import { ConfirmSubmitButton } from "@/components/shared/confirm-submit-button";
 import { submitMockTestSectionAction } from "@/features/mock-tests/actions";
 import type { MockRunnerContext } from "@/features/mock-tests/model";
 import {
@@ -425,18 +426,19 @@ function ActiveReadingRunner({
               Nộp bài là thao tác atomic và idempotent. Chỉ đáp án đã lưu mới
               được chấm.
             </p>
-            <Button
-              type="button"
+            <ConfirmSubmitButton
               className="mt-4 min-h-11 w-full"
               disabled={
                 isSubmitting ||
                 saveStatus === "saving" ||
                 saveStatus === "conflict"
               }
-              onClick={submit}
-            >
-              {isSubmitting ? "Đang nộp…" : "Nộp và xem kết quả"}
-            </Button>
+              pending={isSubmitting}
+              label="Nộp và xem kết quả"
+              title="Nộp bài Reading?"
+              description="Hệ thống sẽ lưu các thay đổi còn lại, khóa attempt và chấm theo đáp án PostgreSQL."
+              onConfirm={submit}
+            />
           </div>
         </main>
       </div>

@@ -4,6 +4,8 @@ const publicRoutes = [
   ["/", "Biết rõ hôm nay cần học gì."],
   ["/login", "Đăng nhập"],
   ["/register", "Tạo tài khoản"],
+  ["/privacy", "Chính sách quyền riêng tư"],
+  ["/terms", "Điều khoản sử dụng"],
 ] as const;
 
 const protectedRoutes = [
@@ -16,6 +18,7 @@ const protectedRoutes = [
   "/progress",
   "/profile",
   "/settings",
+  "/mock-tests",
 ] as const;
 
 const requiredViewports = [
@@ -112,7 +115,41 @@ test("register returns field-level validation errors", async ({ page }) => {
     page.getByText("Hãy nhập một địa chỉ email hợp lệ."),
   ).toBeVisible();
   await expect(page.getByText("Mật khẩu xác nhận chưa khớp.")).toBeVisible();
+  await expect(
+    page.getByText(/Bạn cần đồng ý Điều khoản sử dụng/),
+  ).toBeVisible();
   await expect(page.getByLabel("Họ và tên")).toBeFocused();
+});
+
+test("canonical skill aliases redirect into protected practice routes", async ({
+  page,
+}) => {
+  for (const skill of ["reading", "listening", "writing", "speaking"]) {
+    await page.goto(`/${skill}`);
+    await expect(page).toHaveURL(
+      new RegExp(`/login\\?next=%2Fpractice%2F${skill}`),
+    );
+  }
+});
+
+test("internal cleanup is undiscoverable without its server secret", async ({
+  request,
+}) => {
+  const response = await request.post("/api/internal/storage-cleanup");
+  expect(response.status()).toBe(404);
+  expect(response.headers()["cache-control"]).toContain("no-store");
+});
+
+test("security headers are present on public HTML", async ({ request }) => {
+  const response = await request.get("/");
+  expect(response.headers()["content-security-policy"]).toContain(
+    "default-src 'self'",
+  );
+  expect(response.headers()["x-content-type-options"]).toBe("nosniff");
+  expect(response.headers()["x-frame-options"]).toBe("DENY");
+  expect(response.headers()["referrer-policy"]).toBe(
+    "strict-origin-when-cross-origin",
+  );
 });
 
 test("login returns field-level validation errors", async ({ page }) => {
@@ -178,9 +215,7 @@ test("provider returns safe invalid-login feedback", async ({
     .getByLabel("Mật khẩu", { exact: true })
     .fill(`${authPassword!}-invalid`);
   await page.getByRole("button", { name: "Đăng nhập" }).click();
-  await expect(page.getByRole("alert")).toContainText(
-    "Email hoặc mật khẩu chưa đúng.",
-  );
+  await expect(page.getByText("Email hoặc mật khẩu chưa đúng.")).toBeVisible();
 });
 
 test("real login, profile update, logout, and route guard", async ({
@@ -323,8 +358,8 @@ test("health endpoints return normalized envelopes", async ({ request }) => {
     expect(body).toMatchObject({ data: { status: "ready" } });
   } else {
     expect(ready.status()).toBe(503);
-    expect(body).toMatchObject({
-      error: { code: "CONFIGURATION_ERROR" },
-    });
+    expect(["CONFIGURATION_ERROR", "DEPENDENCY_UNAVAILABLE"]).toContain(
+      body.error.code,
+    );
   }
 });

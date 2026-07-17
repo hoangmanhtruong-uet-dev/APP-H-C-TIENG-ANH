@@ -1,5 +1,11 @@
 # ARCHITECTURE - Web tự học IELTS
 
+## Phase 10C production boundary
+
+Next.js remains the only application/server-action boundary. Browser code uses only the Supabase anon key plus user session; a dedicated `server-only` admin client is reachable solely from authenticated internal retention cleanup. Production readiness validates canonical URL, support contact, secret pairs and Supabase Auth health. Security headers apply globally.
+
+Private Speaking lifecycle is now `issued upload intent -> verified ready asset -> cleanup_pending lease -> Storage object removal -> deleted metadata`. Expired intents are made non-verifiable before deletion. Cleanup runs in batches, claims rows with `FOR UPDATE SKIP LOCKED`, retries stale leases after 15 minutes and never uses service-role in the browser. AI provider work stays server-only, consented and fail-closed; database quotas serialize per learner. The existing modular architecture and source-of-truth boundaries are unchanged.
+
 > Phiên bản: 1.0  
 > Kiến trúc mục tiêu: modular monolith trên Next.js + Supabase  
 > Nguyên tắc: server-first, domain-oriented, không thêm hạ tầng khi chưa có failure mode thực

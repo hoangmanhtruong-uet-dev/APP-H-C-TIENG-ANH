@@ -9,7 +9,7 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
@@ -30,6 +30,12 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Format check
+        run: npm run format:check
+
+      - name: Dependency audit
+        run: npm audit --audit-level=high
+
       - name: Lint
         run: npm run lint
 
@@ -38,6 +44,15 @@ jobs:
 
       - name: Unit tests
         run: npm run test
+
+      - name: Start local Supabase
+        run: npx supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor
+
+      - name: Verify migrations and database tests
+        run: |
+          npx supabase db reset --local
+          npx supabase test db
+          npx supabase db lint --local --level warning
 
       - name: Build
         run: npm run build

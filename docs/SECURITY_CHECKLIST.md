@@ -1,5 +1,21 @@
 # SECURITY CHECKLIST - Web tự học IELTS
 
+## Phase 10C release controls
+
+- [x] Global CSP, HSTS on HTTPS production, nosniff, frame denial, referrer, COOP and permissions policy.
+- [x] `/mock-tests` participates in auth/onboarding protection; canonical skill aliases preserve protected destination.
+- [x] Production env parser requires canonical site URL, DSR contact and paired server-only cleanup credentials; AI/signing config fails closed.
+- [x] Service-role helper is `server-only`, imported only by internal cleanup; no `NEXT_PUBLIC` service-role variable or client import.
+- [x] Cleanup auth uses constant-time comparison, invalid auth returns 404, response is no-store and contains counts only.
+- [x] Audio retention uses DB lease/retry and object-first finalization; expired upload authorization cannot race verifier.
+- [x] Speaking AI quota checks serialize per learner; transcript/audio metadata lookup is batched.
+- [x] Registration records versioned terms/privacy acceptance metadata; public policy describes AI, retention and DSR channel.
+- [x] Destructive final submits use accessible alert dialog, focus trap/restore and explicit second action.
+- [x] Linked parity 20/20, lint, advisors and rollback-only remote verifier 12/12 have evidence.
+- [ ] Before production traffic: backup/PITR, leaked-password protection, SMTP/Auth/CAPTCHA, scheduler and provider budget alerts must have operator evidence.
+
+Detailed evidence and remaining operational gates: `FINAL_SECURITY_AUDIT.md`, `PRODUCTION_READINESS_CHECKLIST.md`, `FINAL_TEST_REPORT.md`.
+
 > Phiên bản: 1.0  
 > Baseline: private beta; defense in depth  
 > Quy tắc: RLS không thay thế server authorization

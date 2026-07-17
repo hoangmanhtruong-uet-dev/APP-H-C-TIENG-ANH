@@ -1,6 +1,6 @@
 "use client";
 
-import { Mic, Square, UploadCloud } from "lucide-react";
+import { Clock3, Mic, Square, Trash2, UploadCloud } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 
@@ -12,6 +12,7 @@ import {
 import { submitMockTestSectionAction } from "@/features/mock-tests/actions";
 import type { MockRunnerContext } from "@/features/mock-tests/model";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { ConfirmSubmitButton } from "@/components/shared/confirm-submit-button";
 import type { SpeakingPracticeData } from "@/server/speaking/content";
 
 type Recording = {
@@ -32,19 +33,26 @@ export function SpeakingRunner({
   const [activePrompt, setActivePrompt] = useState<string | null>(null);
   const [recordings, setRecordings] = useState<Record<string, Recording>>({});
   const [message, setMessage] = useState("");
+  const [recordingSeconds, setRecordingSeconds] = useState(0);
   const [pending, startTransition] = useTransition();
   const recorderRef = useRef<MediaRecorder | null>(null);
+  const recordingsRef = useRef<Record<string, Recording>>({});
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const startedAtRef = useRef(0);
   const stopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const elapsedTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const submitKeyRef = useRef(crypto.randomUUID());
   const attempt = data.attempt;
 
   useEffect(
     () => () => {
       if (stopTimerRef.current) clearTimeout(stopTimerRef.current);
+      if (elapsedTimerRef.current) clearInterval(elapsedTimerRef.current);
       streamRef.current?.getTracks().forEach((track) => track.stop());
+      Object.values(recordingsRef.current).forEach((recording) =>
+        URL.revokeObjectURL(recording.url),
+      );
     },
     [],
   );
@@ -93,7 +101,12 @@ export function SpeakingRunner({
         setRecordings((current) => {
           const old = current[promptId];
           if (old) URL.revokeObjectURL(old.url);
-          return { ...current, [promptId]: { blob, url, duration, mimeType } };
+          const next = {
+            ...current,
+            [promptId]: { blob, url, duration, mimeType },
+          };
+          recordingsRef.current = next;
+          return next;
         });
         stream.getTracks().forEach((track) => track.stop());
         setActivePrompt(null);
@@ -104,6 +117,11 @@ export function SpeakingRunner({
       recorderRef.current = recorder;
       streamRef.current = stream;
       recorder.start(250);
+      setRecordingSeconds(0);
+      elapsedTimerRef.current = setInterval(
+        () => setRecordingSeconds((seconds) => seconds + 1),
+        1_000,
+      );
       setActivePrompt(promptId);
       setMessage("Đang ghi âm…");
       stopTimerRef.current = setTimeout(stopRecording, maximumSeconds * 1000);
@@ -116,6 +134,7 @@ export function SpeakingRunner({
 
   function stopRecording() {
     if (stopTimerRef.current) clearTimeout(stopTimerRef.current);
+    if (elapsedTimerRef.current) clearInterval(elapsedTimerRef.current);
     if (recorderRef.current?.state === "recording") recorderRef.current.stop();
   }
 
@@ -237,14 +256,24 @@ export function SpeakingRunner({
               ) : null}
               <div className="mt-5 flex flex-wrap gap-3">
                 {isRecording ? (
-                  <button
-                    type="button"
-                    onClick={stopRecording}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-red-700 px-4 py-2 font-bold text-white focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:outline-none"
-                  >
-                    <Square aria-hidden="true" size={17} />
-                    Dừng ghi
-                  </button>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={stopRecording}
+                      className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-red-700 px-4 py-2 font-bold text-white hover:bg-red-800 focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:outline-none"
+                    >
+                      <Square aria-hidden="true" size={17} />
+                      Dừng ghi
+                    </button>
+                    <span
+                      role="timer"
+                      aria-label={`Đã ghi ${recordingSeconds} giây`}
+                      className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[var(--danger-subtle)] px-3 font-mono text-sm font-bold tabular-nums"
+                    >
+                      <Clock3 aria-hidden="true" size={16} />
+                      {recordingSeconds}s
+                    </span>
+                  </div>
                 ) : (
                   <button
                     type="button"
@@ -259,15 +288,35 @@ export function SpeakingRunner({
                   </button>
                 )}
                 {local ? (
-                  <button
-                    type="button"
-                    disabled={pending || isRecording}
-                    onClick={() => upload(prompt.id)}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[var(--primary)] px-4 py-2 font-bold text-white focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none disabled:opacity-50"
-                  >
-                    <UploadCloud aria-hidden="true" size={17} />
-                    Upload và xác minh
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      disabled={pending || isRecording}
+                      onClick={() => upload(prompt.id)}
+                      className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[var(--primary)] px-4 py-2 font-bold text-white hover:bg-[var(--primary-hover)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none disabled:opacity-50"
+                    >
+                      <UploadCloud aria-hidden="true" size={17} />
+                      Upload và xác minh
+                    </button>
+                    <button
+                      type="button"
+                      disabled={pending || isRecording}
+                      onClick={() => {
+                        URL.revokeObjectURL(local.url);
+                        setRecordings((current) => {
+                          const next = { ...current };
+                          delete next[prompt.id];
+                          recordingsRef.current = next;
+                          return next;
+                        });
+                        setMessage("Đã xóa bản ghi local khỏi trình duyệt.");
+                      }}
+                      className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-[var(--border-strong)] px-4 py-2 font-bold hover:border-[var(--destructive)] hover:text-[var(--destructive)] focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none disabled:opacity-50"
+                    >
+                      <Trash2 aria-hidden="true" size={17} />
+                      Xóa bản ghi local
+                    </button>
+                  </>
                 ) : null}
               </div>
             </li>
@@ -275,12 +324,14 @@ export function SpeakingRunner({
         })}
       </ol>
       <div className="sticky bottom-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-lg">
-        <button
-          type="button"
+        <ConfirmSubmitButton
           disabled={
             pending || readyCount < requiredCount || Boolean(activePrompt)
           }
-          onClick={() =>
+          label="Nộp attempt bất biến"
+          title="Nộp attempt Speaking?"
+          description="Các bản ghi đã xác minh sẽ được khóa với attempt này và không thể thay thế sau khi nộp."
+          onConfirm={() =>
             startTransition(async () => {
               const result = mockContext
                 ? await submitMockTestSectionAction({
@@ -297,10 +348,8 @@ export function SpeakingRunner({
               if (result?.status === "error") setMessage(result.message);
             })
           }
-          className="min-h-11 w-full rounded-lg bg-[var(--primary)] px-5 py-2.5 font-bold text-white focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Nộp attempt bất biến
-        </button>
+          className="min-h-11 w-full"
+        />
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { AppLogo } from "@/components/shared/app-logo";
 import { LogoutButton } from "@/components/auth/logout-button";
@@ -72,20 +72,47 @@ export function AppShell({
   account: { label: string; email: string };
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!mobileOpen) return;
 
-    function handleEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") setMobileOpen(false);
+    const dialog = dialogRef.current;
+    const focusable = dialog
+      ? Array.from(
+          dialog.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+          ),
+        )
+      : [];
+    focusable[0]?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+        return;
+      }
+      if (event.key !== "Tab" || focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
+    const menuButton = menuButtonRef.current;
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
+      menuButton?.focus();
     };
   }, [mobileOpen]);
 
@@ -95,7 +122,11 @@ export function AppShell({
         Bỏ qua điều hướng
       </a>
 
-      <aside className="sticky top-0 hidden h-[100dvh] border-r border-[var(--border)] bg-[var(--surface)] p-5 lg:flex lg:flex-col">
+      <aside
+        inert={mobileOpen ? true : undefined}
+        aria-hidden={mobileOpen ? true : undefined}
+        className="sticky top-0 hidden h-[100dvh] border-r border-[var(--border)] bg-[var(--surface)] p-5 lg:flex lg:flex-col"
+      >
         <AppLogo />
         <div className="mt-9 flex-1">
           <NavigationLinks />
@@ -111,7 +142,11 @@ export function AppShell({
         </div>
       </aside>
 
-      <div className="min-w-0">
+      <div
+        inert={mobileOpen ? true : undefined}
+        aria-hidden={mobileOpen ? true : undefined}
+        className="min-w-0"
+      >
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[var(--border)] bg-[color:var(--surface-translucent)] px-4 backdrop-blur-md sm:px-6 lg:px-8">
           <div className="lg:hidden">
             <AppLogo compact />
@@ -125,6 +160,7 @@ export function AppShell({
             </p>
           </div>
           <Button
+            ref={menuButtonRef}
             type="button"
             variant="ghost"
             size="icon"
@@ -155,6 +191,7 @@ export function AppShell({
             onClick={() => setMobileOpen(false)}
           />
           <aside
+            ref={dialogRef}
             id="mobile-navigation"
             role="dialog"
             aria-modal="true"

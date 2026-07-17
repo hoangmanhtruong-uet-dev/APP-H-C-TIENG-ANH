@@ -80,11 +80,13 @@ test("published learning content, resume and completion persist", async ({
     const completeButton = page.getByRole("button", {
       name: "Đánh dấu đã hoàn thành",
     });
+    const completedLink = page
+      .getByRole("navigation", { name: "Các phần trong bài học" })
+      .getByRole("link", { name: new RegExp(`Đã hoàn thành ${sectionName}`) });
+    await expect(completeButton.or(completedLink)).toBeVisible();
     if (await completeButton.isVisible()) {
       await completeButton.click();
-      await expect(page.getByRole("status").last()).toContainText(
-        "Tiến độ phần học đã được lưu.",
-      );
+      await expect(completedLink).toBeVisible();
     }
   }
 

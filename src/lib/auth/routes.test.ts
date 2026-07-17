@@ -11,6 +11,7 @@ describe("auth route classification", () => {
       "/roadmap",
       "/progress",
       "/practice/grammar-foundations",
+      "/mock-tests/academic-foundation-mock",
       "/profile",
       "/settings",
     ]) {

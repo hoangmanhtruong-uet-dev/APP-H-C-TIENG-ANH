@@ -9,6 +9,9 @@ export default function AuthLayout({
 }) {
   return (
     <div className="min-h-[100dvh] bg-[var(--background)]">
+      <a className="skip-link" href="#main-content">
+        Bỏ qua điều hướng
+      </a>
       <header className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
         <AppLogo />
         <Link
@@ -18,7 +21,10 @@ export default function AuthLayout({
           Về trang chủ
         </Link>
       </header>
-      <main className="mx-auto grid w-full max-w-md px-4 py-10 sm:px-6 sm:py-16">
+      <main
+        id="main-content"
+        className="mx-auto grid w-full max-w-md px-4 py-10 sm:px-6 sm:py-16"
+      >
         {children}
       </main>
     </div>

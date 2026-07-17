@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button";
 import type { ActionState } from "@/features/auth/action-state";
 import { registerAction } from "@/features/auth/actions";
 
-type RegisterField = "displayName" | "email" | "password" | "confirmPassword";
+type RegisterField =
+  "displayName" | "email" | "password" | "confirmPassword" | "acceptPolicies";
 const initialState: ActionState<RegisterField> = { status: "idle" };
 
 export function RegisterForm() {
@@ -132,6 +133,47 @@ export function RegisterForm() {
           error={state.fieldErrors?.confirmPassword?.[0]}
           minLength={8}
         />
+        <div className="space-y-2">
+          <label className="flex items-start gap-3 text-sm leading-6 text-[var(--muted-foreground)]">
+            <input
+              name="acceptPolicies"
+              type="checkbox"
+              required
+              aria-invalid={Boolean(state.fieldErrors?.acceptPolicies?.[0])}
+              aria-describedby={
+                state.fieldErrors?.acceptPolicies?.[0]
+                  ? "register-policies-error"
+                  : undefined
+              }
+              className="mt-1 size-4 shrink-0 accent-[var(--primary)]"
+            />
+            <span>
+              Tôi đã đọc và đồng ý với{" "}
+              <Link
+                className="font-semibold text-[var(--primary)] underline"
+                href="/terms"
+              >
+                Điều khoản sử dụng
+              </Link>{" "}
+              và{" "}
+              <Link
+                className="font-semibold text-[var(--primary)] underline"
+                href="/privacy"
+              >
+                Chính sách quyền riêng tư
+              </Link>
+              .
+            </span>
+          </label>
+          {state.fieldErrors?.acceptPolicies?.[0] ? (
+            <p
+              id="register-policies-error"
+              className="text-sm text-[var(--destructive)]"
+            >
+              {state.fieldErrors.acceptPolicies[0]}
+            </p>
+          ) : null}
+        </div>
         <div aria-live="polite" aria-atomic="true">
           {state.message ? (
             <p

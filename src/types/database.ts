@@ -1922,12 +1922,14 @@ export type Database = {
         Row: {
           attempt_id: string;
           bucket_id: string;
+          cleanup_started_at: string | null;
           created_at: string;
+          deleted_at: string | null;
           duration_seconds: number;
           id: string;
           mime_type: string;
           response_id: string;
-          retention_until: string | null;
+          retention_until: string;
           sha256_checksum: string;
           size_bytes: number;
           status: string;
@@ -1939,7 +1941,9 @@ export type Database = {
         Insert: {
           attempt_id: string;
           bucket_id?: string;
+          cleanup_started_at?: string | null;
           created_at?: string;
+          deleted_at?: string | null;
           duration_seconds: number;
           id?: string;
           mime_type: string;
@@ -1956,12 +1960,14 @@ export type Database = {
         Update: {
           attempt_id?: string;
           bucket_id?: string;
+          cleanup_started_at?: string | null;
           created_at?: string;
+          deleted_at?: string | null;
           duration_seconds?: number;
           id?: string;
           mime_type?: string;
           response_id?: string;
-          retention_until?: string | null;
+          retention_until?: string;
           sha256_checksum?: string;
           size_bytes?: number;
           status?: string;
@@ -2449,6 +2455,7 @@ export type Database = {
           idempotency_key: string;
           response_id: string;
           status: string;
+          storage_deleted_at: string | null;
           storage_path: string;
           updated_at: string;
           user_id: string;
@@ -2465,6 +2472,7 @@ export type Database = {
           idempotency_key: string;
           response_id: string;
           status?: string;
+          storage_deleted_at?: string | null;
           storage_path: string;
           updated_at?: string;
           user_id: string;
@@ -2481,6 +2489,7 @@ export type Database = {
           idempotency_key?: string;
           response_id?: string;
           status?: string;
+          storage_deleted_at?: string | null;
           storage_path?: string;
           updated_at?: string;
           user_id?: string;
@@ -2970,6 +2979,13 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      claim_speaking_audio_cleanup: {
+        Args: { p_batch_size?: number };
+        Returns: {
+          id: string;
+          storage_path: string;
+        }[];
+      };
       complete_learner_onboarding: {
         Args: never;
         Returns: {

@@ -22,8 +22,17 @@ export const registerSchema = z
     email: normalizedEmailSchema,
     password: passwordSchema,
     confirmPassword: z.string(),
+    acceptPolicies: z.string(),
   })
   .superRefine((value, context) => {
+    if (value.acceptPolicies !== "on") {
+      context.addIssue({
+        code: "custom",
+        path: ["acceptPolicies"],
+        message:
+          "Bạn cần đồng ý Điều khoản sử dụng và Chính sách quyền riêng tư.",
+      });
+    }
     if (value.password !== value.confirmPassword) {
       context.addIssue({
         code: "custom",

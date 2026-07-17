@@ -1,5 +1,19 @@
 # API SPEC - Web tự học IELTS
 
+## Phase 10C operational endpoints
+
+### `GET /api/health/live`
+
+Process liveness only. Returns 200 when the Next.js process can serve requests.
+
+### `GET /api/health/ready`
+
+Validates production env and probes Supabase Auth health with the public anon key. Returns 200 when ready; returns a generic 503 `CONFIGURATION_ERROR` or `DEPENDENCY_UNAVAILABLE` with request id and `Cache-Control: no-store`. It never returns env values.
+
+### `POST /api/internal/storage-cleanup`
+
+Server scheduler only. Requires `Authorization: Bearer <STORAGE_CLEANUP_SECRET>`; missing/invalid auth returns generic 404. The route uses a server-only service-role client, expires old upload intents, claims due audio with a DB lease, removes private Storage objects, then finalizes deletion timestamps. Batch size is 100; response contains counts only. Never call this endpoint from browser code or put its secret in a URL.
+
 > Phiên bản: 1.0  
 > Style: Next.js Server Actions cho mutation UI; Route Handlers cho HTTP/upload/job/ops  
 > Base path cho Route Handlers: `/api/v1`

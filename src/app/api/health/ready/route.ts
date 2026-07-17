@@ -5,13 +5,17 @@ import {
   createApiSuccess,
   createRequestId,
 } from "@/lib/api/errors";
-import { EnvironmentValidationError, getPublicEnv } from "@/lib/env";
+import { EnvironmentValidationError } from "@/lib/env";
+import {
+  assertProductionReadiness,
+  DependencyReadinessError,
+} from "@/server/health/readiness";
 
-export function GET() {
+export async function GET() {
   const requestId = createRequestId();
 
   try {
-    getPublicEnv();
+    await assertProductionReadiness();
 
     return NextResponse.json(
       createApiSuccess(
@@ -39,6 +43,20 @@ export function GET() {
           headers: {
             "Cache-Control": "no-store",
           },
+        },
+      );
+    }
+
+    if (error instanceof DependencyReadinessError) {
+      return NextResponse.json(
+        createApiError(
+          "DEPENDENCY_UNAVAILABLE",
+          "A required dependency is unavailable.",
+          requestId,
+        ),
+        {
+          status: 503,
+          headers: { "Cache-Control": "no-store" },
         },
       );
     }

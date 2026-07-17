@@ -73,19 +73,39 @@ export async function requestSpeakingAiReviewAction(
     };
   }
 
-  for (const response of responsesResult.data) {
-    const { data: existing } = await supabase
+  const responseIds = responsesResult.data.map((response) => response.id);
+  const assetIds = responsesResult.data.flatMap((response) =>
+    response.audio_asset_id ? [response.audio_asset_id] : [],
+  );
+  const [existingTranscriptsResult, audioAssetsResult] = await Promise.all([
+    supabase
       .from("speaking_transcripts")
-      .select("id")
-      .eq("response_id", response.id)
-      .maybeSingle();
-    if (existing) continue;
-    const { data: asset } = await supabase
+      .select("id, response_id")
+      .in("response_id", responseIds),
+    supabase
       .from("speaking_audio_assets")
-      .select("bucket_id, storage_path, mime_type")
-      .eq("id", response.audio_asset_id ?? "")
-      .eq("status", "ready")
-      .maybeSingle();
+      .select("id, bucket_id, storage_path, mime_type")
+      .in("id", assetIds)
+      .eq("status", "ready"),
+  ]);
+  if (existingTranscriptsResult.error || audioAssetsResult.error) {
+    return {
+      status: "error" as const,
+      message: "Dữ liệu bài nộp chưa đầy đủ.",
+    };
+  }
+  const transcribedResponseIds = new Set(
+    existingTranscriptsResult.data.map((transcript) => transcript.response_id),
+  );
+  const audioAssetsById = new Map(
+    audioAssetsResult.data.map((asset) => [asset.id, asset]),
+  );
+
+  for (const response of responsesResult.data) {
+    if (transcribedResponseIds.has(response.id)) continue;
+    const asset = response.audio_asset_id
+      ? audioAssetsById.get(response.audio_asset_id)
+      : undefined;
     if (!asset)
       return {
         status: "error" as const,

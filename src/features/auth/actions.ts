@@ -8,10 +8,12 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 import type { ActionState } from "./action-state";
 import { mapAuthError } from "./errors";
+import { PRIVACY_VERSION, TERMS_VERSION } from "./policies";
 import { loginSchema, registerSchema } from "./schemas";
 
 type LoginField = "email" | "password";
-type RegisterField = "displayName" | "email" | "password" | "confirmPassword";
+type RegisterField =
+  "displayName" | "email" | "password" | "confirmPassword" | "acceptPolicies";
 
 function valueOf(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -28,6 +30,7 @@ export async function registerAction(
     email: valueOf(formData, "email"),
     password: valueOf(formData, "password"),
     confirmPassword: valueOf(formData, "confirmPassword"),
+    acceptPolicies: valueOf(formData, "acceptPolicies"),
   });
 
   if (!result.success) {
@@ -45,7 +48,12 @@ export async function registerAction(
       email: result.data.email,
       password: result.data.password,
       options: {
-        data: { display_name: result.data.displayName },
+        data: {
+          display_name: result.data.displayName,
+          terms_version: TERMS_VERSION,
+          privacy_version: PRIVACY_VERSION,
+          policies_accepted_at: new Date().toISOString(),
+        },
       },
     });
 

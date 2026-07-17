@@ -2,6 +2,7 @@ import { ArrowRight, Check, Clock3, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { ConfirmSubmitButton } from "@/components/shared/confirm-submit-button";
 import {
   startMockSectionAction,
   submitMockTestAction,
@@ -154,9 +155,13 @@ export function MockTestSession({
           <form action={submitMockTestAction} className="mt-4">
             <input type="hidden" name="mockTestSlug" value={data.test.slug} />
             <input type="hidden" name="sessionId" value={data.session.id} />
-            <Button type="submit" className="w-full sm:w-auto">
-              Nộp và tạo tổng kết
-            </Button>
+            <ConfirmSubmitButton
+              className="w-full sm:w-auto"
+              label="Nộp và tạo tổng kết"
+              title="Hoàn tất mock test?"
+              description="Phiên mock test sẽ được khóa và tổng kết từ kết quả thật của bốn section."
+              confirmLabel="Xác nhận hoàn tất"
+            />
           </form>
         </section>
       ) : null}

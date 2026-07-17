@@ -91,7 +91,7 @@ test("published content, resume, deterministic submit and owner isolation", asyn
   const resultPath = new URL(pageA.url()).pathname;
   await pageA.goto("/progress");
   await expect(
-    pageA.getByRole("heading", { name: "Lịch sử luyện tập" }),
+    pageA.getByRole("heading", { name: "Hoạt động gần đây" }),
   ).toBeVisible();
   await expect(
     pageA
@@ -194,6 +194,9 @@ test("Reading autosave, resume, submit, review and owner isolation", async ({
   await expect(pageA.getByLabel(/Thời gian còn lại/)).toBeVisible();
 
   await pageA.getByRole("button", { name: "Nộp và xem kết quả" }).click();
+  await pageA
+    .getByRole("button", { name: "Xác nhận nộp bài", exact: true })
+    .click();
   await expect(pageA).toHaveURL(
     /\/practice\/reading\/academic-reading-cool-roofs\/result\//,
   );
@@ -308,6 +311,9 @@ test("Listening audio, autosave, submit, transcript and owner isolation", async 
   await expect(pageA.getByText("Transcript")).toHaveCount(0);
 
   await pageA.getByRole("button", { name: "Nộp và xem kết quả" }).click();
+  await pageA
+    .getByRole("button", { name: "Xác nhận nộp bài", exact: true })
+    .click();
   await expect(pageA).toHaveURL(
     /\/practice\/listening\/academic-listening-community-library\/result\//,
   );
@@ -414,6 +420,9 @@ test("Writing autosave, immutable submit, review and owner isolation", async ({
   await expect(pageA.getByLabel(/giây còn lại theo máy chủ/)).toBeVisible();
 
   await pageA.getByRole("button", { name: "Nộp bài và khóa nội dung" }).click();
+  await pageA
+    .getByRole("button", { name: "Xác nhận nộp bài", exact: true })
+    .click();
   await expect(pageA).toHaveURL(
     /\/practice\/writing\/community-green-spaces\/submission\//,
   );
@@ -428,7 +437,7 @@ test("Writing autosave, immutable submit, review and owner isolation", async ({
 
   await pageA.goto("/progress");
   await expect(
-    pageA.getByRole("heading", { name: "Lịch sử Writing" }),
+    pageA.getByRole("heading", { name: "Hoạt động gần đây" }),
   ).toBeVisible();
   await expect(
     pageA.getByRole("link", { name: "Community green spaces" }).first(),

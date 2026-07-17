@@ -1,5 +1,9 @@
 export type ApiErrorCode =
-  "CONFIGURATION_ERROR" | "NOT_FOUND" | "VALIDATION_ERROR" | "INTERNAL_ERROR";
+  | "CONFIGURATION_ERROR"
+  | "DEPENDENCY_UNAVAILABLE"
+  | "NOT_FOUND"
+  | "VALIDATION_ERROR"
+  | "INTERNAL_ERROR";
 
 export type ApiErrorEnvelope = {
   error: {

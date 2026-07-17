@@ -1,5 +1,11 @@
 # DATABASE SCHEMA - Web tự học IELTS
 
+## Phase 10C forward migration
+
+Migration `20260718120000_phase_10c_production_hardening.sql` is additive and forward-only. `speaking_audio_assets.retention_until` is required with a 30-day default; `cleanup_started_at` and `deleted_at` enforce the cleanup lease/final state. `speaking_upload_intents.storage_deleted_at` distinguishes expired authorization from completed object removal. Partial indexes support retention/expired cleanup.
+
+`claim_speaking_audio_cleanup(integer)` is executable only by `service_role`; `anon` and `authenticated` are explicitly revoked. It claims due/orphaned or stale-pending assets with row locks and a bounded batch. Transcript/feedback start RPCs retain authenticated-only execution and now enforce serialized per-user weekly/burst quotas. Client roles cannot update/delete audio lifecycle metadata. No previous migration is edited and production rollback uses a new forward-fix migration, never a destructive down migration.
+
 > Phiên bản: 1.0  
 > Database: PostgreSQL/Supabase  
 > Quy ước: `snake_case`, UUID, `timestamptz`, UTC khi lưu và timezone khi hiển thị

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { AlertTriangle, Check, Clock3, Headphones, Save } from "lucide-react";
 
 import { LessonMarkdown } from "@/components/learning/lesson-markdown";
-import { Button } from "@/components/ui/button";
+import { ConfirmSubmitButton } from "@/components/shared/confirm-submit-button";
 import { submitMockTestSectionAction } from "@/features/mock-tests/actions";
 import type { MockRunnerContext } from "@/features/mock-tests/model";
 import {
@@ -393,18 +393,19 @@ function ActiveListeningRunner({
             Hệ thống lưu các thay đổi còn lại trước khi gọi submit atomic và
             idempotent. Review chỉ mở sau khi PostgreSQL chấm xong.
           </p>
-          <Button
-            type="button"
+          <ConfirmSubmitButton
             className="mt-4 min-h-11 w-full"
             disabled={
               isSubmitting ||
               saveStatus === "saving" ||
               saveStatus === "conflict"
             }
-            onClick={submit}
-          >
-            {isSubmitting ? "Đang nộp…" : "Nộp và xem kết quả"}
-          </Button>
+            pending={isSubmitting}
+            label="Nộp và xem kết quả"
+            title="Nộp bài Listening?"
+            description="Hệ thống sẽ lưu các thay đổi còn lại, khóa attempt và chỉ mở transcript sau khi chấm xong."
+            onConfirm={submit}
+          />
         </section>
       </main>
     </div>

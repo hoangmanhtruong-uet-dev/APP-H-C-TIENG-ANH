@@ -1,7 +1,17 @@
 # KNOWN ISSUES - Web tự học IELTS
 
+## Phase 10C release follow-up
+
+| ID | Sev | Issue | Impact | Resolution / gate | Status |
+| --- | --- | --- | --- | --- | --- |
+| KI-084 | P1 | Phase 10C linked migration/parity/owner verifier evidence was required after local hardening | Previously blocked `COMPLETE` | Closed 2026-07-17: forward-only push, parity 20/20, linked lint clean and Management API/database-owner rollback verifier 12/12; no remote reset | CLOSED |
+| KI-085 | P1 | Backup/PITR, SMTP/Auth/CAPTCHA and scheduler configuration live outside the repo | Blocks production traffic if operator has not checked them | Use production/deployment checklist and record environment evidence without secret values | RELEASE GATE |
+| KI-086 | P2 | Privacy/terms identify the operator through deploy-time support email rather than a hard-coded legal entity | Wrong build env could publish a placeholder contact | Production env validation requires support email; verify rendered policy in post-deploy smoke | CONTROLLED |
+
+No accepted issue permits cross-user, draft, answer-key, audio, transcript or essay leakage. Any such finding is P0 and blocks release.
+
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1–10B COMPLETE. Phase 10B đã apply remote với parity 18/18, local/remote lint sạch, full local/app/browser gates và direct remote database-owner verifier 17/17 (`KI-083` closed). Phase 10C chưa được triển khai.
+> Trạng thái repo hiện tại: Phase 1–10C COMPLETE. Phase 10C đã apply forward-only với parity 20/20, local/remote lint sạch, full local/app/browser gates và rollback-only remote verifier 12/12 (`KI-084` closed). External production configuration vẫn là release gate `KI-085`.
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước

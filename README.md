@@ -1,6 +1,10 @@
 # IELTS Flow
 
-Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 1–10B đã COMPLETE. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; không có analytics hoặc band trend giả.
+> **Phase 10C COMPLETE** ở phạm vi repo/schema. Full local, browser và linked-remote evidence nằm tại `docs/FINAL_TEST_REPORT.md`; production traffic vẫn phải qua checklist vận hành.
+
+Production requires canonical HTTPS `NEXT_PUBLIC_SITE_URL`, a real `NEXT_PUBLIC_SUPPORT_EMAIL`, and server-only cleanup credentials. `SUPABASE_SERVICE_ROLE_KEY` is confined to the `server-only` retention worker and must never be exposed to browser code. See `docs/PRODUCTION_READINESS_CHECKLIST.md` and `docs/DEPLOYMENT_CHECKLIST.md` before go-live.
+
+Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 1–10C đã COMPLETE. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; không có analytics hoặc band trend giả.
 
 ## Stack
 
@@ -143,7 +147,7 @@ Manual end-to-end verification ngày 2026-07-16 đã pass với Gmail SMTP và t
 - Unit/component/E2E, 284 database assertions local, 64 Phase 5 pgTAP assertions và authenticated two-user Playwright local
 - Health endpoints `/api/health/live` và `/api/health/ready`
 
-Chưa triển khai: Phase 10B/10C, analytics nâng cao, production hardening, Writing Task 1, placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, content admin/CMS, roles nâng cao, forgot/reset password và avatar/storage. Phase 10A Mock Test Engine đã được triển khai và apply local/remote; trạng thái sign-off cuối được theo dõi tại `docs/PHASE_10A_COMPLETION_REPORT.md`.
+Chưa triển khai: analytics nâng cao, Writing Task 1, placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, content admin/CMS, roles nâng cao, forgot/reset password và avatar. Phase 10C hardening đã hoàn tất; production vận hành theo `docs/PRODUCTION_READINESS_CHECKLIST.md`.
 
 ## Cấu trúc chính
 
@@ -205,7 +209,7 @@ docs                    Product, architecture, schema, API, security docs
 - Hai migration forward-only `20260717190000` và `20260717191500` đã apply local/remote, không reset remote và không xóa dữ liệu thật. Parity hiện là 17/17; local/remote lint sạch.
 - Full local pgTAP pass 663/663; full Playwright production run pass 56 với 20 skip có guard rõ; responsive 375/768/1024/1440 và axe pass.
 - Direct remote database-owner identity pass với `current_user postgres`; verifier rollback-only pass 20/20, failed 0, không `not ok` hoặc `ERROR`. `KI-082` closed.
-- Phase 10B/10C, analytics nâng cao và production hardening không nằm trong slice này.
+- Historical Phase 10A scope: Phase 10B/10C, analytics nâng cao và production hardening chưa nằm trong slice đó; Phase 10B/10C đã được hoàn tất ở các slice sau.
 - Current status: **PHASE 10A COMPLETE**.
 
 ## Phase 10B learner analytics
@@ -215,4 +219,4 @@ docs                    Product, architecture, schema, API, security docs
 - Weak areas cần ít nhất hai bài objective đã chấm và không được gọi là band prediction.
 - Content operations tối thiểu nằm tại [CONTENT_OPERATIONS.md](./docs/CONTENT_OPERATIONS.md); không có admin CMS hoặc production deployment.
 - Migration local/remote parity 18/18, local/remote lint sạch và direct remote database-owner verifier rollback-only pass 17/17.
-- Current status: **PHASE 10B COMPLETE**. Không triển khai Phase 10C hoặc deploy production.
+- Historical Phase 10B sign-off: **PHASE 10B COMPLETE**; Phase 10C chưa nằm trong slice đó. Trạng thái repo hiện tại được ghi ở đầu README và completion report Phase 10C.

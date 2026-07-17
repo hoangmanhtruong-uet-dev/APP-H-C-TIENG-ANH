@@ -36,6 +36,8 @@ describe("authentication forms", () => {
   it("renders all required register fields", () => {
     render(<RegisterForm />);
 
+    expect(screen.getByRole("checkbox")).toBeRequired();
+
     expect(screen.getByLabelText("Họ và tên")).toBeRequired();
     expect(screen.getByLabelText("Email")).toBeRequired();
     expect(screen.getByLabelText("Mật khẩu")).toBeRequired();

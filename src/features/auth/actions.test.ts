@@ -9,6 +9,7 @@ describe("auth server action validation", () => {
     formData.set("email", "not-an-email");
     formData.set("password", "short");
     formData.set("confirmPassword", "different");
+    formData.set("acceptPolicies", "on");
 
     const state = await registerAction({ status: "idle" }, formData);
 

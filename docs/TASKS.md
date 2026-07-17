@@ -1,5 +1,21 @@
 # TASKS - Web tự học IELTS
 
+## Phase 10C execution slice — Production hardening and deploy readiness
+
+- [x] `P10C-AUDIT-01` Pre-hardening audit completed and user approved the bounded plan before code changes.
+- [x] `P10C-SEC-01` Auth route coverage, headers, env validation, generic readiness errors and server-only cleanup boundary hardened.
+- [x] `P10C-RLS-01` Forward-only retention/quota migration and pgTAP cover grants, client ownership denial, cleanup lease and indexes.
+- [x] `P10C-PRIV-01` Versioned terms/privacy acceptance, public policies, 30-day audio retention and DSR contact added.
+- [x] `P10C-PERF-01` Speaking transcript/audio metadata N+1 removed; provider calls remain sequential for cost control.
+- [x] `P10C-UX-01` Recorder timer/local delete, mobile dialog focus behavior and destructive submit confirmation polished without redesign.
+- [x] `P10C-CI-01` CI adds format/audit/local Supabase replay/pgTAP/lint gates.
+- [x] `P10C-DOC-01` Production, deployment, security, architecture/API/schema and final-report documentation added/updated.
+- [x] `P10C-VERIFY-01` Full fresh format/lint/type/unit/build/audit/database/E2E/responsive/axe/smoke matrix: 127 unit, 737 pgTAP, 73 browser pass and 0 failure.
+- [x] `P10C-REMOTE-01` Linked forward-only push, parity 20/20, lint clean, performance advisor clean and rollback-only verifier 12/12.
+- [x] `P10C-DOD-01` Repo/schema gates green with no P0/P1 implementation blocker; external production traffic gates remain explicit.
+
+Current status: **PHASE 10C COMPLETE** ngày 2026-07-17. Production traffic chỉ mở sau khi operator hoàn tất `PRODUCTION_READINESS_CHECKLIST.md`.
+
 > Phiên bản: 1.0  
 > Cách dùng: làm theo dependency order; chỉ đóng phase khi exit criteria đạt  
 > Trạng thái: `[ ]` todo, `[-]` in progress, `[x]` done, `[!]` blocked
@@ -444,7 +460,7 @@ Current status: **PHASE 10A COMPLETE** ngày 2026-07-17. Không còn blocker Pha
 
 ## Phase 10B execution slice — Learner Analytics, Progress & Content Operations
 
-Phạm vi chỉ gồm dashboard/progress từ dữ liệu thật và content operations tối thiểu. Không triển khai Phase 10C, analytics warehouse, admin CMS hoặc production deploy.
+Phạm vi Phase 10B lịch sử chỉ gồm dashboard/progress từ dữ liệu thật và content operations tối thiểu; Phase 10C được theo dõi và hoàn tất ở execution slice đầu tài liệu.
 
 - [x] `P10B-DB-01` Tạo migration forward-only mới cho 4 read-only analytics RPC và scored-history partial index; không sửa migration cũ.
 - [x] `P10B-RLS-01` RPC không nhận `user_id`, chạy `SECURITY INVOKER`, authenticated-only và actor A/B/empty/anon được test.
@@ -456,4 +472,4 @@ Phạm vi chỉ gồm dashboard/progress từ dữ liệu thật và content ope
 - [x] `P10B-REMOTE-02` Direct remote verifier xác nhận `current_user postgres`, pass 17/17, failed 0 và rollback toàn bộ fixture; credential tạm đã xóa ngay sau run.
 - [x] `P10B-DOD-01` Fresh parity 18/18, local/remote lint, owner verifier, full database/app/browser gates và docs đều green.
 
-Current status: **PHASE 10B COMPLETE** ngày 2026-07-18. Không triển khai Phase 10C.
+Historical Phase 10B status: **PHASE 10B COMPLETE** ngày 2026-07-18. Trạng thái hiện tại của Phase 10C nằm ở đầu tài liệu.

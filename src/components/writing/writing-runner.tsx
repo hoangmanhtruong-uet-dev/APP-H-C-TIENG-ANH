@@ -4,6 +4,7 @@ import { AlertTriangle, Check, Clock3, RotateCcw, Save } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
+import { ConfirmSubmitButton } from "@/components/shared/confirm-submit-button";
 import { submitMockTestSectionAction } from "@/features/mock-tests/actions";
 import type { MockRunnerContext } from "@/features/mock-tests/model";
 import {
@@ -279,8 +280,7 @@ function WritingEditor({
                 ? "Bản đã lưu đạt số từ tối thiểu."
                 : `Mục tiêu tối thiểu là ${data.task.minimumWords} từ; PostgreSQL sẽ tính lại khi lưu và nộp.`}
             </p>
-            <Button
-              type="button"
+            <ConfirmSubmitButton
               className="mt-4 w-full"
               disabled={
                 isSubmitting ||
@@ -288,10 +288,12 @@ function WritingEditor({
                 saveStatus === "conflict" ||
                 draftText.trim().length === 0
               }
-              onClick={() => void submit()}
-            >
-              {isSubmitting ? "Đang nộp…" : "Nộp bài và khóa nội dung"}
-            </Button>
+              pending={isSubmitting}
+              label="Nộp bài và khóa nội dung"
+              title="Khóa và nộp bài Writing?"
+              description="Sau khi xác nhận, nội dung đã nộp trở thành bất biến và không thể tiếp tục chỉnh sửa."
+              onConfirm={() => void submit()}
+            />
           </div>
         </section>
       </div>

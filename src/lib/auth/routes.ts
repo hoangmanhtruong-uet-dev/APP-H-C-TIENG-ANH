@@ -5,6 +5,7 @@ export const protectedRoutePrefixes = [
   "/roadmap",
   "/progress",
   "/practice",
+  "/mock-tests",
   "/profile",
   "/settings",
 ] as const;

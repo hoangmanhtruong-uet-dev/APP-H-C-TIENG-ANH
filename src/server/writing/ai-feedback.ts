@@ -27,7 +27,7 @@ export type WritingFeedbackFailureCode =
 export function getWritingAiConfiguration(): WritingAiConfiguration | null {
   const apiKey = process.env.OPENAI_API_KEY?.trim();
   const signingSecret = process.env.WRITING_FEEDBACK_SIGNING_SECRET?.trim();
-  if (!apiKey || !signingSecret) return null;
+  if (!apiKey || !signingSecret || signingSecret.length < 32) return null;
   return {
     apiKey,
     signingSecret,

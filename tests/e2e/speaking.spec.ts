@@ -83,6 +83,9 @@ test("Speaking private recording, verified submit, progress and owner isolation"
   }
 
   await pageA.getByRole("button", { name: "Nộp attempt bất biến" }).click();
+  await pageA
+    .getByRole("button", { name: "Xác nhận nộp bài", exact: true })
+    .click();
   await expect(pageA).toHaveURL(
     /\/practice\/speaking\/everyday-choices\/attempt\//,
   );
@@ -94,7 +97,7 @@ test("Speaking private recording, verified submit, progress and owner isolation"
 
   await pageA.goto("/progress");
   await expect(
-    pageA.getByRole("heading", { name: "Lịch sử Speaking" }),
+    pageA.getByRole("heading", { name: "Hoạt động gần đây" }),
   ).toBeVisible();
   await expect(
     pageA.getByRole("link", { name: "Everyday choices" }).first(),

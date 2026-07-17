@@ -9,6 +9,7 @@ describe("authentication schemas", () => {
       email: "  USER@EXAMPLE.COM  ",
       password: " password1",
       confirmPassword: " password1",
+      acceptPolicies: "on",
     });
 
     expect(result.displayName).toBe("Nguyễn Minh Anh");
@@ -22,6 +23,7 @@ describe("authentication schemas", () => {
       email: "user@example.com",
       password: "password1",
       confirmPassword: "password2",
+      acceptPolicies: "on",
     });
 
     expect(result.success).toBe(false);
@@ -29,6 +31,21 @@ describe("authentication schemas", () => {
       expect(result.error.flatten().fieldErrors.confirmPassword).toContain(
         "Mật khẩu xác nhận chưa khớp.",
       );
+    }
+  });
+
+  it("requires explicit acceptance of the current policies", () => {
+    const result = registerSchema.safeParse({
+      displayName: "Nguyễn Minh Anh",
+      email: "user@example.com",
+      password: "password1",
+      confirmPassword: "password1",
+      acceptPolicies: "",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.flatten().fieldErrors.acceptPolicies).toBeDefined();
     }
   });
 
