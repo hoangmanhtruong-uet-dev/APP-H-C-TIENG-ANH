@@ -1,62 +1,93 @@
-# Production readiness checklist
+# Production readiness audit
 
-Checklist này là release gate cho IELTS Flow MVP. Không điền secret value vào file, ticket, log hoặc ảnh chụp màn hình.
+Audit date: **2026-07-17 (Asia/Saigon)**
+
+Target: commit `bd4d71324fc844a68d761e3ebf7b71c6af977cf2`, branch `main`, linked Supabase ref `xxpakqsbltoezicapyti`
+
+Verdict: **NO-GO for production traffic**
+
+This file records observed release state, not implementation intent. A control is not `PASS` merely because code, a migration, an SDK, or a runbook exists.
+
+## Status rules
+
+- `PASS`: the stated control has verifiable evidence.
+- `FAIL`: the control was checked and at least one required condition is not met.
+- `UNKNOWN`: the audit lacked access or no current operating evidence exists.
+- `NOT APPLICABLE`: the feature/provider is intentionally disabled and not used.
+
+Severity is the impact if the control remains unmet or regresses: `P0` data/security catastrophe, `P1` blocks production traffic, `P2` important follow-up that does not independently block a closed beta.
+
+## Cloud evidence
+
+- GitHub Actions CI #13 for the exact commit: [dashboard screenshot](./production-readiness-evidence/github-actions-ci-13-2026-07-17.jpg) and [workflow run](https://github.com/hoangmanhtruong-uet-dev/APP-HOC-TIENG-ANH/actions/runs/29551384301).
+- Supabase dashboard configuration could not be inspected because the browser reached the sign-in screen: [access evidence](./production-readiness-evidence/supabase-dashboard-sign-in-2026-07-17.jpg). This image proves lack of audit access, not that a cloud setting is disabled.
+- No hosting/deployment dashboard or production URL was identified in the repository or current environment.
 
 ## Release artifact
 
-- [ ] Working tree/commit phát hành đã được review; CI của đúng commit xanh.
-- [ ] Node đáp ứng `engines.node`, cài bằng `npm ci`, build bằng `npm run build`, start bằng `npm run start`.
-- [x] `npm audit --audit-level=high`, format, lint, typecheck, unit, build, pgTAP và Playwright đều đạt gate trong `FINAL_TEST_REPORT.md`.
-- [ ] `NEXT_PUBLIC_SITE_URL` là HTTPS canonical URL; DNS/TLS hoạt động trước khi mở traffic.
-- [ ] `NEXT_PUBLIC_SUPPORT_EMAIL` là mailbox thật, có người trực và được truyền ngay từ build production.
+| ID | Status | Control and observed evidence | File/config | Verification command | Screenshot/dashboard evidence | Severity | Rollback |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| RA-01 | **FAIL** | `HEAD == origin/main == bd4d713`; CI #13 is green, but no PR/independent review evidence was found. The combined “reviewed + CI green” control is therefore unmet. | `.git`, `.github/workflows/ci.yml` | `git status --porcelain`; `git rev-parse HEAD`; `git rev-parse origin/main`; inspect GitHub Actions/commit page | GitHub Actions screenshot; public commit page shows the direct commit but no review evidence | P1 | Do not deploy; create/review a release PR or record an approved release review, then rerun CI on the unchanged SHA. Roll back by keeping traffic on the previous approved artifact. |
+| RA-02 | **PASS** | Node `v26.1.0` satisfies `>=20.9.0`; clean GitHub CI ran `npm ci`, build and production-start E2E successfully. A secondary local `npm ci` check failed because an active Next dev server locked the SWC binary; this is recorded but the isolated release build evidence remains valid. | `package.json`, `package-lock.json`, `scripts/run-e2e.mjs`, CI #13 | `node --version`; `npm --version`; `npm ci`; `npm run build`; `npm run start` | GitHub Actions screenshot/run | P1 | Stop the local dev server before a local clean install. On deploy failure, retain or restore the previous build artifact; do not mutate the database. |
+| RA-03 | **PASS** | Exact-commit CI #13 completed successfully in 4m45s and includes format, dependency audit, lint, typecheck, unit, local Supabase reset/pgTAP/lint, build and Playwright. Local targeted auth/env tests also passed 13/13 and typecheck passed during this audit. | `.github/workflows/ci.yml`, `docs/FINAL_TEST_REPORT.md` | `npm run format:check`; `npm audit --audit-level=high`; `npm run lint`; `npm run typecheck`; `npm test`; `npx supabase test db`; `npm run test:e2e` | GitHub Actions screenshot/run | P1 | Block promotion and return to the last green SHA if any required gate fails. Database failures require a new forward-fix migration, not a linked reset. |
+| RA-04 | **FAIL** | `NEXT_PUBLIC_SITE_URL` is missing from `.env.local`; no production hosting config/domain was found, so HTTPS canonical URL, DNS and TLS are not operating evidence. | `.env.local` (ignored), `.env.example`, `src/lib/env.ts`, hosting config absent | Redacted env presence check; `rg --files -g 'vercel.json' -g 'netlify.toml' -g 'render.yaml' -g '.openai/hosting.json'` | No hosting dashboard supplied | P1 | Keep DNS/traffic on the prior site or maintenance page. Remove the new DNS record/certificate binding if validation fails. |
+| RA-05 | **FAIL** | `NEXT_PUBLIC_SUPPORT_EMAIL` is missing; runtime fallback is `support@example.com`, not an operated mailbox. | `.env.local`, `src/config/site.ts`, `src/lib/env.ts` | Redacted env presence check; `rg -n "supportEmail\|NEXT_PUBLIC_SUPPORT_EMAIL" src` | No mailbox/admin dashboard supplied | P1 | Do not publish policies; restore the prior verified support address/build and rotate forwarding rules if a wrong mailbox was exposed. |
 
-## Environment
+## Environment and secrets
 
-Public, được phép có trong browser bundle:
-
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_SITE_URL`
-- `NEXT_PUBLIC_SUPPORT_EMAIL`
-
-Server-only, lưu trong secret manager của nền tảng deploy:
-
-- `SUPABASE_SERVICE_ROLE_KEY` và `STORAGE_CLEANUP_SECRET` (bắt buộc production cho retention cleanup).
-- `SPEAKING_PIPELINE_SIGNING_SECRET` (bắt buộc production cho upload verification; đồng bộ Supabase Vault).
-- `OPENAI_API_KEY`, `OPENAI_WRITING_MODEL`, `WRITING_FEEDBACK_SIGNING_SECRET` (tùy chọn; bỏ toàn bộ để Writing AI fail closed).
-- `OPENAI_SPEAKING_TRANSCRIPTION_MODEL`, `OPENAI_SPEAKING_FEEDBACK_MODEL` (tùy chọn; bỏ model và API key để Speaking AI fail closed, vẫn giữ signing secret cho upload).
-
-Signing/cleanup secret dài tối thiểu 32 ký tự. Không dùng `NEXT_PUBLIC_` cho bất kỳ secret nào. Không truyền service-role cho client, Playwright hoặc analytics.
+| ID | Status | Control and observed evidence | File/config | Verification command | Screenshot/dashboard evidence | Severity | Rollback |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ENV-01 | **FAIL** | Current env has Supabase URL and anon key, but lacks site URL and support email. It is not a complete production public-env set. | `.env.local`, `.env.example`, `src/lib/env.ts` | Redacted presence/scheme check for the four `NEXT_PUBLIC_*` variables; never print key values | No deployment env dashboard supplied | P1 | Revert deployment to the previous env snapshot/build; purge any build produced with a wrong public project URL. |
+| ENV-02 | **UNKNOWN** | `SUPABASE_SERVICE_ROLE_KEY` and `STORAGE_CLEANUP_SECRET` are missing locally. Secret-manager state could not be inspected. Code validation is not evidence that production secrets exist. | Deployment secret manager; `.env.local`; `src/lib/env.ts`; `src/app/api/internal/storage-cleanup/route.ts` | Redacted presence/length check; platform secret listing by **name only** | No hosting dashboard access | P1 | Keep cleanup endpoint unscheduled and traffic closed. If secret exposure is suspected, rotate both values and invalidate the old scheduler credential. |
+| ENV-03 | **UNKNOWN** | `SPEAKING_PIPELINE_SIGNING_SECRET` is missing locally and Supabase Vault could not be inspected. Speaking upload cannot be approved for production from current evidence. | Deployment secret manager, Supabase Vault, `.env.local`, `src/lib/env.ts` | Redacted presence/length check; Vault secret-name query as database owner | Supabase sign-in screenshot | P1 | Disable new Speaking uploads; rotate app and Vault copies together before resuming. |
+| ENV-04 | **NOT APPLICABLE** | Writing AI is intentionally fail-closed: API key, model and writing signing secret are all absent. | `.env.local`, `src/server/writing/ai-feedback.ts` | Redacted grouped presence check for `OPENAI_API_KEY`, `OPENAI_WRITING_MODEL`, `WRITING_FEEDBACK_SIGNING_SECRET` | No provider dashboard required while disabled | P2 | Keep all three variables unset and hide/disable provider-dependent operations. |
+| ENV-05 | **NOT APPLICABLE** | Speaking STT/AI provider models and API key are absent, so provider processing is disabled. The non-AI upload signing control remains ENV-03. | `.env.local`, `src/server/speaking/ai-review.ts` | Redacted grouped presence check for API key and Speaking model variables | No provider dashboard required while disabled | P2 | Keep provider model variables unset; do not partially enable the group. |
+| ENV-06 | **PASS** | Tracked code contains no `NEXT_PUBLIC_` service-role/signing/cleanup secret, and production parser rejects missing required/pair-inconsistent/short secrets. Targeted env tests passed. This validates enforcement logic, not secret-manager state. | `.env.example`, `src/lib/env.ts`, `src/lib/env.test.ts`, `src/lib/supabase/admin.ts` | `rg -n "NEXT_PUBLIC_.*(SERVICE\|SECRET\|OPENAI)" .`; `npm test -- src/lib/env.test.ts`; `npm run typecheck` | Local evidence; cloud not applicable | P0 | Revert any client import/public secret rename immediately, rotate exposed credentials, invalidate sessions if needed, and rebuild cleanly. |
 
 ## Supabase
 
-- [ ] Production project ref khớp môi trường deploy; không dùng project dev.
-- [ ] URL redirect/site URL của Auth chỉ chứa HTTPS domain được phê duyệt; email confirmation và SMTP được test.
-- [ ] Password policy, rate limit, email verification và CAPTCHA được cấu hình phù hợp mức public exposure.
-- [x] Migration history local/remote parity 20/20; đã dry-run rồi forward push. Không reset remote.
-- [x] Database lint sạch; remote Phase 10C verifier pass 12/12 trong transaction rollback.
-- [x] Bucket `speaking-recordings` private, giới hạn 15 MiB và MIME allowlist; Storage policies/path ownership được verifier xác nhận.
-- [x] RLS bật trên mọi public learner/content table; `anon` không đọc draft/answer key/audio/transcript/essay; actor A không đọc actor B.
-- [ ] Vault có signing secret tương ứng khi bật AI; app secret và Vault secret được rotate cùng lần.
+| ID | Status | Control and observed evidence | File/config | Verification command | Screenshot/dashboard evidence | Severity | Rollback |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| SB-01 | **UNKNOWN** | `.env.local` points to the linked ref and CLI can reach it, but there is no production deployment env/dashboard proving that this ref is the approved production—not development—project. | `.env.local`, `supabase/.temp/project-ref`, deployment env | Compare redacted URL host ref with `supabase/.temp/project-ref`; inspect production deployment env by variable name/host | Supabase dashboard unavailable; no hosting dashboard | P1 | Stop deployment/traffic; restore the previous project URL and anon key build. Never point production at a dev project containing test data. |
+| SB-02 | **UNKNOWN** | Auth site URL, redirect allowlist, confirmation policy and SMTP delivery were not inspected or tested against the production domain/inbox. Pages/routes do not prove email delivery. | Supabase Auth URL configuration and SMTP provider | Dashboard inspection; create a dedicated release-test user and verify received confirmation link/domain | Supabase sign-in screenshot; no SMTP dashboard/inbox evidence | P1 | Disable new registrations or return traffic to invite-only/previous auth configuration; restore the previous allowlist/SMTP credentials. |
+| SB-03 | **FAIL** | Final security audit records leaked-password protection as not enabled. Password policy, rate limits, email verification and CAPTCHA remain unverified because dashboard access is unavailable. | Supabase Auth security/rate-limit/CAPTCHA settings; `docs/FINAL_SECURITY_AUDIT.md` | Auth dashboard inspection and controlled signup/login/rate-limit test | Supabase sign-in screenshot | P1 | Keep public signup closed; restore prior Auth settings if a hardening change causes lockout, then retest with a dedicated account. |
+| SB-04 | **PASS** | Fresh linked CLI output shows 20 local and 20 remote migrations with identical versions. | `supabase/migrations`, linked migration history | `npx supabase migration list --linked`; `npx supabase db push --linked --dry-run` before any future push | CLI evidence; dashboard not required | P0 | Never run `db reset --linked`; stop writes and ship a reviewed forward-fix migration. Restore only into an isolated project if corruption occurs. |
+| SB-05 | **PASS** | Fresh linked DB lint returned no errors. Phase 10C remote verifier evidence records 12/12 in a rollback-only transaction; it was not rerun in this audit because database-owner credentials were not provided. | `supabase/tests/remote/phase_10c_production_hardening_remote.test.sql`, `docs/FINAL_TEST_REPORT.md` | `npx supabase db lint --linked --level warning`; owner-run remote verifier inside `BEGIN ... ROLLBACK` | Existing verifier report; Supabase dashboard unavailable | P0 | Block traffic on any verifier failure; use a forward-fix migration or restore an isolated copy, never weaken grants/RLS as a workaround. |
+| SB-06 | **PASS** | Remote verifier evidence confirms `speaking-recordings` is private, 15 MiB-limited, MIME-allowlisted and owner-path protected. Current migration parity confirms the tested schema version remains applied. | Phase 9/10C migrations and remote verifier | Owner-run Phase 10C verifier; `npx supabase migration list --linked` | Existing verifier report; dashboard unavailable | P0 | Disable uploads immediately; revoke affected policies/keys with a forward fix and rotate exposed signed URLs/credentials. |
+| SB-07 | **PASS** | pgTAP/remote verifier evidence covers RLS on learner/content tables, draft/answer-key isolation and cross-user denial; linked parity and lint were freshly confirmed. | `supabase/tests/database`, `supabase/tests/remote`, `docs/FINAL_TEST_REPORT.md` | `npx supabase test db`; owner-run remote verifier; `npx supabase db lint --linked --level warning` | Existing verifier report; dashboard unavailable | P0 | Close traffic and revoke access first. Apply a forward-fix policy/grant migration; investigate and notify on confirmed data exposure. |
+| SB-08 | **NOT APPLICABLE** | AI providers are disabled, so AI signing-secret parity/rotation is not currently exercised. Speaking upload signing remains required separately under ENV-03. | Deployment secrets, Supabase Vault | Confirm all provider variables absent; if enabling, compare secret versions/names without printing values | No provider dashboard required while disabled | P1 | Keep AI disabled. If later enabled and parity fails, disable provider calls and rotate both app/Vault secrets together. |
 
 ## Retention, privacy and cost
 
-- [ ] Scheduler server gửi `POST /api/internal/storage-cleanup` với bearer `STORAGE_CLEANUP_SECRET`, tối thiểu mỗi ngày một lần.
-- [ ] Scheduler chỉ gọi HTTPS, không log Authorization header hoặc response body chứa định danh.
-- [ ] Audio có deadline 30 ngày; cleanup claim bằng lease DB, xóa private object rồi mới finalize metadata; stale lease retry sau 15 phút.
-- [ ] Terms/privacy version hiện hành được hiển thị và registration bắt buộc explicit acceptance.
-- [ ] Quy trình DSR xác minh danh tính, export/xóa và lưu audit ticket đã được phân công cho support mailbox.
-- [ ] Speaking quota: tối đa 20 transcript/7 ngày, 5 transcript/phút; 5 feedback/7 ngày, 2 feedback/phút, ngoài retry-per-attempt hiện có.
-- [ ] Budget/rate alerts của AI provider được bật. Raw provider response, token, signed URL và secret không được log.
+| ID | Status | Control and observed evidence | File/config | Verification command | Screenshot/dashboard evidence | Severity | Rollback |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| RET-01 | **UNKNOWN** | Cleanup route exists, but no scheduler config, run history or last-success timestamp was found. A function is not evidence that a scheduler is running. | Hosting scheduler/cron config; `src/app/api/internal/storage-cleanup/route.ts` | Search repo for cron/scheduler config; inspect scheduler dashboard and last 7 daily runs | No hosting/scheduler dashboard supplied | P1 | Do not open Speaking uploads; pause the job before secret rotation or rollback. Never manually mass-delete without backup/change approval. |
+| RET-02 | **UNKNOWN** | HTTPS-only invocation, Authorization-header redaction and non-2xx alerting cannot be verified without scheduler/logging evidence. | Scheduler definition, platform logs/redaction rules | Inspect job URL scheme, header source, log samples with values redacted, and alert test | No scheduler/log dashboard supplied | P1 | Disable the job, rotate cleanup secret if it appeared in logs, purge sensitive logs under the provider procedure, then redeploy safely. |
+| RET-03 | **PASS** | Applied schema enforces non-null 30-day retention; claim uses DB lease/stale retry and finalization follows object deletion. Remote verifier evidence covers invariants. This does not prove the scheduler runs; see RET-01. | `20260718120000_phase_10c_production_hardening.sql`, cleanup route/tests | `npx supabase migration list --linked`; Phase 10C pgTAP/remote verifier | Existing verifier report | P0 | Pause cleanup on inconsistent state; preserve metadata/evidence and ship a forward fix. Restore deleted objects only from an approved backup. |
+| RET-04 | **FAIL** | Versioned pages and explicit registration checkbox exist and targeted tests pass, but current production env lacks site URL/support email and no deployed-domain smoke exists. Therefore the production display/acceptance control is unmet. | `src/app/terms/page.tsx`, `src/app/privacy/page.tsx`, `src/components/auth/register-form.tsx`, auth tests | `npm test -- src/features/auth/actions.test.ts src/components/auth/auth-forms.test.tsx`; production smoke of `/terms`, `/privacy`, `/register` | No production-site screenshot/domain | P1 | Disable registration and revert to the last policy-approved build; preserve already-recorded acceptance versions. |
+| RET-05 | **FAIL** | No assigned real support mailbox, identity-verification procedure, export/delete implementation or audit-ticket workflow was found. Policy prose alone is insufficient. | Support runbook/ticketing system absent; `src/app/privacy/page.tsx`; `src/config/site.ts` | `rg -n "DSR\|export\|delete account\|audit ticket" docs src`; verify mailbox owner and execute a tabletop DSR | No mailbox/ticketing dashboard supplied | P1 | Do not promise automated fulfillment; route requests to an approved manual process, preserve legal hold/evidence, and correct the public policy before traffic. |
+| RET-06 | **PASS** | Applied Phase 10C functions enforce transcript 20/7d and 5/min; feedback 5/7d and 2/min, serialized by advisory lock. pgTAP evidence covers quota/index/locking controls. | Phase 10C migration and database tests | `rg -n "weekly quota\|rate limit\|advisory" supabase/migrations`; run Phase 10C pgTAP/remote verifier | Existing verifier report | P1 | Disable provider actions or lower quotas via a reviewed forward migration if spend/abuse rises; do not bypass quota RPCs. |
+| RET-07 | **NOT APPLICABLE** | AI provider is disabled, so provider budget/rate alerts are not required for current operation. Code/log scan evidence does not replace alerts if AI is enabled later. | Provider account, deployment env, AI server modules | Confirm provider variables absent; before enablement, test budget/rate alert delivery and scan logs for sensitive payloads | No provider dashboard required while disabled | P1 | Keep AI variables unset. On unexpected spend/log leakage, disable keys, rotate them and purge/redact logs under provider policy. |
 
 ## Availability and recovery
 
-- [ ] `/api/health/live` trả 200; `/api/health/ready` trả 200 và thực sự kiểm tra env + Supabase Auth dependency.
-- [ ] Uptime monitor dùng readiness; alert không ghi response chứa dữ liệu người dùng.
-- [ ] Supabase backups/PITR theo plan đã được xác nhận. Mục tiêu MVP: RPO tối đa 24 giờ, RTO tối đa 4 giờ.
-- [ ] Restore rehearsal gần nhất dùng project cô lập, kiểm tra migration history, RLS và smoke tests trước khi ghi nhận pass.
-- [ ] App rollback dùng artifact/commit trước; schema rollback không chạy destructive down migration. Sự cố schema được xử lý bằng forward-fix migration mới.
+| ID | Status | Control and observed evidence | File/config | Verification command | Screenshot/dashboard evidence | Severity | Rollback |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| AV-01 | **FAIL** | Using the current env with a production start, `/api/health/live` returned 200 but `/api/health/ready` returned 503 because required production configuration is missing. Direct Supabase Auth health returned 200, so the failing readiness gate is real env readiness, not merely dependency reachability. | health routes, `src/server/health/readiness.ts`, `.env.local` | `npm run start -- -p 3101`; request `/api/health/live` and `/api/health/ready`; request linked `/auth/v1/health` with anon header without printing it | Local runtime/CLI evidence; no production URL | P1 | Do not route traffic to the instance. Restore the prior env/artifact; only re-enable after readiness is 200 from outside the platform. |
+| AV-02 | **UNKNOWN** | No uptime monitor configuration, incident alert destination or test alert was found. | External monitor/alerting platform | Inspect monitor target and history; trigger a safe test failure and verify notification/redaction | No monitoring dashboard supplied | P1 | Keep traffic closed or retain previous monitoring. Disable noisy/broken rules only after a replacement monitor is active. |
+| AV-03 | **UNKNOWN** | Supabase backup/PITR plan and latest recovery point could not be inspected. Migrations mentioning retention do not prove backups exist. | Supabase Database Backups/PITR dashboard and billing plan | Dashboard inspection/API: plan, last successful backup, PITR window and timestamp | Supabase sign-in screenshot | P0 | Stop writes/deploy. Do not apply migrations until a recovery point is confirmed; on incident, restore first to an isolated project. |
+| AV-04 | **UNKNOWN** | No dated restore rehearsal evidence, isolated project reference, achieved RPO/RTO or post-restore RLS/smoke result was found. | Recovery runbook plus restore-drill ticket/evidence | Perform approved isolated restore; run migration parity, verifier and post-restore smoke; record elapsed time | No restore project/dashboard/ticket supplied | P0 | Never cut over an unverified restore. Keep production read-only/closed and return to the last known-good project if integrity checks fail. |
+| AV-05 | **UNKNOWN** | A rollback runbook exists, but no deployment platform, previous artifact identifier, rollback rehearsal or forward-fix drill is evidenced. Documentation alone does not prove rollback is executable. | `docs/DEPLOYMENT_CHECKLIST.md`, hosting releases, migration history | List current/previous immutable artifacts; perform a staging rollback rehearsal; dry-run a sample forward-fix path | No hosting/release dashboard supplied | P1 | Keep current traffic on the last known-good artifact. For schema issues, stop writes and use a reviewed forward fix; never run destructive down migrations. |
 
-## Go/no-go
+## Go/no-go decision
 
-Chỉ go-live khi mọi mục bắt buộc đã check, không còn P0/P1 release gate mở, backup đã xác nhận và remote verifier pass. Nếu thiếu backup/Auth/scheduler/monitoring evidence, verdict triển khai là `NO-GO` dù Phase 10C repo/schema đã `COMPLETE`; không được diễn giải phase completion thành quyền mở production traffic.
+**NO-GO.** Production traffic remains blocked by confirmed `FAIL` controls and by `UNKNOWN` P0/P1 cloud controls. Minimum evidence required before another go/no-go review:
+
+1. Approved release review for the exact green SHA.
+2. Production domain/DNS/TLS, complete env and real support mailbox.
+3. Supabase Auth/SMTP/redirect/password/CAPTCHA evidence and leaked-password protection enabled.
+4. Required app/Vault secrets verified by name/version without exposing values.
+5. Daily cleanup scheduler run history plus safe logging/alert evidence.
+6. Production policy/registration smoke and an assigned DSR workflow.
+7. External readiness monitor showing 200.
+8. Backup/PITR proof, an isolated restore rehearsal, and executable artifact/schema rollback evidence.
