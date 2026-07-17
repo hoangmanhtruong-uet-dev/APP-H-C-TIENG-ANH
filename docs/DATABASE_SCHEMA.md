@@ -664,3 +664,18 @@ Phase 8 schema history is `20260717130000`, `20260717131500` and `20260717132000
 `speaking-recordings` is private with a 15 MB limit and MIME allowlist. Authenticated users have SELECT-only grants on all Phase 9 public tables; mutation uses `SECURITY DEFINER` RPCs with empty `search_path`. Phase 9 migrations are `20260717160000`, `20260717160500` and `20260717161000`; seed has one original published 4-prompt set and one draft fixture.
 
 Final Phase 9 database evidence: local/remote migration parity 15/15; local and remote lint report no schema errors; direct remote database-owner verifier ran as `current_user postgres` through `ok 24` with failed 0, no `not ok` and no `ERROR`, and rolled back its fixture transaction. `KI-081` is closed.
+
+# Phase 10A Mock Test extension (2026-07-17)
+
+| Table | Purpose and integrity |
+| --- | --- |
+| `mock_tests` | Stable slug and display order for a mock-test identity. |
+| `mock_test_versions` | Versioned title/description/test type/difficulty/status/estimate/publication snapshot. Publication validates the full section graph. |
+| `mock_test_sections` | Ordered Reading/Listening/Writing/Speaking links to exactly one existing content-version type with a database time limit. |
+| `mock_test_sessions` | Owner-scoped version-pinned lifecycle, current section, idempotency keys and database timestamps. |
+| `mock_test_section_attempts` | Owner/session/version/section link to exactly one reused learner attempt, Writing submission or Speaking attempt; submitted state is RPC-owned. |
+| `mock_test_results` | Immutable raw Reading/Listening score/max plus Writing/Speaking owner references. No aggregate or band columns exist. |
+
+All six tables have RLS enabled. `anon` has no table or RPC access. `authenticated` has SELECT-only table grants; mutation occurs through hardened `SECURITY DEFINER` RPCs deriving `auth.uid()` with an empty `search_path`. Catalog policies expose compatible published versions only, while owner-pinned history remains visible through session/result owner policies.
+
+The two forward-only migrations are `20260717190000_phase_10a_mock_test_engine.sql` and `20260717191500_phase_10a_mock_test_foundation_content.sql`. The seed contains one original Academic published mock and one draft fixture; both link the existing original Phase 6–9 content versions. Local and remote migration parity is 17/17 and both lints are clean. Direct remote identity confirmed `current_user postgres`; the rollback-only owner verifier passed 20/20 with failed 0 and `KI-082` is closed.

@@ -7,22 +7,245 @@
   | Json[];
 
 export type Database = {
-  graphql_public: {
+  private: {
     Tables: {
-      [_ in never]: never;
+      exercise_answer_keys: {
+        Row: {
+          case_sensitive: boolean;
+          created_at: string;
+          explanation_markdown: string;
+          question_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          case_sensitive?: boolean;
+          created_at?: string;
+          explanation_markdown: string;
+          question_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          case_sensitive?: boolean;
+          created_at?: string;
+          explanation_markdown?: string;
+          question_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      exercise_correct_options: {
+        Row: {
+          created_at: string;
+          option_id: string;
+          question_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          option_id: string;
+          question_id: string;
+        };
+        Update: {
+          created_at?: string;
+          option_id?: string;
+          question_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "exercise_correct_options_key_fkey";
+            columns: ["question_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_answer_keys";
+            referencedColumns: ["question_id"];
+          },
+        ];
+      };
+      exercise_correct_text_answers: {
+        Row: {
+          answer_text: string;
+          created_at: string;
+          normalized_answer: string;
+          question_id: string;
+        };
+        Insert: {
+          answer_text: string;
+          created_at?: string;
+          normalized_answer: string;
+          question_id: string;
+        };
+        Update: {
+          answer_text?: string;
+          created_at?: string;
+          normalized_answer?: string;
+          question_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "exercise_correct_text_answers_question_id_fkey";
+            columns: ["question_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_answer_keys";
+            referencedColumns: ["question_id"];
+          },
+        ];
+      };
+      listening_transcripts: {
+        Row: {
+          audio_asset_id: string;
+          created_at: string;
+          transcript_markdown: string;
+          updated_at: string;
+        };
+        Insert: {
+          audio_asset_id: string;
+          created_at?: string;
+          transcript_markdown: string;
+          updated_at?: string;
+        };
+        Update: {
+          audio_asset_id?: string;
+          created_at?: string;
+          transcript_markdown?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
-      graphql: {
+      completed_learner_exists: { Args: never; Returns: boolean };
+      count_writing_words: { Args: { input_text: string }; Returns: number };
+      exercise_set_is_accessible: {
+        Args: { target_set_id: string };
+        Returns: boolean;
+      };
+      exercise_version_is_accessible: {
+        Args: { target_version_id: string };
+        Returns: boolean;
+      };
+      exercise_version_status_for_question: {
+        Args: { target_question_id: string };
+        Returns: string;
+      };
+      grammar_version_is_accessible: {
+        Args: { target_version_id: string };
+        Returns: boolean;
+      };
+      lesson_is_accessible: {
+        Args: { target_lesson_id: string };
+        Returns: boolean;
+      };
+      lesson_version_is_accessible: {
+        Args: { target_version_id: string };
+        Returns: boolean;
+      };
+      listening_audio_is_accessible: {
+        Args: { target_audio_id: string };
+        Returns: boolean;
+      };
+      listening_part_is_accessible: {
+        Args: { target_part_id: string };
+        Returns: boolean;
+      };
+      listening_practice_version_is_accessible: {
+        Args: { target_exercise_version_id: string };
+        Returns: boolean;
+      };
+      mock_test_is_accessible: {
+        Args: { target_test_id: string };
+        Returns: boolean;
+      };
+      mock_test_version_is_accessible: {
+        Args: { target_version_id: string };
+        Returns: boolean;
+      };
+      module_is_accessible: {
+        Args: { target_module_id: string };
+        Returns: boolean;
+      };
+      normalize_exact_answer: {
+        Args: { case_sensitive: boolean; value: string };
+        Returns: string;
+      };
+      question_is_accessible: {
+        Args: { target_question_id: string };
+        Returns: boolean;
+      };
+      reading_passage_is_accessible: {
+        Args: { target_passage_id: string };
+        Returns: boolean;
+      };
+      reading_passage_version_is_accessible: {
+        Args: { target_version_id: string };
+        Returns: boolean;
+      };
+      reading_practice_version_is_accessible: {
+        Args: { target_exercise_version_id: string };
+        Returns: boolean;
+      };
+      reading_question_group_is_accessible: {
+        Args: { target_group_id: string };
+        Returns: boolean;
+      };
+      reading_section_is_accessible: {
+        Args: { target_section_id: string };
+        Returns: boolean;
+      };
+      section_is_accessible: {
+        Args: { target_section_id: string };
+        Returns: boolean;
+      };
+      speaking_set_is_accessible: {
+        Args: { target_set_id: string };
+        Returns: boolean;
+      };
+      speaking_set_version_is_accessible: {
+        Args: { target_version_id: string };
+        Returns: boolean;
+      };
+      speaking_signing_secret: { Args: never; Returns: string };
+      speaking_upload_expected_signature: {
         Args: {
-          extensions?: Json;
-          operationName?: string;
-          query?: string;
-          variables?: Json;
+          actor_id: string;
+          checksum: string;
+          duration_seconds: number;
+          expires_at: string;
+          intent_id: string;
+          mime_type: string;
+          size_bytes: number;
         };
-        Returns: Json;
+        Returns: string;
+      };
+      speaking_upload_signature_message: {
+        Args: {
+          actor_id: string;
+          checksum: string;
+          duration_seconds: number;
+          expires_at: string;
+          intent_id: string;
+          mime_type: string;
+          size_bytes: number;
+        };
+        Returns: string;
+      };
+      valid_writing_band: { Args: { value: number }; Returns: boolean };
+      vocabulary_version_is_accessible: {
+        Args: { target_version_id: string };
+        Returns: boolean;
+      };
+      writing_feedback_evidence_is_valid: {
+        Args: { essay: string; feedback_payload: Json };
+        Returns: boolean;
+      };
+      writing_signing_secret: { Args: never; Returns: string };
+      writing_task_is_accessible: {
+        Args: { target_task_id: string };
+        Returns: boolean;
+      };
+      writing_task_version_is_accessible: {
+        Args: { target_version_id: string };
+        Returns: boolean;
       };
     };
     Enums: {
@@ -982,6 +1205,404 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
+      };
+      mock_test_results: {
+        Row: {
+          created_at: string;
+          generated_at: string;
+          id: string;
+          listening_max_score: number | null;
+          listening_score: number | null;
+          mock_test_version_id: string;
+          reading_max_score: number | null;
+          reading_score: number | null;
+          session_id: string;
+          speaking_attempt_id: string | null;
+          user_id: string;
+          writing_submission_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          generated_at?: string;
+          id?: string;
+          listening_max_score?: number | null;
+          listening_score?: number | null;
+          mock_test_version_id: string;
+          reading_max_score?: number | null;
+          reading_score?: number | null;
+          session_id: string;
+          speaking_attempt_id?: string | null;
+          user_id: string;
+          writing_submission_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          generated_at?: string;
+          id?: string;
+          listening_max_score?: number | null;
+          listening_score?: number | null;
+          mock_test_version_id?: string;
+          reading_max_score?: number | null;
+          reading_score?: number | null;
+          session_id?: string;
+          speaking_attempt_id?: string | null;
+          user_id?: string;
+          writing_submission_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mock_test_results_session_owner_fkey";
+            columns: ["session_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_test_sessions";
+            referencedColumns: ["id", "user_id"];
+          },
+          {
+            foreignKeyName: "mock_test_results_session_version_fkey";
+            columns: ["session_id", "mock_test_version_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_test_sessions";
+            referencedColumns: ["id", "mock_test_version_id"];
+          },
+          {
+            foreignKeyName: "mock_test_results_speaking_attempt_id_fkey";
+            columns: ["speaking_attempt_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_attempts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "mock_test_results_writing_submission_id_fkey";
+            columns: ["writing_submission_id"];
+            isOneToOne: false;
+            referencedRelation: "writing_submissions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      mock_test_section_attempts: {
+        Row: {
+          created_at: string;
+          expires_at: string;
+          id: string;
+          learner_attempt_id: string | null;
+          mock_test_section_id: string;
+          mock_test_version_id: string;
+          section_type: string;
+          session_id: string;
+          speaking_attempt_id: string | null;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_after_time_limit: boolean | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+          writing_submission_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          expires_at: string;
+          id?: string;
+          learner_attempt_id?: string | null;
+          mock_test_section_id: string;
+          mock_test_version_id: string;
+          section_type: string;
+          session_id: string;
+          speaking_attempt_id?: string | null;
+          start_idempotency_key: string;
+          started_at: string;
+          status?: string;
+          submit_idempotency_key?: string | null;
+          submitted_after_time_limit?: boolean | null;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id: string;
+          writing_submission_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          expires_at?: string;
+          id?: string;
+          learner_attempt_id?: string | null;
+          mock_test_section_id?: string;
+          mock_test_version_id?: string;
+          section_type?: string;
+          session_id?: string;
+          speaking_attempt_id?: string | null;
+          start_idempotency_key?: string;
+          started_at?: string;
+          status?: string;
+          submit_idempotency_key?: string | null;
+          submitted_after_time_limit?: boolean | null;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id?: string;
+          writing_submission_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mock_test_section_attempts_learner_attempt_id_fkey";
+            columns: ["learner_attempt_id"];
+            isOneToOne: true;
+            referencedRelation: "learner_attempts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "mock_test_section_attempts_section_version_fkey";
+            columns: ["mock_test_version_id", "mock_test_section_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_test_sections";
+            referencedColumns: ["mock_test_version_id", "id"];
+          },
+          {
+            foreignKeyName: "mock_test_section_attempts_session_owner_fkey";
+            columns: ["session_id", "user_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_test_sessions";
+            referencedColumns: ["id", "user_id"];
+          },
+          {
+            foreignKeyName: "mock_test_section_attempts_session_version_fkey";
+            columns: ["session_id", "mock_test_version_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_test_sessions";
+            referencedColumns: ["id", "mock_test_version_id"];
+          },
+          {
+            foreignKeyName: "mock_test_section_attempts_speaking_attempt_id_fkey";
+            columns: ["speaking_attempt_id"];
+            isOneToOne: true;
+            referencedRelation: "speaking_attempts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "mock_test_section_attempts_writing_submission_id_fkey";
+            columns: ["writing_submission_id"];
+            isOneToOne: true;
+            referencedRelation: "writing_submissions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      mock_test_sections: {
+        Row: {
+          created_at: string;
+          exercise_set_version_id: string | null;
+          id: string;
+          mock_test_version_id: string;
+          required: boolean;
+          section_order: number;
+          section_type: string;
+          speaking_set_version_id: string | null;
+          time_limit_seconds: number;
+          updated_at: string;
+          writing_task_version_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          exercise_set_version_id?: string | null;
+          id?: string;
+          mock_test_version_id: string;
+          required?: boolean;
+          section_order: number;
+          section_type: string;
+          speaking_set_version_id?: string | null;
+          time_limit_seconds: number;
+          updated_at?: string;
+          writing_task_version_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          exercise_set_version_id?: string | null;
+          id?: string;
+          mock_test_version_id?: string;
+          required?: boolean;
+          section_order?: number;
+          section_type?: string;
+          speaking_set_version_id?: string | null;
+          time_limit_seconds?: number;
+          updated_at?: string;
+          writing_task_version_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mock_test_sections_exercise_set_version_id_fkey";
+            columns: ["exercise_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "exercise_set_versions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "mock_test_sections_mock_test_version_id_fkey";
+            columns: ["mock_test_version_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_test_versions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "mock_test_sections_speaking_set_version_id_fkey";
+            columns: ["speaking_set_version_id"];
+            isOneToOne: false;
+            referencedRelation: "speaking_set_versions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "mock_test_sections_writing_task_version_id_fkey";
+            columns: ["writing_task_version_id"];
+            isOneToOne: false;
+            referencedRelation: "writing_task_versions";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      mock_test_sessions: {
+        Row: {
+          completed_at: string | null;
+          created_at: string;
+          current_section_order: number | null;
+          id: string;
+          mock_test_id: string;
+          mock_test_version_id: string;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          completed_at?: string | null;
+          created_at?: string;
+          current_section_order?: number | null;
+          id?: string;
+          mock_test_id: string;
+          mock_test_version_id: string;
+          start_idempotency_key: string;
+          started_at?: string;
+          status?: string;
+          submit_idempotency_key?: string | null;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          completed_at?: string | null;
+          created_at?: string;
+          current_section_order?: number | null;
+          id?: string;
+          mock_test_id?: string;
+          mock_test_version_id?: string;
+          start_idempotency_key?: string;
+          started_at?: string;
+          status?: string;
+          submit_idempotency_key?: string | null;
+          submitted_at?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mock_test_sessions_mock_test_id_fkey";
+            columns: ["mock_test_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_tests";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "mock_test_sessions_test_version_fkey";
+            columns: ["mock_test_id", "mock_test_version_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_test_versions";
+            referencedColumns: ["mock_test_id", "id"];
+          },
+          {
+            foreignKeyName: "mock_test_sessions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      mock_test_versions: {
+        Row: {
+          created_at: string;
+          description: string;
+          difficulty: string;
+          estimated_minutes: number;
+          id: string;
+          mock_test_id: string;
+          published_at: string | null;
+          status: string;
+          test_type: string;
+          title: string;
+          updated_at: string;
+          version: number;
+        };
+        Insert: {
+          created_at?: string;
+          description: string;
+          difficulty: string;
+          estimated_minutes: number;
+          id?: string;
+          mock_test_id: string;
+          published_at?: string | null;
+          status?: string;
+          test_type: string;
+          title: string;
+          updated_at?: string;
+          version: number;
+        };
+        Update: {
+          created_at?: string;
+          description?: string;
+          difficulty?: string;
+          estimated_minutes?: number;
+          id?: string;
+          mock_test_id?: string;
+          published_at?: string | null;
+          status?: string;
+          test_type?: string;
+          title?: string;
+          updated_at?: string;
+          version?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mock_test_versions_mock_test_id_fkey";
+            columns: ["mock_test_id"];
+            isOneToOne: false;
+            referencedRelation: "mock_tests";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      mock_tests: {
+        Row: {
+          created_at: string;
+          display_order: number;
+          id: string;
+          slug: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          slug: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          display_order?: number;
+          id?: string;
+          slug?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
       };
       profiles: {
         Row: {
@@ -2395,6 +3016,29 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      complete_mock_test: {
+        Args: { p_session_id: string };
+        Returns: {
+          created_at: string;
+          generated_at: string;
+          id: string;
+          listening_max_score: number | null;
+          listening_score: number | null;
+          mock_test_version_id: string;
+          reading_max_score: number | null;
+          reading_score: number | null;
+          session_id: string;
+          speaking_attempt_id: string | null;
+          user_id: string;
+          writing_submission_id: string | null;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "mock_test_results";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
       create_speaking_upload_intent: {
         Args: {
           p_attempt_id: string;
@@ -2550,6 +3194,16 @@ export type Database = {
         Args: { p_attempt_id: string };
         Returns: Json;
       };
+      get_mock_test_section_clock: {
+        Args: { p_section_attempt_id: string };
+        Returns: {
+          expires_at: string;
+          section_attempt_id: string;
+          server_now: string;
+          started_at: string;
+          submitted_at: string;
+        }[];
+      };
       get_reading_attempt_clock: {
         Args: { p_attempt_id: string };
         Returns: {
@@ -2659,6 +3313,39 @@ export type Database = {
           isSetofReturn: false;
         };
       };
+      skip_mock_test_section: {
+        Args: {
+          p_idempotency_key: string;
+          p_section_id: string;
+          p_session_id: string;
+        };
+        Returns: {
+          created_at: string;
+          expires_at: string;
+          id: string;
+          learner_attempt_id: string | null;
+          mock_test_section_id: string;
+          mock_test_version_id: string;
+          section_type: string;
+          session_id: string;
+          speaking_attempt_id: string | null;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_after_time_limit: boolean | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+          writing_submission_id: string | null;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "mock_test_section_attempts";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
       start_exercise_attempt: {
         Args: { p_exercise_slug: string; p_idempotency_key: string };
         Returns: {
@@ -2684,6 +3371,63 @@ export type Database = {
         SetofOptions: {
           from: "*";
           to: "learner_attempts";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      start_mock_test: {
+        Args: { p_idempotency_key: string; p_mock_test_slug: string };
+        Returns: {
+          completed_at: string | null;
+          created_at: string;
+          current_section_order: number | null;
+          id: string;
+          mock_test_id: string;
+          mock_test_version_id: string;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "mock_test_sessions";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      start_mock_test_section: {
+        Args: {
+          p_idempotency_key: string;
+          p_section_id: string;
+          p_session_id: string;
+        };
+        Returns: {
+          created_at: string;
+          expires_at: string;
+          id: string;
+          learner_attempt_id: string | null;
+          mock_test_section_id: string;
+          mock_test_version_id: string;
+          section_type: string;
+          session_id: string;
+          speaking_attempt_id: string | null;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_after_time_limit: boolean | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+          writing_submission_id: string | null;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "mock_test_section_attempts";
           isOneToOne: true;
           isSetofReturn: false;
         };
@@ -2820,6 +3564,59 @@ export type Database = {
         SetofOptions: {
           from: "*";
           to: "learner_attempts";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      submit_mock_test: {
+        Args: { p_idempotency_key: string; p_session_id: string };
+        Returns: {
+          completed_at: string | null;
+          created_at: string;
+          current_section_order: number | null;
+          id: string;
+          mock_test_id: string;
+          mock_test_version_id: string;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "mock_test_sessions";
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
+      submit_mock_test_section: {
+        Args: { p_idempotency_key: string; p_section_attempt_id: string };
+        Returns: {
+          created_at: string;
+          expires_at: string;
+          id: string;
+          learner_attempt_id: string | null;
+          mock_test_section_id: string;
+          mock_test_version_id: string;
+          section_type: string;
+          session_id: string;
+          speaking_attempt_id: string | null;
+          start_idempotency_key: string;
+          started_at: string;
+          status: string;
+          submit_idempotency_key: string | null;
+          submitted_after_time_limit: boolean | null;
+          submitted_at: string | null;
+          updated_at: string;
+          user_id: string;
+          writing_submission_id: string | null;
+        };
+        SetofOptions: {
+          from: "*";
+          to: "mock_test_section_attempts";
           isOneToOne: true;
           isSetofReturn: false;
         };
@@ -3005,7 +3802,7 @@ export type CompositeTypes<
     : never;
 
 export const Constants = {
-  graphql_public: {
+  private: {
     Enums: {},
   },
   public: {

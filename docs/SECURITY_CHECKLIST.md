@@ -321,3 +321,18 @@ Không phát hành private beta nếu còn một trong các điều sau:
 - [x] Seed is small, original and provenance-tagged; draft fixture has actor RLS coverage.
 - [x] Direct remote database-owner verifier ran as `current_user postgres` through `ok 24`, failed 0, with no `not ok` and no `ERROR`; fixtures rolled back and the password was neither sent nor stored in chat (`KI-081` closed).
 - [x] Record final remote verifier, E2E Storage flow, responsive and accessibility evidence in the Phase 9 completion report.
+
+## 21. Phase 10A Mock Test security checklist
+
+- [x] Two forward-only Phase 10A migrations; no Phase 1–9 migration edited, no remote reset/data deletion and no RLS disabled.
+- [x] All six mock-test tables have RLS; `anon` has no access and `authenticated` table grants are SELECT-only.
+- [x] Published/test-type catalog visibility is database-controlled; draft version and draft sections are invisible to learners.
+- [x] Session, section attempt and result reads are owner-only; cross-user actor tests cover all three.
+- [x] Mutation RPCs derive `auth.uid()` and database status/time/score; client cannot set actor, score, band, state or submitted timestamp.
+- [x] Session pins a mock version; section start validates version membership and required order; section submit is atomic/idempotent.
+- [x] Existing answer keys remain in `private`; review is still subject to engine owner/submitted-state rules.
+- [x] Mock summary does not read/render essay, private audio, transcript or feedback and contains no fake aggregate band/score.
+- [x] Browser uses public Supabase values and learner JWT only; no service-role or signing secret is exposed through `NEXT_PUBLIC_*`.
+- [x] Phase 10A pgTAP, full pgTAP and two-user browser flow verify published/draft, owner/anon/cross-user and real-result behavior.
+- [x] Remote apply is forward-only with parity 17/17 and local/remote lint clean.
+- [x] Direct remote identity confirmed `current_user postgres`; rollback-only verifier passed 20/20, failed 0, with no `not ok` or `ERROR`; the password file was deleted immediately (`KI-082` closed).

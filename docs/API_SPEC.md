@@ -750,3 +750,18 @@ Phase 9 adds no custom public REST endpoint. Server Components read through the 
 | `requestSpeakingAiReviewAction` | submitted attempt ID and explicit consent | real provider transcript, transcript checksum and optional structured practice feedback |
 
 Provider absence or failure returns a safe unavailable/error state without synthetic transcript or feedback. Full object URLs, signed URLs, transcripts and prompts are not logged. Owner signed URLs expire after 10 minutes.
+
+## 24. Phase 10A Mock Test contracts
+
+Phase 10A adds no custom public REST endpoint. Server Components read through the learner JWT and RLS. Server Actions accept only slugs/UUIDs and opaque idempotency keys validated by Zod; actor, score, state and timestamps are never accepted from the browser.
+
+| Contract | Client input | PostgreSQL authority |
+| --- | --- | --- |
+| `startMockTestAction` → `start_mock_test` | published mock slug | actor, compatible published version, version pin, active-session resume and start time |
+| `startMockSectionAction` → `start_mock_test_section` | session/section UUIDs | owner, version membership, required order, database timer and underlying engine attempt/submission |
+| `submitMockTestSectionAction` → `submit_mock_test_section` | section-attempt UUID and opaque key | owner, engine submit/scoring, immutable submitted state, late flag and next section |
+| `get_mock_test_section_clock` | section-attempt UUID | owner-only start/expiry/server/submitted timestamps |
+| `submitMockTestAction` → `submit_mock_test` | session UUID and opaque key | all required sections submitted, immutable submitted state/time |
+| `complete_mock_test` | submitted session UUID | real Reading/Listening raw scores and Writing/Speaking owner references |
+
+Routes are `/mock-tests`, `/mock-tests/[mockTestSlug]`, `/mock-tests/[mockTestSlug]/session/[sessionId]` and the nested `/summary`. Existing practice runners receive a validated mock context and route section submit through the orchestration RPC. Review remains governed by each reused engine's owner and submitted-state rules. No Phase 10A contract returns or accepts an aggregate IELTS band.

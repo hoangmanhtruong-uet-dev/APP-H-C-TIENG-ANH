@@ -5,6 +5,8 @@ import { AlertTriangle, Check, Clock3, Headphones, Save } from "lucide-react";
 
 import { LessonMarkdown } from "@/components/learning/lesson-markdown";
 import { Button } from "@/components/ui/button";
+import { submitMockTestSectionAction } from "@/features/mock-tests/actions";
+import type { MockRunnerContext } from "@/features/mock-tests/model";
 import {
   saveListeningAnswerAction,
   submitListeningPracticeAction,
@@ -21,12 +23,24 @@ import type {
 type Draft = { answerText: string; selectedOptionIds: string[] };
 type SaveStatus = "idle" | "dirty" | "saving" | "saved" | "conflict" | "error";
 
-export function ListeningRunner({ data }: { data: ListeningPracticePageData }) {
+export function ListeningRunner({
+  data,
+  mockContext,
+}: {
+  data: ListeningPracticePageData;
+  mockContext?: MockRunnerContext;
+}) {
   if (!data.attempt) return null;
-  return <ActiveListeningRunner data={data} />;
+  return <ActiveListeningRunner data={data} mockContext={mockContext} />;
 }
 
-function ActiveListeningRunner({ data }: { data: ListeningPracticePageData }) {
+function ActiveListeningRunner({
+  data,
+  mockContext,
+}: {
+  data: ListeningPracticePageData;
+  mockContext?: MockRunnerContext;
+}) {
   const attempt = data.attempt!;
   const initialDrafts = Object.fromEntries(
     data.questions.map((question) => [
@@ -69,6 +83,7 @@ function ActiveListeningRunner({ data }: { data: ListeningPracticePageData }) {
     async () => false,
   );
   const serverOffsetRef = useRef(0);
+  const submitKeyRef = useRef(crypto.randomUUID());
 
   useEffect(() => {
     serverOffsetRef.current = Date.parse(attempt.serverNow) - Date.now();
@@ -179,10 +194,17 @@ function ActiveListeningRunner({ data }: { data: ListeningPracticePageData }) {
         setMessage("Chưa thể nộp vì vẫn có câu chưa lưu hoặc đang xung đột.");
         return;
       }
-      const result = await submitListeningPracticeAction({
-        attemptId: attempt.id,
-        exerciseSlug: data.exercise.slug,
-      });
+      const result = mockContext
+        ? await submitMockTestSectionAction({
+            mockTestSlug: mockContext.mockTestSlug,
+            sessionId: mockContext.sessionId,
+            sectionAttemptId: mockContext.sectionAttemptId,
+            idempotencyKey: submitKeyRef.current,
+          })
+        : await submitListeningPracticeAction({
+            attemptId: attempt.id,
+            exerciseSlug: data.exercise.slug,
+          });
       if (result?.status === "error") {
         setSaveStatus("error");
         setMessage(result.message);

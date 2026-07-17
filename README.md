@@ -143,7 +143,7 @@ Manual end-to-end verification ngày 2026-07-16 đã pass với Gmail SMTP và t
 - Unit/component/E2E, 284 database assertions local, 64 Phase 5 pgTAP assertions và authenticated two-user Playwright local
 - Health endpoints `/api/health/live` và `/api/health/ready`
 
-Chưa triển khai: Phase 9, Speaking, audio recording/STT, mock test, Writing Task 1, placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, content admin/CMS, roles nâng cao, forgot/reset password và avatar/storage. **PHASE 8 COMPLETE** ngày 2026-07-17: implementation, local gates, remote apply, parity 12/12, local/remote lint và direct remote database-owner verifier 40/40 đều pass (`KI-080` closed).
+Chưa triển khai: Phase 10B/10C, analytics nâng cao, production hardening, Writing Task 1, placement test, study roadmap/plan generator, daily tasks, SRS phức tạp, error notebook `/progress/mistakes`, content admin/CMS, roles nâng cao, forgot/reset password và avatar/storage. Phase 10A Mock Test Engine đã được triển khai và apply local/remote; trạng thái sign-off cuối được theo dõi tại `docs/PHASE_10A_COMPLETION_REPORT.md`.
 
 ## Cấu trúc chính
 
@@ -190,3 +190,20 @@ docs                    Product, architecture, schema, API, security docs
 - Fresh local evidence: full pgTAP 544/544, Phase 8 actor test 39/39, owner-style verifier `ok 1`–`ok 40`, 104 unit/component tests, full practice E2E 8/8, Writing responsive/keyboard/axe checks 2/2.
 - Direct remote database-owner verifier ran through `ok 40`, failed 0, with no `not ok` and no `ERROR`; its transaction rolled back and the database password was neither sent nor stored in chat. `KI-080` is closed.
 - Current status: **PHASE 8 COMPLETE**. No Phase 8 blocker remains. Phase 9 was not implemented.
+
+## Phase 9 Speaking practice
+
+- Phase 9 đã COMPLETE với private recording, server media verification, immutable submit, optional STT/AI fail-closed và owner-only review.
+- Ba migration Phase 9 đã apply local/remote; parity lịch sử tại thời điểm đóng Phase 9 là 15/15 và owner verifier 24/24 pass.
+
+## Phase 10A IELTS Mock Test Engine
+
+- Routes: `/mock-tests`, `/mock-tests/[mockTestSlug]`, session và summary owner-only.
+- Một mock Academic published và một draft fixture; mỗi version gồm đúng bốn section theo thứ tự Reading, Listening, Writing, Speaking và liên kết trực tiếp tới content version Phase 6–9.
+- PostgreSQL giữ version pin, current section, timer, idempotency, trạng thái session/section và raw result. Browser không gửi actor, score, status hoặc submitted timestamp.
+- Reading/Listening summary dùng điểm thô thật từ attempt đã scored; Writing/Speaking chỉ lưu owner submission/attempt reference. Không có overall band, predicted band hoặc total score giả.
+- Hai migration forward-only `20260717190000` và `20260717191500` đã apply local/remote, không reset remote và không xóa dữ liệu thật. Parity hiện là 17/17; local/remote lint sạch.
+- Full local pgTAP pass 663/663; full Playwright production run pass 56 với 20 skip có guard rõ; responsive 375/768/1024/1440 và axe pass.
+- Direct remote database-owner identity pass với `current_user postgres`; verifier rollback-only pass 20/20, failed 0, không `not ok` hoặc `ERROR`. `KI-082` closed.
+- Phase 10B/10C, analytics nâng cao và production hardening không nằm trong slice này.
+- Current status: **PHASE 10A COMPLETE**.

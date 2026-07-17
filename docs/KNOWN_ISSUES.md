@@ -1,7 +1,7 @@
 # KNOWN ISSUES - Web tự học IELTS
 
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1–9 COMPLETE. Phase 9 Speaking đã đạt implementation, local gates, remote apply, fresh parity 15/15, local/remote lint và direct remote database-owner verifier 24/24 (`KI-081` closed). Các authenticated suites ngoài practice vẫn skip có điều kiện khi thiếu dedicated credentials.
+> Trạng thái repo hiện tại: Phase 1–10A COMPLETE. Phase 10A Mock Test đã đạt implementation, local gates, remote apply, fresh parity 17/17, local/remote lint và direct remote database-owner verifier 20/20 (`KI-082` closed). Phase 10B/10C chưa được triển khai; các authenticated suites ngoài practice vẫn skip có điều kiện khi thiếu dedicated credentials.
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước
@@ -181,3 +181,11 @@ Accepted Phase 8 limits: chỉ Academic Writing Task 2; AI feedback optional, kh
 | KI-081 | P1 | Direct Phase 9 database-owner remote verifier chưa chạy sau parity 15/15 | Từng chặn quyết định Phase 9 COMPLETE | Closed 2026-07-17: direct owner connection dùng `current_user postgres`, chạy tới `ok 24`, failed 0, không `not ok`, không `ERROR`; transaction rollback và database password không gửi/lưu trong chat. Fresh parity 15/15 và local/remote lint vẫn sạch | CLOSED |
 
 Accepted Phase 9 limits: Speaking practice only; STT/AI optional và server-only, feedback chỉ là practice guidance. Không có full mock test tổng hợp hoặc Phase 10.
+
+## Phase 10A Mock Test verification follow-up
+
+| ID | Sev | Issue | Impact | Resolution | Status |
+| --- | --- | --- | --- | --- | --- |
+| KI-082 | P1 | Direct Phase 10A database-owner remote verifier chưa chạy sau parity 17/17 | Từng chặn quyết định Phase 10A COMPLETE theo DoD | Closed 2026-07-17: identity check xác nhận `current_user postgres`; verifier rollback-only planned 20/ran 20/failed 0, không `not ok`, không `ERROR`; credential file đã xóa ngay sau run. Fresh parity 17/17 và remote lint vẫn sạch | CLOSED |
+
+Accepted Phase 10A limits: một Academic foundation mock tái sử dụng content Phase 6–9; summary chỉ có raw Reading/Listening score và Writing/Speaking submission references. Không có overall band, analytics nâng cao, admin CMS, production hardening hoặc Phase 10B/10C.

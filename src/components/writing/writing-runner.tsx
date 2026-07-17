@@ -4,6 +4,8 @@ import { AlertTriangle, Check, Clock3, RotateCcw, Save } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
+import { submitMockTestSectionAction } from "@/features/mock-tests/actions";
+import type { MockRunnerContext } from "@/features/mock-tests/model";
 import {
   saveWritingDraftAction,
   submitWritingAction,
@@ -13,18 +15,32 @@ import type { WritingPracticePageData } from "@/server/writing/content";
 
 type SaveStatus = "idle" | "saving" | "saved" | "conflict" | "error";
 
-export function WritingRunner({ data }: { data: WritingPracticePageData }) {
+export function WritingRunner({
+  data,
+  mockContext,
+}: {
+  data: WritingPracticePageData;
+  mockContext?: MockRunnerContext;
+}) {
   const submission = data.submission;
   if (!submission) return null;
-  return <WritingEditor data={data} submission={submission} />;
+  return (
+    <WritingEditor
+      data={data}
+      submission={submission}
+      mockContext={mockContext}
+    />
+  );
 }
 
 function WritingEditor({
   data,
   submission,
+  mockContext,
 }: {
   data: WritingPracticePageData;
   submission: NonNullable<WritingPracticePageData["submission"]>;
+  mockContext?: MockRunnerContext;
 }) {
   const [draftText, setDraftText] = useState(submission.draftText);
   const [serverWordCount, setServerWordCount] = useState(submission.wordCount);
@@ -42,6 +58,7 @@ function WritingEditor({
   const revisionRef = useRef(submission.serverRevision);
   const lastSavedTextRef = useRef(submission.draftText);
   const saveInFlightRef = useRef(false);
+  const submitKeyRef = useRef(crypto.randomUUID());
 
   useEffect(() => {
     const serverOffset = new Date(submission.serverNow).getTime() - Date.now();
@@ -110,10 +127,17 @@ function WritingEditor({
     const saved = await save();
     if (!saved || saveStatus === "conflict") return;
     startSubmitTransition(async () => {
-      const result = await submitWritingAction({
-        submissionId: submission.id,
-        taskSlug: data.task.slug,
-      });
+      const result = mockContext
+        ? await submitMockTestSectionAction({
+            mockTestSlug: mockContext.mockTestSlug,
+            sessionId: mockContext.sessionId,
+            sectionAttemptId: mockContext.sectionAttemptId,
+            idempotencyKey: submitKeyRef.current,
+          })
+        : await submitWritingAction({
+            submissionId: submission.id,
+            taskSlug: data.task.slug,
+          });
       if (result?.status === "error") {
         setSaveStatus("error");
         setMessage(result.message);

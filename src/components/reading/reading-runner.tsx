@@ -5,6 +5,8 @@ import { AlertTriangle, Check, Clock3, Save } from "lucide-react";
 
 import { LessonMarkdown } from "@/components/learning/lesson-markdown";
 import { Button } from "@/components/ui/button";
+import { submitMockTestSectionAction } from "@/features/mock-tests/actions";
+import type { MockRunnerContext } from "@/features/mock-tests/model";
 import {
   saveReadingAnswerAction,
   submitReadingPracticeAction,
@@ -21,12 +23,24 @@ import type {
 type Draft = { answerText: string; selectedOptionIds: string[] };
 type SaveStatus = "idle" | "dirty" | "saving" | "saved" | "conflict" | "error";
 
-export function ReadingRunner({ data }: { data: ReadingPracticePageData }) {
+export function ReadingRunner({
+  data,
+  mockContext,
+}: {
+  data: ReadingPracticePageData;
+  mockContext?: MockRunnerContext;
+}) {
   if (!data.attempt) return null;
-  return <ActiveReadingRunner data={data} />;
+  return <ActiveReadingRunner data={data} mockContext={mockContext} />;
 }
 
-function ActiveReadingRunner({ data }: { data: ReadingPracticePageData }) {
+function ActiveReadingRunner({
+  data,
+  mockContext,
+}: {
+  data: ReadingPracticePageData;
+  mockContext?: MockRunnerContext;
+}) {
   const attempt = data.attempt!;
 
   const initialDrafts = Object.fromEntries(
@@ -72,6 +86,7 @@ function ActiveReadingRunner({ data }: { data: ReadingPracticePageData }) {
     async () => false,
   );
   const serverOffsetRef = useRef(0);
+  const submitKeyRef = useRef(crypto.randomUUID());
 
   useEffect(() => {
     serverOffsetRef.current = Date.parse(attempt.serverNow) - Date.now();
@@ -188,10 +203,17 @@ function ActiveReadingRunner({ data }: { data: ReadingPracticePageData }) {
         setMessage("Chưa thể nộp vì vẫn có câu chưa lưu hoặc đang xung đột.");
         return;
       }
-      const result = await submitReadingPracticeAction({
-        attemptId: attempt.id,
-        exerciseSlug: data.exercise.slug,
-      });
+      const result = mockContext
+        ? await submitMockTestSectionAction({
+            mockTestSlug: mockContext.mockTestSlug,
+            sessionId: mockContext.sessionId,
+            sectionAttemptId: mockContext.sectionAttemptId,
+            idempotencyKey: submitKeyRef.current,
+          })
+        : await submitReadingPracticeAction({
+            attemptId: attempt.id,
+            exerciseSlug: data.exercise.slug,
+          });
       if (result?.status === "error") {
         setSaveStatus("error");
         setMessage(result.message);

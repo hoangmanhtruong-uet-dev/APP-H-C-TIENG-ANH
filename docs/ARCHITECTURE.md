@@ -563,3 +563,21 @@ The private `speaking-recordings` bucket is limited to 15 MB and `audio/webm`, `
 STT/AI is optional, synchronous and explicitly consented. Missing provider or signing configuration fails closed: no transcript or feedback is fabricated. Feedback receives transcripts rather than audio, so pronunciation is deliberately left unscored and all output is practice guidance, never an official IELTS score. Queue processing, aggregate mock tests and Phase 10 are outside this slice.
 
 Phase 9 verification is closed: the direct remote verifier ran as `current_user postgres` through all 24 checks with zero failures, no `not ok` and no `ERROR`, then rolled back its transaction. Fresh local/remote migration parity is 15/15 and both database lint runs are clean. `KI-081` is closed; Phase 10 remains outside the implemented architecture.
+
+## 24. Phase 10A Mock Test architecture
+
+```text
+published mock version
+  -> ordered section links to immutable Reading/Listening/Writing/Speaking versions
+  -> owner session pins the mock version
+  -> section RPC creates or reuses the underlying engine attempt
+  -> existing engine persists answers, essay or private audio
+  -> orchestration submit locks the section and advances database order
+  -> complete snapshots only real raw scores and owner submission references
+```
+
+PostgreSQL is authoritative for catalog visibility, version pinning, session/section state, order, idempotency, time limits and result composition. The browser countdown is display-only and the client cannot author actor, score, status or timestamps. Existing engines remain authoritative for their own answer, scoring, essay and audio lifecycles; Phase 10A stores foreign-key references instead of duplicating or copying sensitive content.
+
+RLS separates public-compatible published catalog data from owner-only sessions, section attempts and results. The mock summary deliberately does not join or render essay text, private audio, transcript, feedback or answer keys. It exposes only raw scored Reading/Listening totals and submitted-state references for Writing/Speaking. Review URLs continue to enforce the underlying engine's owner and submitted-state checks.
+
+This slice is a modular-monolith orchestration layer. It does not add aggregate analytics, official/predicted band calculation, background jobs, admin CMS, Phase 10B/10C or production hardening. Two forward-only migrations were applied local/remote with parity 17/17 and clean lint. Direct remote identity confirmed `current_user postgres`; the rollback-only owner verifier passed 20/20 and closed `KI-082`.

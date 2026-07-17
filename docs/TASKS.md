@@ -423,3 +423,21 @@ Phạm vi execution này chỉ gồm Speaking recording, private Storage, immuta
 - [x] `P9-DOD-01` Toàn bộ Phase 9 Definition of Done green; không còn blocker và không triển khai Phase 10/full mock test.
 
 Current status: **PHASE 9 COMPLETE** ngày 2026-07-17. Không còn blocker Phase 9; Phase 10 không được triển khai.
+
+## Phase 10A execution slice — IELTS Mock Test Engine
+
+Phạm vi chỉ gồm mock-test foundation tái sử dụng bốn engine Phase 6–9. Không triển khai Phase 10B/10C, analytics nâng cao hoặc production hardening.
+
+- [x] `P10A-DB-01` Tạo 2 migration forward-only cho catalog/version/section/session/section-attempt/raw-result và content foundation; không sửa migration Phase 1–9.
+- [x] `P10A-RLS-01` RLS trên 6 bảng, authenticated SELECT-only, RPC-only mutation, published/draft visibility, anonymous và cross-user denial.
+- [x] `P10A-DOM-01` Start/resume idempotent, version pin, section tuần tự, atomic submit, submitted section immutable và completion chỉ khi đủ required section.
+- [x] `P10A-REUSE-01` Liên kết trực tiếp Reading/Listening `learner_attempts`, Writing `writing_submissions`, Speaking `speaking_attempts`; PostgreSQL là source of truth.
+- [x] `P10A-RESULT-01` Summary chỉ snapshot raw Reading/Listening score/max và owner Writing/Speaking references; không có aggregate/official/predicted band.
+- [x] `P10A-APP-01` Catalog, detail, start/resume, section orchestration, summary và app navigation responsive/accessibility.
+- [x] `P10A-SEED-01` Một Academic mock published, một draft isolation fixture, mỗi version có bốn section liên kết content nguyên bản đã seed.
+- [x] `P10A-TST-01` Phase 10A pgTAP 42/42, full local database 663/663, unit/component, production build và Playwright flow hai actor.
+- [x] `P10A-REMOTE-01` Apply đúng 2 migration lên linked remote theo forward push; không reset/xóa dữ liệu; parity 17/17 và local/remote lint sạch.
+- [x] `P10A-REMOTE-02` Direct database-owner identity xác nhận `current_user postgres`; remote verifier rollback-only pass 20/20, failed 0, không `not ok` hoặc `ERROR` (`KI-082` closed).
+- [x] `P10A-DOD-01` Owner verifier, fresh parity 17/17, local/remote lint và toàn bộ completion gates đều green.
+
+Current status: **PHASE 10A COMPLETE** ngày 2026-07-17. Không còn blocker Phase 10A; Phase 10B/10C không được triển khai.

@@ -9,6 +9,8 @@ import {
   submitSpeakingAction,
   verifySpeakingUploadAction,
 } from "@/features/speaking/actions";
+import { submitMockTestSectionAction } from "@/features/mock-tests/actions";
+import type { MockRunnerContext } from "@/features/mock-tests/model";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import type { SpeakingPracticeData } from "@/server/speaking/content";
 
@@ -19,7 +21,13 @@ type Recording = {
   mimeType: "audio/webm" | "audio/mp4" | "audio/mpeg";
 };
 
-export function SpeakingRunner({ data }: { data: SpeakingPracticeData }) {
+export function SpeakingRunner({
+  data,
+  mockContext,
+}: {
+  data: SpeakingPracticeData;
+  mockContext?: MockRunnerContext;
+}) {
   const router = useRouter();
   const [activePrompt, setActivePrompt] = useState<string | null>(null);
   const [recordings, setRecordings] = useState<Record<string, Recording>>({});
@@ -274,11 +282,18 @@ export function SpeakingRunner({ data }: { data: SpeakingPracticeData }) {
           }
           onClick={() =>
             startTransition(async () => {
-              const result = await submitSpeakingAction({
-                attemptId,
-                setSlug: data.set.slug,
-                idempotencyKey: submitKeyRef.current,
-              });
+              const result = mockContext
+                ? await submitMockTestSectionAction({
+                    mockTestSlug: mockContext.mockTestSlug,
+                    sessionId: mockContext.sessionId,
+                    sectionAttemptId: mockContext.sectionAttemptId,
+                    idempotencyKey: submitKeyRef.current,
+                  })
+                : await submitSpeakingAction({
+                    attemptId,
+                    setSlug: data.set.slug,
+                    idempotencyKey: submitKeyRef.current,
+                  });
               if (result?.status === "error") setMessage(result.message);
             })
           }
