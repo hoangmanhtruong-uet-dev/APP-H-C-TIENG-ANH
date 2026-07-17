@@ -3181,6 +3181,65 @@ export type Database = {
         Args: { p_attempt_id: string };
         Returns: Json;
       };
+      get_learner_mock_test_history: {
+        Args: { p_limit?: number };
+        Returns: {
+          completed_at: string;
+          href: string;
+          listening_max_score: number;
+          listening_score: number;
+          mock_test_slug: string;
+          reading_max_score: number;
+          reading_score: number;
+          session_id: string;
+          started_at: string;
+          status: string;
+          submitted_at: string;
+          title: string;
+        }[];
+      };
+      get_learner_progress_overview: {
+        Args: never;
+        Returns: {
+          active_mock_tests: number;
+          active_practice: number;
+          active_speaking: number;
+          active_writing: number;
+          completed_mock_tests: number;
+          lesson_completed: number;
+          lesson_in_progress: number;
+          lesson_progress_percent: number;
+          lesson_total: number;
+        }[];
+      };
+      get_learner_recent_activity: {
+        Args: { p_limit?: number };
+        Returns: {
+          activity_type: string;
+          entity_id: string;
+          feedback_status: string;
+          href: string;
+          max_score: number;
+          occurred_at: string;
+          score: number;
+          skill: string;
+          status: string;
+          title: string;
+        }[];
+      };
+      get_learner_skill_progress: {
+        Args: never;
+        Returns: {
+          accuracy_percent: number;
+          activity_count: number;
+          feedback_status: string;
+          latest_activity_at: string;
+          scored_count: number;
+          skill: string;
+          total_max_score: number;
+          total_score: number;
+        }[];
+      };
       get_listening_attempt_clock: {
         Args: { p_attempt_id: string };
         Returns: {

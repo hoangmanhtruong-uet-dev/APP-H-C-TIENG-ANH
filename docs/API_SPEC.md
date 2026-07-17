@@ -765,3 +765,16 @@ Phase 10A adds no custom public REST endpoint. Server Components read through th
 | `complete_mock_test` | submitted session UUID | real Reading/Listening raw scores and Writing/Speaking owner references |
 
 Routes are `/mock-tests`, `/mock-tests/[mockTestSlug]`, `/mock-tests/[mockTestSlug]/session/[sessionId]` and the nested `/summary`. Existing practice runners receive a validated mock context and route section submit through the orchestration RPC. Review remains governed by each reused engine's owner and submitted-state rules. No Phase 10A contract returns or accepts an aggregate IELTS band.
+
+## 25. Phase 10B learner analytics contracts
+
+All Phase 10B contracts are read-only RPC calls from authenticated Server Components. They accept no actor identifier and execute under the learner JWT/RLS.
+
+| RPC | Input | Safe output |
+| --- | --- | --- |
+| `get_learner_progress_overview` | none | Lesson totals/progress and active/completed counts |
+| `get_learner_skill_progress` | none | Objective persisted score totals/accuracy/sample count; Writing/Speaking submission count and feedback status |
+| `get_learner_recent_activity` | bounded `p_limit` 1–20 | Title, status, timestamp, safe route and optional persisted objective score |
+| `get_learner_mock_test_history` | bounded `p_limit` 1–20 | Session lifecycle and optional persisted raw Reading/Listening score |
+
+Invalid limits return `22023`; missing actor returns `42501`. No contract accepts or returns a band trend, essay, audio path, transcript, answer key or another learner's identifier.

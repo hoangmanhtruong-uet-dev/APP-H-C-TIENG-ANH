@@ -441,3 +441,19 @@ Phạm vi chỉ gồm mock-test foundation tái sử dụng bốn engine Phase 6
 - [x] `P10A-DOD-01` Owner verifier, fresh parity 17/17, local/remote lint và toàn bộ completion gates đều green.
 
 Current status: **PHASE 10A COMPLETE** ngày 2026-07-17. Không còn blocker Phase 10A; Phase 10B/10C không được triển khai.
+
+## Phase 10B execution slice — Learner Analytics, Progress & Content Operations
+
+Phạm vi chỉ gồm dashboard/progress từ dữ liệu thật và content operations tối thiểu. Không triển khai Phase 10C, analytics warehouse, admin CMS hoặc production deploy.
+
+- [x] `P10B-DB-01` Tạo migration forward-only mới cho 4 read-only analytics RPC và scored-history partial index; không sửa migration cũ.
+- [x] `P10B-RLS-01` RPC không nhận `user_id`, chạy `SECURITY INVOKER`, authenticated-only và actor A/B/empty/anon được test.
+- [x] `P10B-DATA-01` PostgreSQL giữ source of truth; objective accuracy dùng persisted score/max, Writing/Speaking không có score/band tự tạo.
+- [x] `P10B-APP-01` Dashboard có active work, skill evidence, recent activity; `/progress` có skill navigation, weak-area evidence, feedback status và Mock history.
+- [x] `P10B-CONTENT-01` Thêm content operations guide và pgTAP integrity/provenance checks; không xây admin CMS.
+- [x] `P10B-TST-01` Full local pgTAP 708/708, 119 unit/component, build, lint/type/format, full Playwright 47 pass/33 declared skips, authenticated analytics E2E và audit 0 vulnerabilities.
+- [x] `P10B-REMOTE-01` Apply duy nhất migration Phase 10B lên linked remote; parity 18/18 và remote lint sạch, không reset/xóa dữ liệu.
+- [x] `P10B-REMOTE-02` Direct remote verifier xác nhận `current_user postgres`, pass 17/17, failed 0 và rollback toàn bộ fixture; credential tạm đã xóa ngay sau run.
+- [x] `P10B-DOD-01` Fresh parity 18/18, local/remote lint, owner verifier, full database/app/browser gates và docs đều green.
+
+Current status: **PHASE 10B COMPLETE** ngày 2026-07-18. Không triển khai Phase 10C.

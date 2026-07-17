@@ -581,3 +581,20 @@ PostgreSQL is authoritative for catalog visibility, version pinning, session/sec
 RLS separates public-compatible published catalog data from owner-only sessions, section attempts and results. The mock summary deliberately does not join or render essay text, private audio, transcript, feedback or answer keys. It exposes only raw scored Reading/Listening totals and submitted-state references for Writing/Speaking. Review URLs continue to enforce the underlying engine's owner and submitted-state checks.
 
 This slice is a modular-monolith orchestration layer. It does not add aggregate analytics, official/predicted band calculation, background jobs, admin CMS, Phase 10B/10C or production hardening. Two forward-only migrations were applied local/remote with parity 17/17 and clean lint. Direct remote identity confirmed `current_user postgres`; the rollback-only owner verifier passed 20/20 and closed `KI-082`.
+
+## 25. Phase 10B learner analytics and content operations
+
+```text
+owner PostgreSQL rows + published content metadata
+  -> four bounded SECURITY INVOKER RPCs under learner JWT/RLS
+  -> typed server analytics DTO
+  -> dashboard summary and progress evidence/history
+```
+
+PostgreSQL remains the only analytics source of truth. Objective accuracy is `sum(score) / sum(max_score)` from scored attempts and always carries its sample count. Weak-area presentation is deterministic and requires at least two scored attempts below 70%; it is explicitly not a band prediction. Writing/Speaking expose submission counts and feedback-run state only, never a fabricated score.
+
+The activity feed excludes underlying practice rows linked to a Mock Test so one action is not shown twice. Queries are bounded to 20 rows, execute in parallel from Server Components and return no essay, audio path, transcript, answer key or raw AI feedback. No analytics warehouse, cross-request personal cache, admin CMS, Phase 10C or production deployment is introduced.
+
+Content operations are documentation plus pgTAP integrity checks in [CONTENT_OPERATIONS.md](./CONTENT_OPERATIONS.md). Existing lifecycle variants remain unchanged; Phase 10B does not retrofit fake provenance into legacy columns.
+
+Phase 10B completion evidence is parity 18/18, clean local/remote database lint, full pgTAP 708/708, 119 unit/component tests, production build, full Playwright 47 pass/33 declared skips and a direct `current_user postgres` rollback-only verifier passing 17/17. Phase 10C and production deployment remain out of scope.

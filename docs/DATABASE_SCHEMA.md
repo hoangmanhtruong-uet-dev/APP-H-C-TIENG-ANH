@@ -679,3 +679,18 @@ Final Phase 9 database evidence: local/remote migration parity 15/15; local and 
 All six tables have RLS enabled. `anon` has no table or RPC access. `authenticated` has SELECT-only table grants; mutation occurs through hardened `SECURITY DEFINER` RPCs deriving `auth.uid()` with an empty `search_path`. Catalog policies expose compatible published versions only, while owner-pinned history remains visible through session/result owner policies.
 
 The two forward-only migrations are `20260717190000_phase_10a_mock_test_engine.sql` and `20260717191500_phase_10a_mock_test_foundation_content.sql`. The seed contains one original Academic published mock and one draft fixture; both link the existing original Phase 6–9 content versions. Local and remote migration parity is 17/17 and both lints are clean. Direct remote identity confirmed `current_user postgres`; the rollback-only owner verifier passed 20/20 with failed 0 and `KI-082` is closed.
+
+# Phase 10B learner analytics extension (2026-07-18)
+
+Phase 10B adds no analytics table, event warehouse, materialized view or synthetic seed. Migration `20260718090000_phase_10b_learner_analytics.sql` adds four bounded, read-only, `SECURITY INVOKER` functions and a partial `(user_id, submitted_at desc) where status = 'scored'` index.
+
+| Function | Persisted source |
+| --- | --- |
+| `get_learner_progress_overview` | Published lesson catalog plus owner lesson/practice/Writing/Speaking/Mock state |
+| `get_learner_skill_progress` | Objective scored attempts and submitted Writing/Speaking feedback-run status |
+| `get_learner_recent_activity` | Bounded union of owner lesson, standalone practice, Writing, Speaking and Mock activity |
+| `get_learner_mock_test_history` | Owner sessions plus optional persisted raw Reading/Listening result |
+
+No function accepts `user_id`; actor identity comes from `auth.uid()` and existing RLS remains authoritative. Outputs contain no answer key, essay, audio path, transcript, raw feedback or calculated IELTS band. Writing/Speaking rows intentionally have null objective accuracy.
+
+Final Phase 10B evidence: local/remote migration parity 18/18; both database lints report no schema errors; full local pgTAP passes 708/708; direct remote verifier ran as `current_user postgres`, passed 17/17 and rolled back all fixtures.

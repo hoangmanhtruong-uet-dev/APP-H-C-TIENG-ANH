@@ -10,6 +10,7 @@ import {
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { DashboardAnalytics } from "@/components/analytics/dashboard-analytics";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { SectionHeader } from "@/components/shared/section-header";
@@ -23,6 +24,7 @@ import {
   TEST_TYPE_LABELS,
 } from "@/features/onboarding/constants";
 import { getAccountLabel } from "@/server/auth/account";
+import { getLearnerAnalytics } from "@/server/analytics/content";
 import { getLearningOverview } from "@/server/learning/content";
 import { requireCompletedOnboarding } from "@/server/onboarding/learner-profile";
 
@@ -37,10 +39,12 @@ const examDateFormatter = new Intl.DateTimeFormat("vi-VN", {
 });
 
 export default async function DashboardPage() {
-  const [{ account, learnerProfile }, learningOverview] = await Promise.all([
-    requireCompletedOnboarding(),
-    getLearningOverview(),
-  ]);
+  const [{ account, learnerProfile }, learningOverview, analytics] =
+    await Promise.all([
+      requireCompletedOnboarding(),
+      getLearningOverview(),
+      getLearnerAnalytics(8),
+    ]);
   const skills = learnerProfile.priority_skills.filter(isPrioritySkill);
   const testType = isTestType(learnerProfile.test_type)
     ? TEST_TYPE_LABELS[learnerProfile.test_type]
@@ -242,6 +246,8 @@ export default async function DashboardPage() {
           </div>
         </aside>
       </section>
+
+      <DashboardAnalytics analytics={analytics} />
     </div>
   );
 }

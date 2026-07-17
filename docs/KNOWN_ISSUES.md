@@ -1,7 +1,7 @@
 # KNOWN ISSUES - Web tự học IELTS
 
 > Phiên bản: 1.0  
-> Trạng thái repo hiện tại: Phase 1–10A COMPLETE. Phase 10A Mock Test đã đạt implementation, local gates, remote apply, fresh parity 17/17, local/remote lint và direct remote database-owner verifier 20/20 (`KI-082` closed). Phase 10B/10C chưa được triển khai; các authenticated suites ngoài practice vẫn skip có điều kiện khi thiếu dedicated credentials.
+> Trạng thái repo hiện tại: Phase 1–10B COMPLETE. Phase 10B đã apply remote với parity 18/18, local/remote lint sạch, full local/app/browser gates và direct remote database-owner verifier 17/17 (`KI-083` closed). Phase 10C chưa được triển khai.
 > Mục đích: ghi rủi ro, quyết định mở và giới hạn được chấp nhận; không dùng để che P0/P1
 
 ## 1. Quy ước
@@ -189,3 +189,11 @@ Accepted Phase 9 limits: Speaking practice only; STT/AI optional và server-only
 | KI-082 | P1 | Direct Phase 10A database-owner remote verifier chưa chạy sau parity 17/17 | Từng chặn quyết định Phase 10A COMPLETE theo DoD | Closed 2026-07-17: identity check xác nhận `current_user postgres`; verifier rollback-only planned 20/ran 20/failed 0, không `not ok`, không `ERROR`; credential file đã xóa ngay sau run. Fresh parity 17/17 và remote lint vẫn sạch | CLOSED |
 
 Accepted Phase 10A limits: một Academic foundation mock tái sử dụng content Phase 6–9; summary chỉ có raw Reading/Listening score và Writing/Speaking submission references. Không có overall band, analytics nâng cao, admin CMS, production hardening hoặc Phase 10B/10C.
+
+## Phase 10B verification follow-up
+
+| ID | Sev | Issue | Impact | Resolution | Status |
+| --- | --- | --- | --- | --- | --- |
+| KI-083 | P1 | Direct Phase 10B database-owner verifier chưa chạy sau parity 18/18 | Từng chặn quyết định Phase 10B COMPLETE theo DoD | Closed 2026-07-18: xác nhận `current_user postgres`; verifier planned/ran 17, failed 0, rollback toàn bộ fixture; credential Phase 10B đã xóa ngay trong `finally`, không nới grant | CLOSED |
+
+Accepted Phase 10B limits: analytics chỉ là owner-scoped read model trên dữ liệu PostgreSQL hiện có; không có band trend, warehouse, materialized analytics, admin CMS, production hardening, deploy production hoặc Phase 10C.

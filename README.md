@@ -1,6 +1,6 @@
 # IELTS Flow
 
-Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 1–8 đã COMPLETE. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; completion, timer, scoring và Writing submission lifecycle được tính trong hardened RPC.
+Ứng dụng tự học IELTS bằng Next.js 16 và Supabase. Phase 1–10B đã COMPLETE. `/learn`, `/practice`, dashboard và `/progress` đọc dữ liệu PostgreSQL thật; không có analytics hoặc band trend giả.
 
 ## Stack
 
@@ -207,3 +207,12 @@ docs                    Product, architecture, schema, API, security docs
 - Direct remote database-owner identity pass với `current_user postgres`; verifier rollback-only pass 20/20, failed 0, không `not ok` hoặc `ERROR`. `KI-082` closed.
 - Phase 10B/10C, analytics nâng cao và production hardening không nằm trong slice này.
 - Current status: **PHASE 10A COMPLETE**.
+
+## Phase 10B learner analytics
+
+- Dashboard và `/progress` đọc bốn RPC owner-scoped từ PostgreSQL cho lesson, practice, Writing, Speaking và Mock Test.
+- Objective accuracy chỉ dùng score/max đã persist và sample count; Writing/Speaking chỉ hiển thị submission/feedback status.
+- Weak areas cần ít nhất hai bài objective đã chấm và không được gọi là band prediction.
+- Content operations tối thiểu nằm tại [CONTENT_OPERATIONS.md](./docs/CONTENT_OPERATIONS.md); không có admin CMS hoặc production deployment.
+- Migration local/remote parity 18/18, local/remote lint sạch và direct remote database-owner verifier rollback-only pass 17/17.
+- Current status: **PHASE 10B COMPLETE**. Không triển khai Phase 10C hoặc deploy production.

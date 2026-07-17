@@ -336,3 +336,15 @@ Không phát hành private beta nếu còn một trong các điều sau:
 - [x] Phase 10A pgTAP, full pgTAP and two-user browser flow verify published/draft, owner/anon/cross-user and real-result behavior.
 - [x] Remote apply is forward-only with parity 17/17 and local/remote lint clean.
 - [x] Direct remote identity confirmed `current_user postgres`; rollback-only verifier passed 20/20, failed 0, with no `not ok` or `ERROR`; the password file was deleted immediately (`KI-082` closed).
+
+## 22. Phase 10B learner analytics security checklist
+
+- [x] One forward-only Phase 10B migration; no prior migration edited and RLS remains enabled.
+- [x] Analytics functions accept no `user_id`, derive `auth.uid()` and run as `SECURITY INVOKER` under existing owner policies.
+- [x] `anon` has no execute privilege; `authenticated` receives execute only on the four bounded read RPCs.
+- [x] Actor A/B/empty/anon pgTAP covers cross-user activity, score totals and Mock Test history.
+- [x] Outputs omit answer key, essay, audio path, transcript, raw feedback and synthetic band fields.
+- [x] Objective accuracy is derived only from persisted scored attempts; Writing/Speaking accuracy remains null.
+- [x] Recent activity and Mock history enforce limits from 1 to 20.
+- [x] Content operations remain docs/tests only; no service-role browser use, admin CMS or draft visibility expansion.
+- [x] Final remote parity 18/18, local/remote lint, rollback-only owner verifier 17/17 and full app verification are recorded in the Phase 10B completion report.
